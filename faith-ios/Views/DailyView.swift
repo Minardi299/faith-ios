@@ -37,6 +37,7 @@ struct DailyView: View {
                 NavigationStack { MeditationTimerView() }
             }
             .onAppear { progress.ensureToday() }
+            .task(id: today?.doneCount) { progress.pushToWidget() }
         }
     }
 

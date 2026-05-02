@@ -23,6 +23,11 @@ struct ProgressStore {
         ensureToday(date: date).meditationDone = true
     }
 
+    func pushToWidget(date: Date = .now) {
+        let today = ensureToday(date: date)
+        SharedProgress.write(progress: today.progress, streak: currentStreak(now: date))
+    }
+
     /// Returns the current consecutive-day streak ending today (or yesterday if today not yet complete).
     func currentStreak(now: Date = .now) -> Int {
         let calendar = Calendar.current

@@ -42,6 +42,7 @@ struct HomeView: View {
                 NavigationStack { MeditationTimerView() }
             }
             .onAppear { progress.ensureToday() }
+            .task(id: today?.doneCount) { progress.pushToWidget() }
         }
     }
 

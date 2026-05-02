@@ -24,6 +24,15 @@ struct ContentView: View {
             }
         }
         .environment(verseStore)
+        .onOpenURL { url in
+            guard url.scheme == "faith" else { return }
+            switch url.host {
+            case "daily": selection = .daily
+            case "stories": selection = .stories
+            case "chat": selection = .chat
+            default: selection = .home
+            }
+        }
     }
 }
 
