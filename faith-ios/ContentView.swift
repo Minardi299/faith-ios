@@ -1,66 +1,33 @@
-//
-//  ContentView.swift
-//  faith-ios
-//
-//  Created by Minh on 2026-05-01.
-//
-
 import SwiftUI
-import SwiftData
+
+enum AppTab: Hashable {
+    case home, daily, stories, chat
+}
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @State private var selection: AppTab = .home
+    @State private var verseStore = VerseStore()
 
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
+        TabView(selection: $selection) {
+            Tab("Home", systemImage: "house.fill", value: AppTab.home) {
+                HomeView(selectedTab: $selection)
             }
-#if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
+            Tab("Daily", systemImage: "sun.max.fill", value: AppTab.daily) {
+                DailyView()
             }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+            Tab("Stories", systemImage: "book.fill", value: AppTab.stories) {
+                StoriesView()
+            }
+            Tab("Chat", systemImage: "bubble.left.fill", value: AppTab.chat, role: .search) {
+                ChatView()
             }
         }
+        .environment(verseStore)
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: [DayCompletion.self, ChatMessage.self], inMemory: true)
 }
