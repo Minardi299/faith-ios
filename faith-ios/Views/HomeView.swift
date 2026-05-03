@@ -4,6 +4,7 @@ import SwiftData
 struct HomeView: View {
     @Environment(VerseStore.self) private var verseStore
     @Environment(\.modelContext) private var context
+    @Environment(\.theme) private var theme
     @Query private var completions: [DayCompletion]
     @Binding var selectedTab: AppTab
     @State private var showingTimer = false
@@ -17,27 +18,19 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
+                    headerBlock
                     weekStripLink
                     progressSection
-                    MeditationCard(isDone: today?.meditationDone == true) {
-                        showingTimer = true
-                    }
+                    sitCard
                     verseCard
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 24)
                 .padding(.bottom, 24)
             }
-            .navigationTitle("Today's Journey")
-            .navigationBarTitleDisplayMode(.large)
+            .background(theme.bg.ignoresSafeArea())
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .principal) { EmptyView() } }
             .profileToolbar()
-            .safeAreaInset(edge: .top, spacing: 0) {
-                Text("Daily Dhammapada")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .padding(.bottom, 4)
-            }
             .sheet(isPresented: $showingTimer) {
                 NavigationStack { MeditationTimerView() }
             }
@@ -46,19 +39,74 @@ struct HomeView: View {
         }
     }
 
+    private var headerBlock: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(eyebrowText)
+                .font(.caption2.weight(.semibold))
+                .tracking(2.4)
+                .textCase(.uppercase)
+                .foregroundStyle(theme.inkMute)
+            (Text("May the day\n")
+                + Text("arrive gently.")
+                .italic()
+                .foregroundColor(theme.secondary))
+                .font(.system(size: 36, weight: .regular, design: .serif))
+                .lineSpacing(-2)
+                .foregroundStyle(theme.ink)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.top, 4)
+    }
+
+    private var eyebrowText: String {
+        let f = DateFormatter()
+        f.dateFormat = "EEEE"
+        let day = f.string(from: .now)
+        let hour = Calendar.current.component(.hour, from: .now)
+        let part: String
+        switch hour {
+        case 0..<12: part = "Morning"
+        case 12..<17: part = "Afternoon"
+        default: part = "Evening"
+        }
+        return "\(day) · \(part)"
+    }
+
     private var weekStripLink: some View {
         NavigationLink {
             StreakDetailView()
         } label: {
-            HStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("This week")
+                        .font(.caption2.weight(.semibold))
+                        .tracking(1.6)
+                        .textCase(.uppercase)
+                        .foregroundStyle(theme.inkMute)
+                    Spacer()
+                    Text("\(weekDoneCount) of 7 days")
+                        .font(.caption2)
+                        .foregroundStyle(theme.inkMute)
+                    Image(systemName: "chevron.right")
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(theme.inkMute)
+                }
                 weekStrip
-                Image(systemName: "chevron.right")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .padding(.vertical, 14)
+                    .padding(.horizontal, 6)
+                    .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 18)
+                            .stroke(theme.border, lineWidth: 0.5)
+                    )
             }
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+
+    private var weekDoneCount: Int {
+        progress.week().filter { $0.completion?.isComplete == true }.count
     }
 
     private var weekStrip: some View {
@@ -66,18 +114,23 @@ struct HomeView: View {
         let symbols = ["M", "T", "W", "T", "F", "S", "S"]
         let calendar = Calendar.current
         let todayStart = calendar.startOfDay(for: .now)
-        return HStack(spacing: 12) {
+        return HStack(spacing: 0) {
             ForEach(Array(week.enumerated()), id: \.offset) { index, day in
                 let isToday = calendar.isDate(day.date, inSameDayAs: todayStart)
+                let bloom = day.completion.map { $0.progress } ?? 0
                 let done = day.completion?.isComplete == true
-                VStack(spacing: 8) {
+                VStack(spacing: 6) {
+                    Lotus(
+                        size: 26,
+                        bloom: done ? 1.0 : bloom,
+                        color: done ? theme.accent : (isToday ? theme.accentInk : theme.inkFaint),
+                        dim: theme.inkFaint,
+                        strokeWidth: isToday ? 1.6 : 1.3
+                    )
                     Text(symbols[index])
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(isToday ? Color.accentColor : .secondary)
-                    Image(systemName: done ? "flame.circle.fill" : "flame.circle")
-                        .font(.title2)
-                        .foregroundStyle(done ? .orange : .secondary.opacity(0.5))
-                        .symbolRenderingMode(.hierarchical)
+                        .font(.system(size: 10, weight: .medium))
+                        .tracking(0.5)
+                        .foregroundStyle(isToday ? theme.accent : theme.inkMute)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -89,17 +142,59 @@ struct HomeView: View {
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("Progress today")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(.caption2.weight(.semibold))
+                    .tracking(1.6)
+                    .textCase(.uppercase)
+                    .foregroundStyle(theme.inkMute)
                 Spacer()
                 Text(value, format: .percent.precision(.fractionLength(0)))
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(Color.accentColor)
+                    .font(.subheadline.weight(.semibold).monospacedDigit())
+                    .foregroundStyle(theme.accent)
                     .contentTransition(.numericText())
             }
             ProgressView(value: value)
-                .tint(Color.accentColor)
+                .tint(theme.accent)
         }
+    }
+
+    private var sitCard: some View {
+        Button {
+            showingTimer = true
+        } label: {
+            ZStack(alignment: .bottomTrailing) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("MORNING SIT · 5 MIN")
+                        .font(.caption2.weight(.bold))
+                        .tracking(2)
+                        .foregroundStyle(.white.opacity(0.85))
+                    Text("Settle into stillness.")
+                        .font(.system(size: 22, weight: .regular, design: .serif))
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.leading)
+                    HStack(spacing: 8) {
+                        Image(systemName: today?.meditationDone == true ? "checkmark" : "play.fill")
+                            .font(.caption.weight(.semibold))
+                        Text(today?.meditationDone == true ? "Done" : "Begin")
+                            .font(.subheadline.weight(.medium))
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 7)
+                    .background(.white.opacity(0.22), in: Capsule())
+                    .padding(.top, 6)
+                }
+                .padding(20)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .background(
+                LinearGradient(
+                    colors: [theme.secondary, theme.secondary.opacity(0.85)],
+                    startPoint: .topLeading, endPoint: .bottomTrailing
+                ),
+                in: RoundedRectangle(cornerRadius: 18)
+            )
+        }
+        .buttonStyle(.plain)
     }
 
     private var verseCard: some View {
@@ -107,25 +202,39 @@ struct HomeView: View {
             selectedTab = .daily
         } label: {
             VStack(alignment: .leading, spacing: 12) {
-                Label("Today's verse", systemImage: "sparkles")
-                    .font(.headline)
-                    .foregroundStyle(.primary)
+                Text("VERSE FOR TODAY")
+                    .font(.caption2.weight(.semibold))
+                    .tracking(1.8)
+                    .foregroundStyle(theme.inkMute)
                 if let verse {
-                    Text(verse.text)
-                        .font(.body)
-                        .foregroundStyle(.primary)
-                        .multilineTextAlignment(.leading)
+                    (Text("\u{201C}").foregroundColor(theme.accent).font(.system(size: 26, design: .serif))
+                        + Text(verse.text)
+                        .font(.system(size: 17, weight: .regular, design: .serif))
+                        .foregroundColor(theme.ink))
                         .lineLimit(6)
-                    Text("Verse \(verse.number) · \(verse.chapterTitle)")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.leading)
+                    Divider().background(theme.border)
+                    HStack {
+                        Text("Verse \(verse.number)")
+                            .font(.system(size: 12, weight: .regular, design: .serif))
+                            .italic()
+                            .foregroundStyle(theme.inkSoft)
+                        Spacer()
+                        Text("· \(verse.chapterTitle)")
+                            .font(.caption)
+                            .foregroundStyle(theme.inkMute)
+                    }
                 } else {
                     ContentUnavailableView("No verse loaded", systemImage: "book.closed")
                 }
             }
-            .padding()
+            .padding(20)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+            .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
+            .overlay(
+                RoundedRectangle(cornerRadius: 18)
+                    .stroke(theme.border, lineWidth: 0.5)
+            )
         }
         .buttonStyle(.plain)
     }

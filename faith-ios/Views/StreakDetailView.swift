@@ -3,6 +3,7 @@ import SwiftData
 
 struct StreakDetailView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.theme) private var theme
     @Query private var completions: [DayCompletion]
     @State private var displayedMonth: Date = Calendar.current.startOfDay(for: .now)
 
@@ -14,6 +15,10 @@ struct StreakDetailView: View {
 
     private var completedKeys: Set<String> {
         Set(completions.filter(\.isComplete).map(\.dayKey))
+    }
+
+    private var bloomByKey: [String: Double] {
+        Dictionary(uniqueKeysWithValues: completions.map { ($0.dayKey, $0.progress) })
     }
 
     private var currentStreak: Int {
@@ -43,21 +48,41 @@ struct StreakDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
+            VStack(spacing: 22) {
+                headerBlock
                 statsRow
                 monthCalendar
+                footerVerse
             }
-            .padding()
+            .padding(.horizontal, 24)
+            .padding(.bottom, 32)
         }
-        .navigationTitle("Streak")
+        .background(theme.bg.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
     }
 
+    private var headerBlock: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("YOUR GARDEN")
+                .font(.caption2.weight(.semibold))
+                .tracking(2.4)
+                .foregroundStyle(theme.inkMute)
+            (Text("\(currentStreak.spelled.capitalized) \(currentStreak == 1 ? "day" : "days")\n")
+                + Text("in bloom")
+                .italic()
+                .foregroundColor(theme.secondary))
+                .font(.system(size: 32, weight: .regular, design: .serif))
+                .foregroundStyle(theme.ink)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.top, 4)
+    }
+
     private var statsRow: some View {
-        HStack(spacing: 12) {
-            StatTile(value: currentStreak, label: "Current", systemImage: "flame.fill", tint: .orange)
-            StatTile(value: longestStreak, label: "Longest", systemImage: "trophy.fill", tint: .yellow)
-            StatTile(value: totalDays, label: "Total", systemImage: "checkmark.seal.fill", tint: .green)
+        HStack(spacing: 10) {
+            StatTile(label: "Now", value: currentStreak, sub: "days", isAccent: true)
+            StatTile(label: "Longest", value: longestStreak, sub: "days", isAccent: false)
+            StatTile(label: "In total", value: totalDays, sub: "days", isAccent: false)
         }
     }
 
@@ -65,63 +90,65 @@ struct StreakDetailView: View {
         VStack(spacing: 14) {
             HStack {
                 Button { changeMonth(-1) } label: {
-                    Image(systemName: "chevron.left").font(.headline)
+                    Image(systemName: "chevron.left").font(.subheadline.weight(.medium))
                 }
+                .foregroundStyle(theme.inkMute)
                 Spacer()
                 Text(displayedMonth, format: .dateTime.month(.wide).year())
-                    .font(.headline)
+                    .font(.system(size: 15, design: .serif))
+                    .foregroundStyle(theme.ink)
                 Spacer()
                 Button { changeMonth(1) } label: {
-                    Image(systemName: "chevron.right").font(.headline)
+                    Image(systemName: "chevron.right").font(.subheadline.weight(.medium))
                 }
+                .foregroundStyle(theme.inkMute)
                 .disabled(isCurrentOrFutureMonth)
                 .opacity(isCurrentOrFutureMonth ? 0.3 : 1)
             }
-            HStack(spacing: 0) {
-                ForEach(Array(weekdayHeader.enumerated()), id: \.offset) { _, symbol in
+            HStack(spacing: 8) {
+                ForEach(weekdayHeader, id: \.self) { symbol in
                     Text(symbol)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.secondary)
+                        .font(.system(size: 9, weight: .semibold))
+                        .tracking(0.8)
+                        .foregroundStyle(theme.inkMute)
                         .frame(maxWidth: .infinity)
                 }
             }
-            VStack(spacing: 6) {
-                ForEach(weeks.indices, id: \.self) { wIdx in
-                    let week = weeks[wIdx]
-                    HStack(spacing: 0) {
-                        ForEach(0..<7, id: \.self) { dIdx in
-                            let date = week[dIdx]
-                            let completed = isCellCompleted(date)
-                            DayCell(
-                                date: date,
-                                isCompleted: completed,
-                                leftConnected: completed && dIdx > 0 && isCellCompleted(week[dIdx - 1]),
-                                rightConnected: completed && dIdx < 6 && isCellCompleted(week[dIdx + 1]),
-                                isToday: date.map { calendar.isDateInToday($0) } ?? false
-                            )
-                            .frame(maxWidth: .infinity)
-                        }
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 7), spacing: 10) {
+                ForEach(Array(daysInGrid.enumerated()), id: \.offset) { _, day in
+                    if let day {
+                        DayCell(
+                            date: day,
+                            bloom: bloomByKey[DayCompletion.key(for: day)] ?? 0,
+                            isCompleted: completedKeys.contains(DayCompletion.key(for: day)),
+                            isToday: calendar.isDateInToday(day)
+                        )
+                    } else {
+                        Color.clear.frame(height: 44)
                     }
                 }
             }
         }
-        .padding()
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .padding(18)
+        .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(theme.border, lineWidth: 0.5)
+        )
+    }
+
+    private var footerVerse: some View {
+        Text("\u{201C}The mind is everything. What you think, you become.\u{201D}")
+            .font(.system(size: 13, design: .serif))
+            .italic()
+            .foregroundStyle(theme.inkSoft)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity)
+            .padding(.top, 4)
     }
 
     private var weekdayHeader: [String] {
         ["S", "M", "T", "W", "T", "F", "S"]
-    }
-
-    private var weeks: [[Date?]] {
-        let cells = daysInGrid
-        var rows: [[Date?]] = []
-        for i in stride(from: 0, to: cells.count, by: 7) {
-            var row = Array(cells[i..<min(i + 7, cells.count)])
-            while row.count < 7 { row.append(nil) }
-            rows.append(row)
-        }
-        return rows
     }
 
     private var daysInGrid: [Date?] {
@@ -135,11 +162,6 @@ struct StreakDetailView: View {
         }
         while cells.count % 7 != 0 { cells.append(nil) }
         return cells
-    }
-
-    private func isCellCompleted(_ date: Date?) -> Bool {
-        guard let date else { return false }
-        return completedKeys.contains(DayCompletion.key(for: date))
     }
 
     private var isCurrentOrFutureMonth: Bool {
@@ -158,60 +180,77 @@ struct StreakDetailView: View {
 }
 
 private struct StatTile: View {
-    let value: Int
+    @Environment(\.theme) private var theme
     let label: String
-    let systemImage: String
-    let tint: Color
+    let value: Int
+    let sub: String
+    let isAccent: Bool
 
     var body: some View {
-        VStack(spacing: 6) {
-            Image(systemName: systemImage)
-                .font(.title3)
-                .foregroundStyle(tint)
+        VStack(spacing: 4) {
+            Text(label.uppercased())
+                .font(.system(size: 9, weight: .semibold))
+                .tracking(1.6)
+                .foregroundStyle(theme.inkMute)
             Text("\(value)")
-                .font(.title.weight(.bold).monospacedDigit())
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .font(.system(size: 28, weight: .regular, design: .serif).monospacedDigit())
+                .foregroundStyle(isAccent ? theme.accent : theme.ink)
+            Text(sub)
+                .font(.system(size: 11, design: .serif))
+                .italic()
+                .foregroundStyle(theme.inkMute)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 14)
-        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 14))
+        .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(theme.border, lineWidth: 0.5)
+        )
     }
 }
 
 private struct DayCell: View {
-    let date: Date?
+    @Environment(\.theme) private var theme
+    let date: Date
+    let bloom: Double
     let isCompleted: Bool
-    let leftConnected: Bool
-    let rightConnected: Bool
     let isToday: Bool
 
+    private var dayNumber: Int {
+        Calendar.current.component(.day, from: date)
+    }
+
     var body: some View {
-        ZStack {
-            if isCompleted {
-                UnevenRoundedRectangle(
-                    topLeadingRadius: leftConnected ? 0 : 22,
-                    bottomLeadingRadius: leftConnected ? 0 : 22,
-                    bottomTrailingRadius: rightConnected ? 0 : 22,
-                    topTrailingRadius: rightConnected ? 0 : 22
-                )
-                .fill(Color.pink.opacity(0.25))
-            } else if isToday {
-                Circle().stroke(Color.accentColor, lineWidth: 1.5)
-                    .padding(2)
-            }
-            if let date {
-                Text("\(Calendar.current.component(.day, from: date))")
-                    .font(.subheadline.monospacedDigit())
-                    .foregroundStyle(isToday ? Color.accentColor : .primary)
-            }
+        VStack(spacing: 2) {
+            Lotus(
+                size: 26,
+                bloom: isCompleted ? 1.0 : bloom,
+                color: isCompleted ? theme.accent : (isToday ? theme.accentInk : theme.inkFaint),
+                dim: theme.inkFaint,
+                strokeWidth: isToday ? 1.6 : 1.2
+            )
+            Text("\(dayNumber)")
+                .font(.system(size: 9, weight: isToday ? .semibold : .regular).monospacedDigit())
+                .foregroundStyle(isToday ? theme.accent : theme.inkMute)
         }
-        .frame(height: 38)
+        .frame(height: 44)
+    }
+}
+
+private extension Int {
+    var spelled: String {
+        let names = [
+            "zero","one","two","three","four","five","six","seven","eight","nine",
+            "ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen",
+            "seventeen","eighteen","nineteen","twenty"
+        ]
+        return self < names.count ? names[self] : "\(self)"
     }
 }
 
 #Preview {
     NavigationStack { StreakDetailView() }
         .modelContainer(for: [DayCompletion.self, ChatMessage.self], inMemory: true)
+        .environment(\.theme, .mossDusk)
 }

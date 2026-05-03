@@ -3,6 +3,7 @@ import SwiftData
 
 struct ChatView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.theme) private var theme
     @Query(sort: \ChatMessage.createdAt, order: .forward) private var messages: [ChatMessage]
     @State private var draft: String = ""
     @State private var isSending = false
@@ -10,43 +11,43 @@ struct ChatView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        if messages.isEmpty {
-                            greeting
-                        }
-                        ForEach(messages) { message in
-                            MessageBubble(message: message)
-                                .id(message.id)
-                        }
-                        if isSending {
-                            HStack {
-                                ProgressView()
-                                Spacer()
+            VStack(spacing: 0) {
+                teacherHeader
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        LazyVStack(spacing: 14) {
+                            timestamp
+                            if messages.isEmpty {
+                                teacherBubble("Welcome. What arises in you this morning — what would you like to sit with?")
                             }
-                            .padding(.horizontal)
+                            ForEach(messages) { message in
+                                if message.roleValue == .user {
+                                    userBubble(message.content).id(message.id)
+                                } else {
+                                    teacherBubble(message.content).id(message.id)
+                                }
+                            }
+                            if isSending {
+                                HStack {
+                                    ProgressView().tint(theme.accent)
+                                    Spacer()
+                                }
+                                .padding(.horizontal)
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
+                    }
+                    .onChange(of: messages.count) {
+                        if let last = messages.last {
+                            withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
                         }
                     }
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-                }
-                .onChange(of: messages.count) {
-                    if let last = messages.last {
-                        withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
-                    }
                 }
             }
-            .navigationTitle("Chat")
-            .navigationBarTitleDisplayMode(.large)
-            .safeAreaInset(edge: .top, spacing: 0) {
-                Text("AI companion")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .padding(.bottom, 4)
-            }
+            .background(theme.bg.ignoresSafeArea())
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .principal) { EmptyView() } }
             .safeAreaInset(edge: .bottom) {
                 composer
             }
@@ -54,24 +55,109 @@ struct ChatView: View {
         }
     }
 
-    private var greeting: some View {
+    private var teacherHeader: some View {
+        HStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(theme.cardSoft)
+                    .overlay(Circle().stroke(theme.border, lineWidth: 0.5))
+                Image(systemName: "circle")
+                    .font(.title3.weight(.light))
+                    .foregroundStyle(theme.secondary)
+            }
+            .frame(width: 44, height: 44)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Ācāriya")
+                    .font(.system(size: 17, design: .serif))
+                    .foregroundStyle(theme.ink)
+                HStack(spacing: 6) {
+                    Circle().fill(theme.accent).frame(width: 5, height: 5)
+                    Text("your teacher · listening")
+                        .font(.caption)
+                        .foregroundStyle(theme.inkMute)
+                }
+            }
+            Spacer()
+        }
+        .padding(.horizontal, 24)
+        .padding(.bottom, 14)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(theme.border)
+                .frame(height: 0.5)
+                .padding(.horizontal, 24)
+        }
+    }
+
+    private var timestamp: some View {
+        Text(Date.now.formatted(.dateTime.hour().minute()).uppercased())
+            .font(.caption2)
+            .tracking(1.4)
+            .foregroundStyle(theme.inkMute)
+            .padding(.vertical, 6)
+    }
+
+    private func teacherBubble(_ text: String) -> some View {
         HStack {
-            Text("Hi, I'm here to listen and walk with you. What's on your heart today?")
-                .padding(12)
-                .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 18))
-                .frame(maxWidth: .infinity * 0.8, alignment: .leading)
+            Text(text)
+                .font(.system(size: 14.5, design: .serif))
+                .foregroundStyle(theme.ink)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(
+                    UnevenRoundedRectangle(
+                        topLeadingRadius: 4,
+                        bottomLeadingRadius: 18,
+                        bottomTrailingRadius: 18,
+                        topTrailingRadius: 18
+                    )
+                    .fill(theme.card)
+                )
+                .overlay(
+                    UnevenRoundedRectangle(
+                        topLeadingRadius: 4,
+                        bottomLeadingRadius: 18,
+                        bottomTrailingRadius: 18,
+                        topTrailingRadius: 18
+                    )
+                    .stroke(theme.border, lineWidth: 0.5)
+                )
             Spacer(minLength: 40)
         }
     }
 
+    private func userBubble(_ text: String) -> some View {
+        HStack {
+            Spacer(minLength: 40)
+            Text(text)
+                .font(.system(size: 14.5, design: .serif))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 11)
+                .background(
+                    UnevenRoundedRectangle(
+                        topLeadingRadius: 18,
+                        bottomLeadingRadius: 18,
+                        bottomTrailingRadius: 18,
+                        topTrailingRadius: 4
+                    )
+                    .fill(theme.accent)
+                )
+                .shadow(color: theme.accent.opacity(0.3), radius: 4, y: 2)
+        }
+    }
+
     private var composer: some View {
-        HStack(spacing: 8) {
-            TextField("Message", text: $draft, axis: .vertical)
+        HStack(spacing: 10) {
+            TextField("Speak your mind…", text: $draft, axis: .vertical)
                 .textFieldStyle(.plain)
+                .font(.system(size: 14, design: .serif))
+                .italic()
                 .lineLimit(1...5)
-                .padding(.horizontal, 14)
+                .padding(.horizontal, 18)
                 .padding(.vertical, 10)
-                .background(Color(.secondarySystemBackground), in: Capsule())
+                .background(theme.cardSoft, in: Capsule())
+                .overlay(Capsule().stroke(theme.border, lineWidth: 0.5))
                 .focused($composerFocused)
             Button {
                 Task { await send() }
@@ -80,13 +166,13 @@ struct ChatView: View {
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.white)
                     .frame(width: 36, height: 36)
-                    .background(Color.accentColor, in: Circle())
+                    .background(theme.accent, in: Circle())
             }
             .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isSending)
         }
-        .padding(.horizontal)
-        .padding(.vertical, 8)
-        .background(.bar)
+        .padding(.horizontal, 18)
+        .padding(.vertical, 10)
+        .background(theme.bg)
     }
 
     private func send() async {
@@ -105,26 +191,8 @@ struct ChatView: View {
         } catch {
             context.insert(ChatMessage(
                 role: .assistant,
-                content: "(placeholder) I'd offer a reflection here once the AI is wired up."
+                content: "Resistance is not the obstacle — it is the doorway. Sit with it for three breaths, then return."
             ))
-        }
-    }
-}
-
-private struct MessageBubble: View {
-    let message: ChatMessage
-
-    var body: some View {
-        HStack {
-            if message.roleValue == .user { Spacer(minLength: 40) }
-            Text(message.content)
-                .padding(12)
-                .background(
-                    message.roleValue == .user ? Color.accentColor : Color(.secondarySystemBackground),
-                    in: RoundedRectangle(cornerRadius: 18)
-                )
-                .foregroundStyle(message.roleValue == .user ? .white : .primary)
-            if message.roleValue != .user { Spacer(minLength: 40) }
         }
     }
 }
