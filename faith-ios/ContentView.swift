@@ -7,11 +7,14 @@ enum AppTab: Hashable {
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("palette") private var paletteRaw: String = Palette.moss.rawValue
+    @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
     @State private var selection: AppTab = .home
     @State private var verseStore = VerseStore()
 
     private var palette: Palette { Palette(rawValue: paletteRaw) ?? .moss }
-    private var theme: Theme { palette.theme(for: colorScheme) }
+    private var appearance: AppearanceMode { AppearanceMode(rawValue: appearanceRaw) ?? .system }
+    private var effectiveScheme: ColorScheme { appearance.preferredScheme ?? colorScheme }
+    private var theme: Theme { palette.theme(for: effectiveScheme) }
 
     var body: some View {
         TabView(selection: $selection) {
@@ -31,6 +34,10 @@ struct ContentView: View {
         .tint(theme.accent)
         .environment(verseStore)
         .environment(\.theme, theme)
+        .preferredColorScheme(appearance.preferredScheme)
+        .task(id: paletteRaw + appearanceRaw) {
+            SharedProgress.writeAppearance(palette: paletteRaw, appearance: appearanceRaw)
+        }
         .onOpenURL { url in
             guard url.scheme == "faith" else { return }
             switch url.host {

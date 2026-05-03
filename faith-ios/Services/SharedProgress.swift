@@ -8,22 +8,22 @@ enum SharedProgress {
         UserDefaults(suiteName: appGroupID) ?? .standard
     }
 
-    private enum Key {
+    enum Key {
         static let progress = "todayProgress"
         static let streak = "currentStreak"
-    }
-
-    static var progress: Double {
-        defaults.double(forKey: Key.progress)
-    }
-
-    static var streak: Int {
-        defaults.integer(forKey: Key.streak)
+        static let palette = "palette"
+        static let appearance = "appearance"
     }
 
     static func write(progress: Double, streak: Int) {
         defaults.set(progress, forKey: Key.progress)
         defaults.set(streak, forKey: Key.streak)
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    static func writeAppearance(palette: String, appearance: String) {
+        defaults.set(palette, forKey: Key.palette)
+        defaults.set(appearance, forKey: Key.appearance)
         WidgetCenter.shared.reloadAllTimelines()
     }
 }

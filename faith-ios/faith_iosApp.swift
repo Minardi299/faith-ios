@@ -43,5 +43,6 @@ struct faith_iosApp: App {
             context.insert(day)
         }
         try? context.save()
+        ProgressStore(context: context).pushToWidget()
     }
 }
