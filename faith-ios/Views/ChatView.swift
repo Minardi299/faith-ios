@@ -39,6 +39,7 @@ struct ChatView: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
                     }
+                    .scrollDismissesKeyboard(.interactively)
                     .onChange(of: messages.count) {
                         if let last = messages.last {
                             withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
@@ -174,6 +175,17 @@ struct ChatView: View {
         .padding(.horizontal, 18)
         .padding(.vertical, 10)
         .background(theme.bg)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button {
+                    composerFocused = false
+                } label: {
+                    Image(systemName: "keyboard.chevron.compact.down")
+                        .foregroundStyle(theme.accent)
+                }
+            }
+        }
     }
 
     private func send() async {
