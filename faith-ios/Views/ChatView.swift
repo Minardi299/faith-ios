@@ -4,6 +4,7 @@ import SwiftData
 struct ChatView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
+    @Environment(VerseStore.self) private var verseStore
     @Query(sort: \ChatMessage.createdAt, order: .forward) private var messages: [ChatMessage]
     @State private var draft: String = ""
     @State private var isSending = false
@@ -184,10 +185,18 @@ struct ChatView: View {
         isSending = true
         defer { isSending = false }
 
-        let history = messages + [userMessage]
+        let history = Array(messages)
         do {
-            let reply = try await AIService.shared.reply(to: history)
-            context.insert(ChatMessage(role: .assistant, content: reply))
+            let reply = try await AIService.shared.reply(
+                userMessage: trimmed,
+                history: history,
+                verses: verseStore.verses
+            )
+            let text = reply.trimmingCharacters(in: .whitespacesAndNewlines)
+            context.insert(ChatMessage(
+                role: .assistant,
+                content: text.isEmpty ? "Sit with this for a few breaths. The answer often arrives in stillness." : text
+            ))
         } catch {
             context.insert(ChatMessage(
                 role: .assistant,

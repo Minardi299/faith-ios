@@ -19,9 +19,19 @@ struct faith_iosApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .task { seedIfRequested() }
+                .task {
+                    seedIfRequested()
+                    warmRetriever()
+                }
         }
         .modelContainer(sharedModelContainer)
+    }
+
+    private func warmRetriever() {
+        Task.detached(priority: .utility) {
+            let store = VerseStore()
+            await VerseRetriever.shared.warm(verses: store.verses)
+        }
     }
 
     @MainActor
