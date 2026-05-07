@@ -1,12 +1,15 @@
 import SwiftUI
 import SwiftData
+import AuthenticationServices
 
 struct ProfileView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
+    @EnvironmentObject private var session: SessionStore
     @AppStorage("palette") private var paletteRaw: String = Palette.moss.rawValue
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
     @Query private var completions: [DayCompletion]
+    @State private var showingSignOut = false
 
     private var progress: ProgressStore { ProgressStore(context: context) }
     private var totalCompleted: Int { completions.filter(\.isComplete).count }
@@ -18,12 +21,29 @@ struct ProfileView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
+                accountSection
                 statsRow
                 section("Appearance") { appearanceSection }
                 section("Palette") { paletteSection }
                 section("Practice") { practiceSection }
                 section("Reading") { readingSection }
                 section("About") { aboutSection }
+                if session.auth.isSignedIn {
+                    Button(role: .destructive) {
+                        showingSignOut = true
+                    } label: {
+                        Text("Sign out")
+                            .font(.system(size: 15, design: .serif))
+                            .foregroundStyle(.red)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .stroke(theme.border, lineWidth: 0.5)
+                            )
+                    }
+                }
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 32)
@@ -36,6 +56,62 @@ struct ProfileView: View {
                     .font(.system(size: 17, design: .serif))
                     .foregroundStyle(theme.ink)
             }
+        }
+        .alert("Sign out?", isPresented: $showingSignOut) {
+            Button("Cancel", role: .cancel) {}
+            Button("Sign out", role: .destructive) { session.signOut() }
+        } message: {
+            Text("Your local journal and streak stay on this device.")
+        }
+    }
+
+    @ViewBuilder
+    private var accountSection: some View {
+        if session.auth.isSignedIn, let appleID = session.auth.appleUserID {
+            HStack(spacing: 14) {
+                Image(systemName: "person.crop.circle.fill")
+                    .font(.title)
+                    .foregroundStyle(theme.accent)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text((session.user.displayName?.isEmpty == false ? session.user.displayName : nil) ?? "Signed in")
+                        .font(.system(size: 16, weight: .regular, design: .serif))
+                        .foregroundStyle(theme.ink)
+                    Text("Apple · \(appleID.prefix(8))…")
+                        .font(.caption2.monospaced())
+                        .foregroundStyle(theme.inkMute)
+                }
+                Spacer()
+            }
+            .padding(16)
+            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(theme.border, lineWidth: 0.5)
+            )
+            .padding(.top, 8)
+        } else {
+            SignInWithAppleButton(.signIn) { request in
+                request.requestedScopes = [.fullName, .email]
+            } onCompletion: { result in
+                switch result {
+                case .success(let auth):
+                    if let signed = session.auth.handleAppleAuthorization(auth) {
+                        var user = session.user
+                        if let given = signed.givenName, !given.isEmpty {
+                            user.displayName = [given, signed.familyName ?? ""]
+                                .joined(separator: " ")
+                                .trimmingCharacters(in: .whitespaces)
+                        }
+                        session.user = user
+                        session.users.save(user)
+                    }
+                case .failure:
+                    break
+                }
+            }
+            .signInWithAppleButtonStyle(appearance == .dark ? .white : .black)
+            .frame(height: 48)
+            .padding(.top, 8)
         }
     }
 
@@ -149,9 +225,9 @@ struct ProfileView: View {
         VStack(spacing: 0) {
             settingsRow("Reminder time", detail: "6:30 am")
             Divider().background(theme.border).padding(.leading, 18)
-            settingsRow("Daily verse", detail: "On")
+            settingsRow("Daily passage", detail: "On")
             Divider().background(theme.border).padding(.leading, 18)
-            settingsRow("Tradition", detail: "Theravāda")
+            settingsRow("Tradition", detail: session.user.tradition.name)
         }
     }
 

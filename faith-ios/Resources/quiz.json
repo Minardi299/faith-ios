@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "tradition": "theravada",
+      "passageID": "mn21",
+      "prompt": "In which sutta does the Buddha tell the monks that even were bandits to carve them up limb by limb, the angered one would not be doing his bidding?",
+      "choices": ["MN 10 — Mindfulness Meditation", "MN 21 — The Simile of the Saw", "Snp 1.8 — Mettā Sutta", "DN 22 — Mahā-Satipaṭṭhāna"],
+      "correctIndex": 1,
+      "explanation": "MN 21, the Kakacūpama Sutta — the simile of the saw — is the Buddha's clearest teaching on patience under extreme provocation."
+    },
+    {
+      "tradition": "theravada",
+      "passageID": "mn10",
+      "prompt": "Where is the foundational instruction 'breathing in long, he discerns: I am breathing in long' found?",
+      "choices": ["MN 21", "Dhp · Pairs", "MN 10 — Satipaṭṭhāna Sutta", "Snp 1.8"],
+      "correctIndex": 2,
+      "explanation": "MN 10, the Satipaṭṭhāna Sutta, gives the four foundations of mindfulness, opening with mindfulness of breathing."
+    },
+    {
+      "tradition": "theravada",
+      "passageID": "snp1.8",
+      "prompt": "The verse 'just as a mother would protect with her life her own child, her only child' is from which discourse?",
+      "choices": ["Karaṇīya Mettā Sutta", "Heart Sūtra", "Diamond Sūtra", "Mumonkan"],
+      "correctIndex": 0,
+      "explanation": "Snp 1.8 — the Karaṇīya Mettā Sutta — is the Buddha's classic discourse on boundless friendliness."
+    },
+    {
+      "tradition": "theravada",
+      "passageID": "dhp1-20",
+      "prompt": "What is the eternal law described in the opening verses of the Dhammapada?",
+      "choices": ["Form is emptiness", "Hatred is never appeased by hatred", "All is mind", "Just sit"],
+      "correctIndex": 1,
+      "explanation": "The Yamakavagga (1. Pairs) states: hatred is never appeased by hatred — only by non-hatred. This is an eternal law."
+    },
+    {
+      "tradition": "theravada",
+      "passageID": "mn10",
+      "prompt": "What does the Pāli word 'satipaṭṭhāna' mean?",
+      "choices": ["Right speech", "Foundations of mindfulness", "Liberation", "Dependent origination"],
+      "correctIndex": 1,
+      "explanation": "Sati = mindfulness, paṭṭhāna = establishment/foundation. The four foundations are body, feeling, mind, and dhammas."
+    },
+    {
+      "tradition": "theravada",
+      "passageID": "mn21",
+      "prompt": "What Pāli quality does MN 21 ask of practitioners under provocation?",
+      "choices": ["Mettā (loving-kindness)", "Khanti (patience)", "Vīrya (energy)", "Samādhi (concentration)"],
+      "correctIndex": 1,
+      "explanation": "Khanti — patience — is the central virtue in the Simile of the Saw."
+    },
+    {
+      "tradition": "mahayana",
+      "passageID": "MH_HEART",
+      "prompt": "The line 'form is emptiness; emptiness is form' is from which sūtra?",
+      "choices": ["Lotus Sūtra", "Heart Sūtra", "Diamond Sūtra", "Vimalakīrti Sūtra"],
+      "correctIndex": 1,
+      "explanation": "The Heart Sūtra (Prajñāpāramitā Hṛdaya) condenses the Perfection of Wisdom in this single line."
+    },
+    {
+      "tradition": "mahayana",
+      "passageID": "MH_HEART",
+      "prompt": "Whose voice does the Heart Sūtra centrally feature?",
+      "choices": ["Avalokiteśvara", "Mañjuśrī", "Maitreya", "Samantabhadra"],
+      "correctIndex": 0,
+      "explanation": "The bodhisattva Avalokiteśvara is the speaker, addressing Śāriputra."
+    },
+    {
+      "tradition": "mahayana",
+      "passageID": "MH_DIAM_KEY",
+      "prompt": "The Diamond Sūtra closes with the famous verse comparing all conditioned things to what?",
+      "choices": ["A flame in the wind", "A dewdrop, a flash of lightning", "A leaf on a stream", "A reflection in still water"],
+      "correctIndex": 1,
+      "explanation": "Section 32: 'as a star, a fault of vision, a lamp, an illusion, a dewdrop, a bubble, a dream, a flash of lightning, a cloud.'"
+    },
+    {
+      "tradition": "mahayana",
+      "passageID": "MH_LOTUS_2",
+      "prompt": "The teaching of skillful means (upāya) is most fully developed in which sūtra?",
+      "choices": ["Heart Sūtra", "Lotus Sūtra", "Avataṃsaka Sūtra", "Vimalakīrti Sūtra"],
+      "correctIndex": 1,
+      "explanation": "Chapter 2 of the Lotus Sūtra establishes upāya as the Buddha's pedagogical method."
+    },
+    {
+      "tradition": "mahayana",
+      "passageID": "MH_HEART",
+      "prompt": "What does the Sanskrit word 'śūnyatā' translate to in English?",
+      "choices": ["Suffering", "Emptiness", "Compassion", "Nirvāṇa"],
+      "correctIndex": 1,
+      "explanation": "Śūnyatā — emptiness — is the central insight of Prajñāpāramitā literature."
+    },
+    {
+      "tradition": "mahayana",
+      "passageID": "MH_HEART",
+      "prompt": "Who does Avalokiteśvara directly address in the Heart Sūtra?",
+      "choices": ["Maudgalyāyana", "Ānanda", "Śāriputra", "Mahā-Kassapa"],
+      "correctIndex": 2,
+      "explanation": "The discourse is delivered to Śāriputra, the Buddha's chief disciple in wisdom."
+    },
+    {
+      "tradition": "vajrayana",
+      "passageID": "VJ_37_1",
+      "prompt": "The Thirty-Seven Practices of Bodhisattvas was composed by which Tibetan teacher?",
+      "choices": ["Tsongkhapa", "Tokmé Zangpo", "Padmasambhava", "Milarepa"],
+      "correctIndex": 1,
+      "explanation": "Gyalse Tokmé Zangpo (1295–1369), a Sakya master, wrote this beloved 14th-century lojong text."
+    },
+    {
+      "tradition": "vajrayana",
+      "passageID": "VJ_37_10",
+      "prompt": "What does the term 'bodhicitta' mean?",
+      "choices": ["The mind of awakening", "The diamond mind", "The clear-light mind", "The empty mind"],
+      "correctIndex": 0,
+      "explanation": "Bodhicitta = the awakened heart-mind oriented toward liberating all beings."
+    },
+    {
+      "tradition": "vajrayana",
+      "passageID": "VJ_37_1",
+      "prompt": "What does the opening of the 37 Practices describe as 'precious'?",
+      "choices": ["Wealth", "A human birth", "A teacher", "Solitude"],
+      "correctIndex": 1,
+      "explanation": "Practice 1 opens with the contemplation of the precious human rebirth as the basis of practice."
+    },
+    {
+      "tradition": "vajrayana",
+      "passageID": "VJ_37_22",
+      "prompt": "The 22nd practice teaches that all phenomena arise from what?",
+      "choices": ["Mind", "Causes and conditions", "Karma", "Form"],
+      "correctIndex": 0,
+      "explanation": "Practice 22 emphasizes that phenomena are projections of mind — the Yogācāra emphasis common in Tibetan teaching."
+    },
+    {
+      "tradition": "vajrayana",
+      "passageID": "VJ_37_1",
+      "prompt": "Tokmé Zangpo belonged to which Tibetan school?",
+      "choices": ["Nyingma", "Gelug", "Sakya", "Kagyu"],
+      "correctIndex": 2,
+      "explanation": "He is considered a Sakya master, though his text is honored across all four major schools."
+    },
+    {
+      "tradition": "zen",
+      "passageID": "ZEN_MUMON_1",
+      "prompt": "Joshu's answer to 'Has a dog the Buddha-nature?' is which single syllable?",
+      "choices": ["Yes", "No", "Mu", "Ki"],
+      "correctIndex": 2,
+      "explanation": "Mu — neither yes nor no. The first kōan of the Mumonkan."
+    },
+    {
+      "tradition": "zen",
+      "passageID": "ZEN_MUMON_7",
+      "prompt": "When the monk asks Joshu for instruction, what does Joshu tell him to do?",
+      "choices": ["Sit zazen", "Wash his bowl", "Read the sūtras", "Recite the precepts"],
+      "correctIndex": 1,
+      "explanation": "Mumonkan 7: 'Have you eaten?' 'Yes.' 'Then go wash your bowl.' The monk awakened."
+    },
+    {
+      "tradition": "zen",
+      "passageID": "ZEN_PLATFORM",
+      "prompt": "Whose teaching is recorded in the Platform Sūtra?",
+      "choices": ["Bodhidharma", "Huineng", "Dōgen", "Linji"],
+      "correctIndex": 1,
+      "explanation": "Huineng, the sixth patriarch — the only Chinese teaching to be honored as a sūtra."
+    },
+    {
+      "tradition": "zen",
+      "passageID": "ZEN_MUMON_1",
+      "prompt": "The Mumonkan (Gateless Gate) contains how many kōans?",
+      "choices": ["12", "48", "100", "108"],
+      "correctIndex": 1,
+      "explanation": "Forty-eight kōans, compiled by Mumon Ekai in 1228."
+    },
+    {
+      "tradition": "zen",
+      "passageID": "ZEN_PLATFORM",
+      "prompt": "Who is regarded as the founder of Zen in China?",
+      "choices": ["Bodhidharma", "Huineng", "Dōgen", "Hakuin"],
+      "correctIndex": 0,
+      "explanation": "Bodhidharma brought the dhyāna (Chan/Zen) lineage from India to China in the 5th–6th century."
+    },
+    {
+      "tradition": "secular",
+      "passageID": "dhp1-20",
+      "prompt": "Which collection of verses is most often used in secular Buddhist study?",
+      "choices": ["Vinaya Piṭaka", "Dhammapada", "Abhidhamma", "Sūtra Piṭaka"],
+      "correctIndex": 1,
+      "explanation": "The Dhammapada — short, practical, ethical — is widely read across all traditions and secular contexts."
+    },
+    {
+      "tradition": "secular",
+      "passageID": "snp1.8",
+      "prompt": "The Mettā Sutta teaches the cultivation of what?",
+      "choices": ["Concentration", "Boundless friendliness", "Detachment", "Right view"],
+      "correctIndex": 1,
+      "explanation": "Mettā — boundless friendliness or loving-kindness — extending in all directions."
+    },
+    {
+      "tradition": "secular",
+      "passageID": "mn10",
+      "prompt": "The four foundations of mindfulness in MN 10 are: body, feeling, mind, and what?",
+      "choices": ["Breath", "Dhammas (mental qualities)", "Speech", "Action"],
+      "correctIndex": 1,
+      "explanation": "Body, feeling, mind, and dhammas — mental qualities or phenomena."
+    },
+    {
+      "tradition": "secular",
+      "passageID": "dhp1-20",
+      "prompt": "The Dhammapada teaches that what comes first?",
+      "choices": ["The body", "The breath", "Mind, preceding all things", "Action"],
+      "correctIndex": 2,
+      "explanation": "'Mind precedes all mental states. Mind is their chief; they are all mind-wrought.' — Dhp 1.1"
+    },
+    {
+      "tradition": "theravada",
+      "passageID": "dn22",
+      "prompt": "DN 22 is the longer counterpart of which sutta?",
+      "choices": ["MN 10 — Satipaṭṭhāna", "MN 21 — Saw", "Snp 1.8 — Mettā", "Dhp · Pairs"],
+      "correctIndex": 0,
+      "explanation": "DN 22 (Mahā-Satipaṭṭhāna) expands MN 10 with detailed exposition of the Four Noble Truths."
+    },
+    {
+      "tradition": "mahayana",
+      "passageID": "MH_HEART",
+      "prompt": "The mantra 'gate gate pāragate pārasaṃgate bodhi svāhā' closes which text?",
+      "choices": ["Lotus Sūtra", "Heart Sūtra", "Diamond Sūtra", "Pure Land Sūtra"],
+      "correctIndex": 1,
+      "explanation": "It is the closing mantra of the Heart Sūtra — 'gone, gone, gone beyond, gone altogether beyond — awakening, hail.'"
+    },
+    {
+      "tradition": "vajrayana",
+      "passageID": "VJ_37_10",
+      "prompt": "Practice 10 of the 37 Practices teaches the cultivation of bodhicitta. What feeling does it ground this in?",
+      "choices": ["Detachment", "Compassion for all sentient beings", "Inner peace", "Devotion"],
+      "correctIndex": 1,
+      "explanation": "Bodhicitta arises from compassion — wishing all beings to be free from suffering."
+    },
+    {
+      "tradition": "zen",
+      "passageID": "ZEN_MUMON_7",
+      "prompt": "What is the practical lesson of Joshu Washes the Bowl?",
+      "choices": ["Practice is in the ordinary", "Empty the mind", "Find a teacher", "Sit longer"],
+      "correctIndex": 0,
+      "explanation": "Awakening is not elsewhere. The very washing of the bowl is the practice."
+    }
+  ]
+}
