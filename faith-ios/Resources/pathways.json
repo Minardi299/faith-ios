@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "pathways": [
+    {
+      "id": "theravada-first-words",
+      "tradition": "theravada",
+      "title": "First Words",
+      "subtitle": "How the path begins",
+      "blurb": "Eight discourses, in roughly the order they entered the world. Begin here if you have never read the suttas before.",
+      "steps": [
+        { "suttaID": "sn56.11", "note": "The First Sermon. The Four Noble Truths, given at Deer Park." },
+        { "suttaID": "sn22.59", "note": "The Second Sermon. Why none of the five aggregates is ‘mine’." },
+        { "suttaID": "an3.65",  "note": "The charter of free inquiry: do not believe by tradition or report; test for yourself." },
+        { "suttaID": "snp1.8",  "note": "The Mettā Sutta. The standard for loving-kindness." },
+        { "suttaID": "mn10",    "note": "Foundations of Mindfulness — the body, feeling, mind, and dhamma." },
+        { "suttaID": "dhp1-20", "note": "The Pairs. Mind precedes everything; if you speak with a corrupted mind, suffering follows." },
+        { "suttaID": "mn22",    "note": "The raft simile: even right view is a vehicle, not a destination." },
+        { "suttaID": "dn16",    "note": "The Buddha’s last weeks. ‘Be islands unto yourselves.’ A long read." }
+      ]
+    },
+    {
+      "id": "theravada-householder",
+      "tradition": "theravada",
+      "title": "For Lay Practitioners",
+      "subtitle": "Living the path in the world",
+      "blurb": "What the Buddha taught those who were not monastics — about livelihood, family, and giving.",
+      "steps": [
+        { "suttaID": "dn31",   "note": "Sigālovāda — advice to a young householder. The classic lay code." },
+        { "suttaID": "an5.41", "note": "The five proper uses of wealth." },
+        { "suttaID": "an5.176","note": "Joy, ease, and the gladness of generosity." },
+        { "suttaID": "an4.62", "note": "The four kinds of happiness available to a householder." },
+        { "suttaID": "an8.54", "note": "How a layperson should approach work, friendship, and faith." }
+      ]
+    },
+    {
+      "id": "mahayana-three-jewels",
+      "tradition": "mahayana",
+      "title": "Three Jewels of the Great Vehicle",
+      "subtitle": "Heart, Diamond, Lotus",
+      "blurb": "The three sūtras that, more than any others, define the Mahāyāna imagination.",
+      "steps": [
+        { "suttaID": "MH_HEART",     "note": "Begin with the shortest. Memorize the central line if nothing else." },
+        { "suttaID": "MH_DIAM_3",    "note": "Diamond Sūtra · The Real Teaching of the Great Way. The bodhisattva’s vow stated paradoxically." },
+        { "suttaID": "MH_DIAM_10",   "note": "Diamond Sūtra · ‘Give rise to a mind that abides nowhere.’" },
+        { "suttaID": "MH_DIAM_32",   "note": "The closing verse. Memorize this one too." },
+        { "suttaID": "MH_LOTUS_2",   "note": "Lotus · Skillful Means. Why the Buddha teaches different things to different people." },
+        { "suttaID": "MH_LOTUS_25",  "note": "Lotus · The Universal Gateway. The compassion of Avalokiteśvara, who hears the cries of the world." }
+      ]
+    },
+    {
+      "id": "mahayana-bodhisattva",
+      "tradition": "mahayana",
+      "title": "Walking the Bodhisattva Path",
+      "subtitle": "From vow to wisdom",
+      "blurb": "Śāntideva’s six chapters in a sequence: how the awakening mind arises, takes hold, and flowers.",
+      "steps": [
+        { "suttaID": "MH_BCA_1",   "note": "On the rare arising of bodhicitta, the awakening mind." },
+        { "suttaID": "MH_BCA_3",   "note": "Embracing bodhicitta — ‘may I be a bridge, a boat, a raft.’" },
+        { "suttaID": "MH_BCA_6",   "note": "On patience. ‘There is no evil like hatred.’" },
+        { "suttaID": "MH_BCA_8",   "note": "Exchanging self and other — the heart of the practice." },
+        { "suttaID": "MH_BCA_9",   "note": "On wisdom. The mind that finds nothing to grasp comes to rest." },
+        { "suttaID": "MH_BCA_10",  "note": "The closing dedication. ‘As long as space remains…’" }
+      ]
+    },
+    {
+      "id": "vajrayana-mind-training",
+      "tradition": "vajrayana",
+      "title": "Mind Training",
+      "subtitle": "Lojong from Atiśa to Tokmé Zangpo",
+      "blurb": "How the Tibetan tradition trains the heart to take adversity as the path. Begin with the slogans, then the practices.",
+      "steps": [
+        { "suttaID": "VJ_LOJONG_1",  "note": "Train in the preliminaries. Without these, no mind-training takes root." },
+        { "suttaID": "VJ_LOJONG_7",  "note": "Tonglen — taking and sending on the breath." },
+        { "suttaID": "VJ_LOJONG_11", "note": "Turn all mishaps into the path." },
+        { "suttaID": "VJ_LOJONG_13", "note": "Be grateful to everyone." },
+        { "suttaID": "VJ_LOJONG_21", "note": "Always maintain only a joyful mind." },
+        { "suttaID": "VJ_37_1",      "note": "37 Practices · The precious human birth — why this life matters." },
+        { "suttaID": "VJ_37_10",     "note": "37 Practices · Bodhicitta — why others’ suffering is your own." },
+        { "suttaID": "VJ_37_11",     "note": "37 Practices · Exchanging self and other." },
+        { "suttaID": "VJ_37_22",     "note": "37 Practices · Mind. Whatever appears is your own awareness." },
+        { "suttaID": "VJ_37_37",     "note": "37 Practices · The closing dedication." }
+      ]
+    },
+    {
+      "id": "vajrayana-three-aspects",
+      "tradition": "vajrayana",
+      "title": "Three Principal Aspects",
+      "subtitle": "Tsongkhapa's compass",
+      "blurb": "Renunciation, bodhicitta, right view — the three threads Tsongkhapa wove the entire path from.",
+      "steps": [
+        { "suttaID": "VJ_TSONG_1",  "note": "Renunciation. Turning the mind from saṃsāra." },
+        { "suttaID": "VJ_TSONG_2",  "note": "Bodhicitta. Without it, even renunciation is incomplete." },
+        { "suttaID": "VJ_TSONG_3",  "note": "Right view. Emptiness — the wisdom that cuts the root." },
+        { "suttaID": "VJ_LAMP_3kinds", "note": "Atīśa’s map of three kinds of practitioners." },
+        { "suttaID": "VJ_PAD_now",     "note": "Padmasambhava — the Buddha is in this present awareness." },
+        { "suttaID": "VJ_PAD_rest",    "note": "Resting in the natural state. The Great Perfection in seven lines." }
+      ]
+    },
+    {
+      "id": "zen-transmission",
+      "tradition": "zen",
+      "title": "Transmission of Mind",
+      "subtitle": "Bodhidharma to Hakuin",
+      "blurb": "Zen reading from the West (Bodhidharma) to Japan (Dōgen, Hakuin) — eight stops on the lineage road.",
+      "steps": [
+        { "suttaID": "ZEN_BOD_seeking",  "note": "Bodhidharma — to stop seeking is the Way." },
+        { "suttaID": "ZEN_BOD_dharma",   "note": "Bodhidharma — what practicing the Dharma actually means." },
+        { "suttaID": "ZEN_PLATFORM_verse",       "note": "Huineng’s verse. The mirror has no stand." },
+        { "suttaID": "ZEN_PLATFORM_self-nature", "note": "Huineng on meditation and wisdom as one substance." },
+        { "suttaID": "ZEN_FAITH_1",      "note": "The Great Way is not difficult, for those without preferences." },
+        { "suttaID": "ZEN_DOGEN_study",  "note": "Dōgen — to study the self is to forget the self." },
+        { "suttaID": "ZEN_DOGEN_water",  "note": "Dōgen — the moon does not get wet, the water is not broken." },
+        { "suttaID": "ZEN_HAKUIN_inseparable", "note": "Hakuin — all beings are by nature Buddha, as ice is water." }
+      ]
+    },
+    {
+      "id": "zen-koans",
+      "tradition": "zen",
+      "title": "First Koans",
+      "subtitle": "Eight cases to sit with",
+      "blurb": "Don’t try to solve them. Read each one slowly, then sit. Return to the same case for days.",
+      "steps": [
+        { "suttaID": "ZEN_MUMON_1",  "note": "Joshu’s Mu. Begin here." },
+        { "suttaID": "ZEN_MUMON_7",  "note": "Joshu washes the bowl. The whole teaching in nine words." },
+        { "suttaID": "ZEN_MUMON_19", "note": "Ordinary mind is the Way." },
+        { "suttaID": "ZEN_MUMON_6",  "note": "The Buddha holds up a flower; only Mahākāśyapa smiles." },
+        { "suttaID": "ZEN_MUMON_18", "note": "Three pounds of flax." },
+        { "suttaID": "ZEN_MUMON_29", "note": "Not the wind, not the flag — mind is moving." },
+        { "suttaID": "ZEN_MUMON_37", "note": "The cypress tree in the garden." },
+        { "suttaID": "ZEN_BCR_43",   "note": "Where there is no cold or heat — when cold, cold kills you." }
+      ]
+    },
+    {
+      "id": "secular-foundation",
+      "tradition": "secular",
+      "title": "Practice Without Lineage",
+      "subtitle": "A starter sequence",
+      "blurb": "Eight short pieces, in the order most people benefit from. Read one a day; do the practice afterward.",
+      "steps": [
+        { "suttaID": "SEC_breath",      "note": "The whole practice: noticing, returning. Begin here." },
+        { "suttaID": "SEC_body",        "note": "Body scan — being where the body actually is." },
+        { "suttaID": "SEC_metta",       "note": "Loving-kindness without the lineage. The wish is the practice." },
+        { "suttaID": "SEC_anxiety",     "note": "Working with anxiety — name it, ground, breathe out longer." },
+        { "suttaID": "SEC_anger",       "note": "Working with anger — anger is information, not instruction." },
+        { "suttaID": "SEC_morning",     "note": "Setting an intention, before the day starts using you." },
+        { "suttaID": "SEC_evening",     "note": "End-of-day reflection. Three minutes." },
+        { "suttaID": "SEC_enough",      "note": "The shortest practice in the book: is anything missing right now?" }
+      ]
+    }
+  ]
+}
