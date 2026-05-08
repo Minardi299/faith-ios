@@ -1,15 +1,15 @@
 import SwiftUI
 
 enum AppTab: Hashable {
-    case home, daily, stories, chat
+    case today, practice, library, chat
 }
 
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("palette") private var paletteRaw: String = Palette.moss.rawValue
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
-    @State private var selection: AppTab = .home
-    @State private var verseStore = VerseStore()
+    @State private var selection: AppTab = .today
+    @State private var deepLinkPassageID: String?
 
     private var palette: Palette { Palette(rawValue: paletteRaw) ?? .moss }
     private var appearance: AppearanceMode { AppearanceMode(rawValue: appearanceRaw) ?? .system }
@@ -18,21 +18,20 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            Tab("Today", systemImage: "house.fill", value: AppTab.home) {
-                HomeView(selectedTab: $selection)
+            Tab("Today", systemImage: "house.fill", value: AppTab.today) {
+                TodayView(selectedTab: $selection)
             }
-            Tab("Practice", systemImage: "sun.max.fill", value: AppTab.daily) {
-                DailyView()
+            Tab("Practice", systemImage: "sun.max.fill", value: AppTab.practice) {
+                MeditateView()
             }
-            Tab("Stories", systemImage: "book.fill", value: AppTab.stories) {
-                StoriesView()
+            Tab("Library", systemImage: "book.fill", value: AppTab.library) {
+                LibraryView(deepLinkPassageID: $deepLinkPassageID)
             }
             Tab("Teacher", systemImage: "bubble.left.fill", value: AppTab.chat, role: .search) {
                 ChatView()
             }
         }
         .tint(theme.accent)
-        .environment(verseStore)
         .environment(\.theme, theme)
         .preferredColorScheme(appearance.preferredScheme)
         .task(id: paletteRaw + appearanceRaw) {
@@ -41,10 +40,16 @@ struct ContentView: View {
         .onOpenURL { url in
             guard url.scheme == "faith" else { return }
             switch url.host {
-            case "daily": selection = .daily
-            case "stories": selection = .stories
-            case "chat": selection = .chat
-            default: selection = .home
+            case "today":    selection = .today
+            case "practice": selection = .practice
+            case "library":  selection = .library
+            case "chat":     selection = .chat
+            case "passage":
+                if let id = url.pathComponents.dropFirst().first {
+                    deepLinkPassageID = id
+                    selection = .library
+                }
+            default: selection = .today
             }
         }
     }
@@ -52,5 +57,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [DayCompletion.self, ChatMessage.self], inMemory: true)
+        .modelContainer(PersistenceContainer.shared)
 }

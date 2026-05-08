@@ -251,6 +251,6 @@ private extension Int {
 
 #Preview {
     NavigationStack { StreakDetailView() }
-        .modelContainer(for: [DayCompletion.self, ChatMessage.self], inMemory: true)
+        .modelContainer(for: DayCompletion.self, inMemory: true)
         .environment(\.theme, .mossDusk)
 }

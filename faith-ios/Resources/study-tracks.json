@@ -1,0 +1,3362 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "track.theravada",
+      "tradition": "theravada",
+      "name": "Theravāda",
+      "subtitle": "Path of the Elders",
+      "blurb": "The oldest surviving Buddhist tradition. Pāli canon. Forest monasteries. Mettā and the breath. The longest path, walked one step at a time.",
+      "stages": [
+        {
+          "id": "track.theravada.stage.0",
+          "trackID": "track.theravada",
+          "number": 0,
+          "title": "Where We Begin",
+          "subtitle": "Before the texts, the story",
+          "blurb": "Sit with the master. Hear the story of how this began — a prince who saw what most never let themselves see, and what he found when he looked.",
+          "items": [
+            {
+              "id": "item.th.s0.four-sights",
+              "stageID": "track.theravada.stage.0",
+              "trackID": "track.theravada",
+              "kind": "story",
+              "title": "The Four Sights",
+              "subtitle": "Buddhacarita III · Aśvaghoṣa, trans. E.B. Cowell 1894",
+              "blurb": "Old age, sickness, death, and the renunciant. The four encounters that turned a prince into a wanderer.",
+              "estimatedMinutes": 10,
+              "body": {
+                "type": "single",
+                "passageID": "story.theravada.four-sights"
+              },
+              "acquireURL": "https://ancient-buddhist-texts.net/English-Texts/Buddhacarita/03-Book-III.htm"
+            },
+            {
+              "id": "item.th.s0.awakening",
+              "stageID": "track.theravada.stage.0",
+              "trackID": "track.theravada",
+              "kind": "story",
+              "title": "The Buddha's Awakening",
+              "subtitle": "Buddhacarita XIV · trans. E.B. Cowell 1894",
+              "blurb": "Under the Bodhi tree at Bodh Gayā. Māra defeated; the chain of dependent origination seen end to end.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "story.theravada.awakening"
+              },
+              "acquireURL": "https://ancient-buddhist-texts.net/English-Texts/Buddhacarita/14-Book-XIV.htm"
+            },
+            {
+              "id": "item.th.s0.first-sermon",
+              "stageID": "track.theravada.stage.0",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "The First Sermon at Sarnath",
+              "subtitle": "SN 56.11 · Setting the Wheel in Motion",
+              "blurb": "Five ascetics in the deer park. The first words after silence.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "sn56.11"
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.theravada.stage.1",
+          "trackID": "track.theravada",
+          "number": 1,
+          "title": "The Dhammapada",
+          "subtitle": "Verses to live by",
+          "blurb": "The most-read book in the Pāli canon. Twenty-six chapters of paired verses, each a stone you can carry.",
+          "items": [
+            {
+              "id": "item.th.s1.dhp",
+              "stageID": "track.theravada.stage.1",
+              "trackID": "track.theravada",
+              "kind": "verse",
+              "title": "Dhammapada",
+              "subtitle": "All 26 chapters · 45 min total",
+              "blurb": "The whole path in verse. Begin with the Pairs and let them turn in you for a season.",
+              "estimatedMinutes": 45,
+              "body": {
+                "type": "work",
+                "workID": "work.dhammapada",
+                "chapters": [
+                  {
+                    "id": "ch.dhp.1",
+                    "number": 1,
+                    "title": "1. Pairs",
+                    "passageIDs": [
+                      "dhp1-20"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.2",
+                    "number": 2,
+                    "title": "2. Diligence",
+                    "passageIDs": [
+                      "dhp21-32"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.3",
+                    "number": 3,
+                    "title": "3. The Mind",
+                    "passageIDs": [
+                      "dhp33-43"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.4",
+                    "number": 4,
+                    "title": "4. Flowers",
+                    "passageIDs": [
+                      "dhp44-59"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.5",
+                    "number": 5,
+                    "title": "5. The Fool",
+                    "passageIDs": [
+                      "dhp60-75"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.6",
+                    "number": 6,
+                    "title": "6. The Astute",
+                    "passageIDs": [
+                      "dhp76-89"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.7",
+                    "number": 7,
+                    "title": "7. The Perfected Ones",
+                    "passageIDs": [
+                      "dhp90-99"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.8",
+                    "number": 8,
+                    "title": "8. The Thousands",
+                    "passageIDs": [
+                      "dhp100-115"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.9",
+                    "number": 9,
+                    "title": "9. Wickedness",
+                    "passageIDs": [
+                      "dhp116-128"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.10",
+                    "number": 10,
+                    "title": "10. The Rod",
+                    "passageIDs": [
+                      "dhp129-145"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.11",
+                    "number": 11,
+                    "title": "11. Old Age",
+                    "passageIDs": [
+                      "dhp146-156"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.12",
+                    "number": 12,
+                    "title": "12. The Self",
+                    "passageIDs": [
+                      "dhp157-166"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.13",
+                    "number": 13,
+                    "title": "13. The World",
+                    "passageIDs": [
+                      "dhp167-178"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.14",
+                    "number": 14,
+                    "title": "14. The Buddhas",
+                    "passageIDs": [
+                      "dhp179-196"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.15",
+                    "number": 15,
+                    "title": "15. Happiness",
+                    "passageIDs": [
+                      "dhp197-208"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.16",
+                    "number": 16,
+                    "title": "16. The Beloved",
+                    "passageIDs": [
+                      "dhp209-220"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.17",
+                    "number": 17,
+                    "title": "17. Anger",
+                    "passageIDs": [
+                      "dhp221-234"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dhp.18",
+                    "number": 18,
+                    "title": "18. Stains",
+                    "passageIDs": [
+                      "dhp235-255"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.19",
+                    "number": 19,
+                    "title": "19. The Just",
+                    "passageIDs": [
+                      "dhp256-272"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.20",
+                    "number": 20,
+                    "title": "20. The Path",
+                    "passageIDs": [
+                      "dhp273-289"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.21",
+                    "number": 21,
+                    "title": "21. Miscellaneous",
+                    "passageIDs": [
+                      "dhp290-305"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.22",
+                    "number": 22,
+                    "title": "22. Hell",
+                    "passageIDs": [
+                      "dhp306-319"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.23",
+                    "number": 23,
+                    "title": "23. Elephants",
+                    "passageIDs": [
+                      "dhp320-333"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.24",
+                    "number": 24,
+                    "title": "24. Craving",
+                    "passageIDs": [
+                      "dhp334-359"
+                    ],
+                    "estimatedMinutes": 3
+                  },
+                  {
+                    "id": "ch.dhp.25",
+                    "number": 25,
+                    "title": "25. Mendicants",
+                    "passageIDs": [
+                      "dhp360-382"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.dhp.26",
+                    "number": 26,
+                    "title": "26. Brahmins",
+                    "passageIDs": [
+                      "dhp383-423"
+                    ],
+                    "estimatedMinutes": 4
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.theravada.stage.2",
+          "trackID": "track.theravada",
+          "number": 2,
+          "title": "Khuddaka Highlights",
+          "subtitle": "The shorter, older voice",
+          "blurb": "Among the oldest layers of the canon. Plain verse, blunt instruction, no commentary needed.",
+          "items": [
+            {
+              "id": "item.th.s2.snp1_1",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "The Serpent · SNP 1.1",
+              "subtitle": "SNP 1.1",
+              "blurb": "Like a serpent shedding its old skin — that is what this practice asks.",
+              "estimatedMinutes": 2,
+              "body": {
+                "type": "single",
+                "passageID": "snp1.1"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.snp1_5",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "With Cunda · SNP 1.5",
+              "subtitle": "SNP 1.5",
+              "blurb": "Four kinds of contemplative — and how to know which one you sit with.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "snp1.5"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.snp1_8",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Mettā Sutta · The Discourse on Love · SNP 1.8",
+              "subtitle": "SNP 1.8",
+              "blurb": "What loving-kindness is, in the simplest words anyone has yet found for it.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "snp1.8"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.snp4_1",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Sensual Pleasures · SNP 4.1",
+              "subtitle": "SNP 4.1",
+              "blurb": "What is it about wanting that keeps the wheel turning.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "snp4.1"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.ud1_1",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Awakening · Udāna 1.1",
+              "subtitle": "UD 1.1",
+              "blurb": "The first uplifting utterance after enlightenment.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "ud1.1"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.ud1_10",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Bāhiya · Udāna 1.10",
+              "subtitle": "UD 1.10",
+              "blurb": "In the seen, only the seen. Bāhiya's instant awakening.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "ud1.10"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.iti26",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "The Heart Released · Itivuttaka 26",
+              "subtitle": "ITI 26",
+              "blurb": "On the unconditioned.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "iti26"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.thig5_10",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Vimalā · Therīgāthā 5.10",
+              "subtitle": "THIG 5.10",
+              "blurb": "An elder nun's verse — the first women's voices in the canon.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "thig5.10"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.thag1_16",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Belaṭṭhasīsa · Theragāthā 1.16",
+              "subtitle": "THAG 1.16",
+              "blurb": "An elder monk's verse.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "thag1.16"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s2.kp1",
+              "stageID": "track.theravada.stage.2",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Khuddakapāṭha 1 · The Refuges and Precepts",
+              "subtitle": "KP 1",
+              "blurb": "The lay person's daily commitment, distilled.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "kp1"
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.theravada.stage.3",
+          "trackID": "track.theravada",
+          "number": 3,
+          "title": "Majjhima Nikāya",
+          "subtitle": "The middle-length discourses · the heart of the canon",
+          "blurb": "The single most rewarding Nikāya. The master's curated entry sequence — sit with each one before moving on.",
+          "items": [
+            {
+              "id": "item.th.s3.mn",
+              "stageID": "track.theravada.stage.3",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Middle-Length Discourses · Signatures",
+              "subtitle": "12 curated suttas (152 total in canon)",
+              "blurb": "Twelve gates into the Buddha's teaching, ordered by the master.",
+              "estimatedMinutes": 139,
+              "body": {
+                "type": "work",
+                "workID": "work.mn-signatures",
+                "chapters": [
+                  {
+                    "id": "ch.mn.1",
+                    "number": 1,
+                    "title": "MN 10 · Satipaṭṭhāna",
+                    "passageIDs": [
+                      "mn10"
+                    ],
+                    "estimatedMinutes": 14
+                  },
+                  {
+                    "id": "ch.mn.2",
+                    "number": 2,
+                    "title": "MN 22 · The Simile of the Cobra · Alagaddūpama",
+                    "passageIDs": [
+                      "mn22"
+                    ],
+                    "estimatedMinutes": 17
+                  },
+                  {
+                    "id": "ch.mn.3",
+                    "number": 3,
+                    "title": "MN 26 · The Noble Quest · Ariyapariyesanā",
+                    "passageIDs": [
+                      "mn26"
+                    ],
+                    "estimatedMinutes": 22
+                  },
+                  {
+                    "id": "ch.mn.4",
+                    "number": 4,
+                    "title": "MN 36 · Mahāsaccaka · The Longer Discourse with Saccaka",
+                    "passageIDs": [
+                      "mn36"
+                    ],
+                    "estimatedMinutes": 23
+                  },
+                  {
+                    "id": "ch.mn.5",
+                    "number": 5,
+                    "title": "MN 63 · Cūḷamāluṅkya · The Poison Arrow",
+                    "passageIDs": [
+                      "mn63"
+                    ],
+                    "estimatedMinutes": 6
+                  },
+                  {
+                    "id": "ch.mn.6",
+                    "number": 6,
+                    "title": "MN 72 · Aggivacchagotta · The Fire and the Wanderer",
+                    "passageIDs": [
+                      "mn72"
+                    ],
+                    "estimatedMinutes": 5
+                  },
+                  {
+                    "id": "ch.mn.7",
+                    "number": 7,
+                    "title": "MN 118 · Ānāpānasati · Mindfulness of Breathing",
+                    "passageIDs": [
+                      "mn118"
+                    ],
+                    "estimatedMinutes": 9
+                  },
+                  {
+                    "id": "ch.mn.8",
+                    "number": 8,
+                    "title": "MN 121 · Cūḷasuññata · Shorter Discourse on Emptiness",
+                    "passageIDs": [
+                      "mn121"
+                    ],
+                    "estimatedMinutes": 8
+                  },
+                  {
+                    "id": "ch.mn.9",
+                    "number": 9,
+                    "title": "MN 131 · Bhaddekaratta · An Auspicious One",
+                    "passageIDs": [
+                      "mn131"
+                    ],
+                    "estimatedMinutes": 3
+                  },
+                  {
+                    "id": "ch.mn.10",
+                    "number": 10,
+                    "title": "MN 140 · Dhātuvibhaṅga · The Analysis of Elements",
+                    "passageIDs": [
+                      "mn140"
+                    ],
+                    "estimatedMinutes": 14
+                  },
+                  {
+                    "id": "ch.mn.11",
+                    "number": 11,
+                    "title": "MN 148 · Chachakka · The Six Sextets",
+                    "passageIDs": [
+                      "mn148"
+                    ],
+                    "estimatedMinutes": 10
+                  },
+                  {
+                    "id": "ch.mn.12",
+                    "number": 12,
+                    "title": "MN 152 · Indriyabhāvanā · Development of the Faculties",
+                    "passageIDs": [
+                      "mn152"
+                    ],
+                    "estimatedMinutes": 8
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.theravada.stage.4",
+          "trackID": "track.theravada",
+          "number": 4,
+          "title": "Dīgha and Saṃyutta",
+          "subtitle": "The long discourses · the connected ones",
+          "blurb": "Where Majjhima is medium-length, Dīgha goes long. Saṃyutta groups by theme.",
+          "items": [
+            {
+              "id": "item.th.s4.dn",
+              "stageID": "track.theravada.stage.4",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Long Discourses · Signatures",
+              "subtitle": "5 curated suttas",
+              "blurb": "Five long discourses every student should hear once.",
+              "estimatedMinutes": 186,
+              "body": {
+                "type": "work",
+                "workID": "work.dn-signatures",
+                "chapters": [
+                  {
+                    "id": "ch.dn.1",
+                    "number": 1,
+                    "title": "DN 2 · Sāmaññaphala · The Fruits of the Contemplative Life",
+                    "passageIDs": [
+                      "dn2"
+                    ],
+                    "estimatedMinutes": 48
+                  },
+                  {
+                    "id": "ch.dn.2",
+                    "number": 2,
+                    "title": "DN 11 · Kevaḍḍha · On Miracles",
+                    "passageIDs": [
+                      "dn11"
+                    ],
+                    "estimatedMinutes": 8
+                  },
+                  {
+                    "id": "ch.dn.3",
+                    "number": 3,
+                    "title": "DN 16 · Mahāparinibbāna · The Great Passing",
+                    "passageIDs": [
+                      "dn16"
+                    ],
+                    "estimatedMinutes": 95
+                  },
+                  {
+                    "id": "ch.dn.4",
+                    "number": 4,
+                    "title": "DN 22 · Mahāsatipaṭṭhāna · The Long Mindfulness Discourse",
+                    "passageIDs": [
+                      "dn22"
+                    ],
+                    "estimatedMinutes": 22
+                  },
+                  {
+                    "id": "ch.dn.5",
+                    "number": 5,
+                    "title": "DN 31 · Sigālaka · The Householder's Code",
+                    "passageIDs": [
+                      "dn31"
+                    ],
+                    "estimatedMinutes": 13
+                  }
+                ]
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.th.s4.sn",
+              "stageID": "track.theravada.stage.4",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Connected Discourses · Signatures",
+              "subtitle": "6 curated samyuttas",
+              "blurb": "Saṃyutta groups by theme. These six are the keys.",
+              "estimatedMinutes": 13,
+              "body": {
+                "type": "work",
+                "workID": "work.sn-signatures",
+                "chapters": [
+                  {
+                    "id": "ch.sn.1",
+                    "number": 1,
+                    "title": "Crossing the Flood · SN 1.1",
+                    "passageIDs": [
+                      "sn1.1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.sn.2",
+                    "number": 2,
+                    "title": "Dependent Origination · SN 12.2",
+                    "passageIDs": [
+                      "sn12.2"
+                    ],
+                    "estimatedMinutes": 3
+                  },
+                  {
+                    "id": "ch.sn.3",
+                    "number": 3,
+                    "title": "Anattalakkhaṇa · The Characteristic of Not-Self · SN 22.59",
+                    "passageIDs": [
+                      "sn22.59"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.sn.4",
+                    "number": 4,
+                    "title": "Ādittapariyāya · The Fire Sermon · SN 35.28",
+                    "passageIDs": [
+                      "sn35.28"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.sn.5",
+                    "number": 5,
+                    "title": "Sakuṇagghi · The Hawk · SN 47.6",
+                    "passageIDs": [
+                      "sn47.6"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.sn.6",
+                    "number": 6,
+                    "title": "Dhammacakkappavattana · First Sermon · SN 56.11",
+                    "passageIDs": [
+                      "sn56.11"
+                    ],
+                    "estimatedMinutes": 4
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.theravada.stage.5",
+          "trackID": "track.theravada",
+          "number": 5,
+          "title": "Aṅguttara Nikāya",
+          "subtitle": "Numbered teachings",
+          "blurb": "Discourses arranged by the number of items they enumerate. Memory's natural shape.",
+          "items": [
+            {
+              "id": "item.th.s5.an",
+              "stageID": "track.theravada.stage.5",
+              "trackID": "track.theravada",
+              "kind": "sutra",
+              "title": "Numerical Discourses · Signatures",
+              "subtitle": "6 curated sets across nipātas",
+              "blurb": "When the master wants you to remember something, he counts it.",
+              "estimatedMinutes": 26,
+              "body": {
+                "type": "work",
+                "workID": "work.an-signatures",
+                "chapters": [
+                  {
+                    "id": "ch.an.1",
+                    "number": 1,
+                    "title": "AN 1.1-10 · What Occupies the Mind",
+                    "passageIDs": [
+                      "an1.1-10"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.an.2",
+                    "number": 2,
+                    "title": "AN 3.65 · With the Kālāmas",
+                    "passageIDs": [
+                      "an3.65"
+                    ],
+                    "estimatedMinutes": 7
+                  },
+                  {
+                    "id": "ch.an.3",
+                    "number": 3,
+                    "title": "AN 4.10 · The Yokes",
+                    "passageIDs": [
+                      "an4.10"
+                    ],
+                    "estimatedMinutes": 3
+                  },
+                  {
+                    "id": "ch.an.4",
+                    "number": 4,
+                    "title": "AN 5.57 · Five Recollections",
+                    "passageIDs": [
+                      "an5.57"
+                    ],
+                    "estimatedMinutes": 5
+                  },
+                  {
+                    "id": "ch.an.5",
+                    "number": 5,
+                    "title": "AN 7.6 · Seven Treasures",
+                    "passageIDs": [
+                      "an7.6"
+                    ],
+                    "estimatedMinutes": 2
+                  },
+                  {
+                    "id": "ch.an.6",
+                    "number": 6,
+                    "title": "AN 8.30 · Anuruddha's Eight Thoughts",
+                    "passageIDs": [
+                      "an8.30"
+                    ],
+                    "estimatedMinutes": 8
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.theravada.stage.6",
+          "trackID": "track.theravada",
+          "number": 6,
+          "title": "Commentarial",
+          "subtitle": "After the canon, the systematizers",
+          "blurb": "Where the canon is dialogue, the commentaries are diagram. The Visuddhimagga is the paradigmatic text.",
+          "items": [
+            {
+              "id": "item.th.s6.visuddhimagga",
+              "stageID": "track.theravada.stage.6",
+              "trackID": "track.theravada",
+              "kind": "commentary",
+              "title": "Visuddhimagga · The Path of Purity",
+              "subtitle": "Buddhaghosa, 5th c. · trans. Pe Maung Tin (1922 PD)",
+              "blurb": "The Theravāda systematic summa. Sīla, samādhi, paññā in unbroken order. Part I — Of Virtue.",
+              "estimatedMinutes": 147,
+              "body": {
+                "type": "single",
+                "passageID": "TH_VISUDDHIMAGGA_PART_I"
+              },
+              "acquireURL": "https://archive.org/details/pathofpuritybein01budduoft"
+            }
+          ]
+        },
+        {
+          "id": "track.theravada.stage.7",
+          "trackID": "track.theravada",
+          "number": 7,
+          "title": "Abhidhamma",
+          "subtitle": "The deepest analysis",
+          "blurb": "The third basket. Not for everyone, not at the start. When you arrive here, you'll know.",
+          "items": [
+            {
+              "id": "item.th.s7.abhi",
+              "stageID": "track.theravada.stage.7",
+              "trackID": "track.theravada",
+              "kind": "commentary",
+              "title": "Abhidhammattha Saṅgaha",
+              "subtitle": "Anuruddha · the standard modern entry",
+              "blurb": "The classical introduction to Abhidhamma — what mind is, broken down to its constituents.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "meta.abhi"
+              },
+              "acquireURL": "https://www.wisdomexperience.org/product/comprehensive-manual-abhidhamma/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "track.mahayana",
+      "tradition": "mahayana",
+      "name": "Mahāyāna",
+      "subtitle": "The Great Vehicle",
+      "blurb": "Bodhicitta. The bodhisattva turn. The open canon. Sūtras that arrived centuries later, claiming the deepest authority.",
+      "stages": [
+        {
+          "id": "track.mahayana.stage.1",
+          "trackID": "track.mahayana",
+          "number": 1,
+          "title": "The Prajñāpāramitā Core",
+          "subtitle": "Wisdom-gone-beyond",
+          "blurb": "Two short sūtras that changed everything that came after. Form is emptiness; emptiness is form.",
+          "items": [
+            {
+              "id": "item.mh.s1.heart",
+              "stageID": "track.mahayana.stage.1",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Heart Sūtra",
+              "subtitle": "Prajñāpāramitā Hṛdaya · existing canonical entry",
+              "blurb": "Two hundred and sixty characters that hold the whole. Form is emptiness, emptiness is form.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "MH_HEART"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.mh.s1.diamond-muller",
+              "stageID": "track.mahayana.stage.1",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Diamond Sūtra",
+              "subtitle": "Vajracchedikā · trans. Max Müller (Sacred Books of the East 1894 PD)",
+              "blurb": "Where the Heart is the punchline, the Diamond is the argument. Each section dissolves a place to stand.",
+              "estimatedMinutes": 42,
+              "body": {
+                "type": "single",
+                "passageID": "MH_DIAMOND_MULLER"
+              },
+              "acquireURL": "https://archive.org/details/buddhistmahy02cowe"
+            }
+          ]
+        },
+        {
+          "id": "track.mahayana.stage.2",
+          "trackID": "track.mahayana",
+          "number": 2,
+          "title": "The Major Narrative Sūtras",
+          "subtitle": "Lotus, Pure Land, Vimalakīrti",
+          "blurb": "The Mahāyāna's most-read scriptures. Parables and visions; the Buddha-lands and the layman who out-taught the bodhisattvas.",
+          "items": [
+            {
+              "id": "item.mh.s2.lotus-intro",
+              "stageID": "track.mahayana.stage.2",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Lotus Sūtra · Introduction",
+              "subtitle": "Saddharmapuṇḍarīka · Ch. I · trans. Hendrik Kern (1884 PD)",
+              "blurb": "The Buddha at Mount Gṛdhrakūṭa. Light streams from his brow. The opening of the Lotus.",
+              "estimatedMinutes": 34,
+              "body": {
+                "type": "single",
+                "passageID": "MH_LOTUS_INTRO"
+              },
+              "acquireURL": "https://archive.org/details/in.ernet.dli.2015.106789"
+            },
+            {
+              "id": "item.mh.s2.lotus-skilful",
+              "stageID": "track.mahayana.stage.2",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Lotus Sūtra · Skilful Means",
+              "subtitle": "Saddharmapuṇḍarīka · Ch. II · trans. Hendrik Kern (1884 PD)",
+              "blurb": "One vehicle, taught as three. The doctrine of upāya — skilful means. The hinge of the whole Lotus.",
+              "estimatedMinutes": 37,
+              "body": {
+                "type": "single",
+                "passageID": "MH_LOTUS_SKILFUL"
+              },
+              "acquireURL": "https://archive.org/details/in.ernet.dli.2015.106789"
+            },
+            {
+              "id": "item.mh.s2.lotus-burning",
+              "stageID": "track.mahayana.stage.2",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Lotus Sūtra · The Burning House",
+              "subtitle": "Saddharmapuṇḍarīka · Ch. III · trans. Hendrik Kern (1884 PD)",
+              "blurb": "A father lures his children from a burning house with promises of carts. The most famous parable in Mahāyāna literature.",
+              "estimatedMinutes": 72,
+              "body": {
+                "type": "single",
+                "passageID": "MH_LOTUS_BURNING_HOUSE"
+              },
+              "acquireURL": "https://archive.org/details/in.ernet.dli.2015.106789"
+            },
+            {
+              "id": "item.mh.s2.larger-sukhavati",
+              "stageID": "track.mahayana.stage.2",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Larger Sukhāvatī-vyūha",
+              "subtitle": "The Land of Bliss · trans. Max Müller (1894 PD)",
+              "blurb": "Forty-eight vows and the founding of a Buddha-land.",
+              "estimatedMinutes": 70,
+              "body": {
+                "type": "single",
+                "passageID": "MH_LARGER_SUKHAVATI"
+              },
+              "acquireURL": "https://archive.org/details/buddhistmahy02cowe"
+            },
+            {
+              "id": "item.mh.s2.smaller-sukhavati",
+              "stageID": "track.mahayana.stage.2",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Smaller Sukhāvatī-vyūha",
+              "subtitle": "The Amida Sutra · trans. Max Müller (1894 PD)",
+              "blurb": "The Pure Land described to Śāriputra. The short Pure Land sūtra, chanted daily across East Asia.",
+              "estimatedMinutes": 24,
+              "body": {
+                "type": "single",
+                "passageID": "MH_SMALLER_SUKHAVATI"
+              },
+              "acquireURL": "https://archive.org/details/buddhistmahy02cowe"
+            },
+            {
+              "id": "item.mh.s2.amitayur-dhyana",
+              "stageID": "track.mahayana.stage.2",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Amitāyur-dhyāna-sūtra",
+              "subtitle": "Sūtra on the Meditation on Amitāyus · trans. Junjirō Takakusu (1894 PD)",
+              "blurb": "Sixteen contemplations. The third Pure Land sūtra — a step-by-step visualization.",
+              "estimatedMinutes": 62,
+              "body": {
+                "type": "single",
+                "passageID": "MH_AMITAYUR_DHYANA"
+              },
+              "acquireURL": "https://archive.org/details/buddhistmahy02cowe"
+            },
+            {
+              "id": "item.mh.s2.vimalakirti",
+              "stageID": "track.mahayana.stage.2",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Vimalakīrti's Silence",
+              "subtitle": "Vimalakīrti-nirdeśa · canonical excerpts (4 chapters)",
+              "blurb": "The layman who out-taught the bodhisattvas. When asked the meaning of non-duality, Vimalakīrti says nothing.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "work",
+                "workID": "work.vimalakirti",
+                "chapters": [
+                  {
+                    "id": "ch.vimal.1",
+                    "number": 1,
+                    "title": "The Buddha-Land",
+                    "passageIDs": [
+                      "MH_VIMAL_1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vimal.2",
+                    "number": 2,
+                    "title": "Skillful Means · Vimalakīrti's Illness",
+                    "passageIDs": [
+                      "MH_VIMAL_2"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vimal.3",
+                    "number": 3,
+                    "title": "Mañjuśrī's Visit",
+                    "passageIDs": [
+                      "MH_VIMAL_5"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vimal.4",
+                    "number": 4,
+                    "title": "The Dharma Door of Non-Duality",
+                    "passageIDs": [
+                      "MH_VIMAL_9"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.mahayana.stage.3",
+          "trackID": "track.mahayana",
+          "number": 3,
+          "title": "Mind-Only · The Lankāvatāra Sūtra",
+          "subtitle": "The sūtra Bodhidharma carried east",
+          "blurb": "The Yogācāra heart. Mahāmati's questions to the Buddha on Mount Lanka. Mind-only, the eight consciousnesses, self-realisation. Sit with one chapter at a time.",
+          "items": [
+            {
+              "id": "item.mh.s3.lankavatara",
+              "stageID": "track.mahayana.stage.3",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Lankāvatāra Sūtra",
+              "subtitle": "Self-Realisation of Noble Wisdom · trans. D.T. Suzuki, in Goddard 1932 (PD)",
+              "blurb": "Thirteen chapters. The text Bodhidharma handed to Huike. Mind-only, the eight consciousnesses, the path to self-realisation.",
+              "estimatedMinutes": 135,
+              "body": {
+                "type": "work",
+                "workID": "work.lankavatara",
+                "chapters": [
+                  {
+                    "id": "ch.lanka.1",
+                    "number": 1,
+                    "title": "Discrimination",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_1"
+                    ],
+                    "estimatedMinutes": 9
+                  },
+                  {
+                    "id": "ch.lanka.2",
+                    "number": 2,
+                    "title": "False-Imagination and Knowledge of Appearances",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_2"
+                    ],
+                    "estimatedMinutes": 18
+                  },
+                  {
+                    "id": "ch.lanka.3",
+                    "number": 3,
+                    "title": "Right Knowledge or Knowledge of Relations",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_3"
+                    ],
+                    "estimatedMinutes": 9
+                  },
+                  {
+                    "id": "ch.lanka.4",
+                    "number": 4,
+                    "title": "Perfect Knowledge, or Knowledge of Reality",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_4"
+                    ],
+                    "estimatedMinutes": 6
+                  },
+                  {
+                    "id": "ch.lanka.5",
+                    "number": 5,
+                    "title": "The Mind System",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_5"
+                    ],
+                    "estimatedMinutes": 11
+                  },
+                  {
+                    "id": "ch.lanka.6",
+                    "number": 6,
+                    "title": "Transcendental Intelligence",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_6"
+                    ],
+                    "estimatedMinutes": 10
+                  },
+                  {
+                    "id": "ch.lanka.7",
+                    "number": 7,
+                    "title": "Self-Realisation",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_7"
+                    ],
+                    "estimatedMinutes": 11
+                  },
+                  {
+                    "id": "ch.lanka.8",
+                    "number": 8,
+                    "title": "The Attainment of Self-Realisation",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_8"
+                    ],
+                    "estimatedMinutes": 8
+                  },
+                  {
+                    "id": "ch.lanka.9",
+                    "number": 9,
+                    "title": "The Fruit of Self-Realisation",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_9"
+                    ],
+                    "estimatedMinutes": 9
+                  },
+                  {
+                    "id": "ch.lanka.10",
+                    "number": 10,
+                    "title": "Discipleship: Lineage of the Arhats",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_10"
+                    ],
+                    "estimatedMinutes": 7
+                  },
+                  {
+                    "id": "ch.lanka.11",
+                    "number": 11,
+                    "title": "Bodhisattvahood and Its Stages",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_11"
+                    ],
+                    "estimatedMinutes": 10
+                  },
+                  {
+                    "id": "ch.lanka.12",
+                    "number": 12,
+                    "title": "Tathāgatahood Which Is Noble Wisdom",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_12"
+                    ],
+                    "estimatedMinutes": 13
+                  },
+                  {
+                    "id": "ch.lanka.13",
+                    "number": 13,
+                    "title": "Nirvana",
+                    "passageIDs": [
+                      "LANKAVATARA_CH_13"
+                    ],
+                    "estimatedMinutes": 8
+                  }
+                ]
+              },
+              "acquireURL": "https://archive.org/details/buddhistbible00godd"
+            }
+          ]
+        },
+        {
+          "id": "track.mahayana.stage.4",
+          "trackID": "track.mahayana",
+          "number": 4,
+          "title": "Avataṃsaka and the Forty-Two Sections",
+          "subtitle": "Cosmic vision and primer",
+          "blurb": "Where the Lankāvatāra is dense, the Avataṃsaka is vast. The Forty-Two Sections sūtra is the primer that came west.",
+          "items": [
+            {
+              "id": "item.mh.s4.avatamsaka",
+              "stageID": "track.mahayana.stage.4",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Avataṃsaka · Flower Ornament Sūtra",
+              "subtitle": "Three signature passages: Entering the Dharma Realm, the Net of Indra, the Vows of Samantabhadra",
+              "blurb": "The most cosmic of Mahāyāna sūtras. Every grain of sand contains every Buddha-land.",
+              "estimatedMinutes": 3,
+              "body": {
+                "type": "work",
+                "workID": "work.avatamsaka",
+                "chapters": [
+                  {
+                    "id": "ch.avat.1",
+                    "number": 1,
+                    "title": "Entering the Dharma Realm",
+                    "passageIDs": [
+                      "MH_AVAT_entering"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.avat.2",
+                    "number": 2,
+                    "title": "The Net of Indra",
+                    "passageIDs": [
+                      "MH_AVAT_indra-net"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.avat.3",
+                    "number": 3,
+                    "title": "The Vows of Samantabhadra",
+                    "passageIDs": [
+                      "MH_AVAT_vow"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.mh.s4.fortytwo",
+              "stageID": "track.mahayana.stage.4",
+              "trackID": "track.mahayana",
+              "kind": "sutra",
+              "title": "Sūtra of Forty-Two Sections",
+              "subtitle": "5 signature sections",
+              "blurb": "The first sūtra translated from Sanskrit into Chinese. Short pieces of advice, spoken by the Buddha.",
+              "estimatedMinutes": 5,
+              "body": {
+                "type": "work",
+                "workID": "work.42-sections",
+                "chapters": [
+                  {
+                    "id": "ch.42.1",
+                    "number": 1,
+                    "title": "Leaving the Family",
+                    "passageIDs": [
+                      "MH_42_1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.42.2",
+                    "number": 2,
+                    "title": "Returning Joy",
+                    "passageIDs": [
+                      "MH_42_10"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.42.3",
+                    "number": 3,
+                    "title": "Mind",
+                    "passageIDs": [
+                      "MH_42_18"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.42.4",
+                    "number": 4,
+                    "title": "Wealth",
+                    "passageIDs": [
+                      "MH_42_24"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.42.5",
+                    "number": 5,
+                    "title": "The Way",
+                    "passageIDs": [
+                      "MH_42_40"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.mahayana.stage.5",
+          "trackID": "track.mahayana",
+          "number": 5,
+          "title": "Synthesis · Awakening of Faith",
+          "subtitle": "The bridge between sūtra and śāstra",
+          "blurb": "The text that unified Yogācāra and tathāgatagarbha into the East Asian Mahāyāna synthesis.",
+          "items": [
+            {
+              "id": "item.mh.s5.aof",
+              "stageID": "track.mahayana.stage.5",
+              "trackID": "track.mahayana",
+              "kind": "commentary",
+              "title": "The Awakening of Faith in the Mahāyāna",
+              "subtitle": "Aśvaghoṣa (attrib.) · canonical excerpts",
+              "blurb": "The systematic synthesis. One Mind, Suchness, the path.",
+              "estimatedMinutes": 2,
+              "body": {
+                "type": "work",
+                "workID": "work.aof",
+                "chapters": [
+                  {
+                    "id": "ch.aof.1",
+                    "number": 1,
+                    "title": "The One Mind and Its Two Aspects",
+                    "passageIDs": [
+                      "MH_AOF_one-mind"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.aof.2",
+                    "number": 2,
+                    "title": "Cessation and Insight",
+                    "passageIDs": [
+                      "MH_AOF_practice"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.mahayana.stage.7",
+          "trackID": "track.mahayana",
+          "number": 7,
+          "title": "Synthesis and the Bodhisattva Path",
+          "subtitle": "Śāntideva's Way",
+          "blurb": "The most-recommended Mahāyāna practice text in the world. Nine chapters. Begin with the Praise.",
+          "items": [
+            {
+              "id": "item.mh.s7.bca",
+              "stageID": "track.mahayana.stage.7",
+              "trackID": "track.mahayana",
+              "kind": "verse",
+              "title": "Bodhicaryāvatāra · The Way of the Bodhisattva",
+              "subtitle": "Śāntideva (8th c.) · trans. L.D. Barnett, The Path of Light (1909 PD)",
+              "blurb": "Nine chapters. The bodhisattva's training, from generating bodhicitta through to the perfect knowledge of emptiness.",
+              "estimatedMinutes": 77,
+              "body": {
+                "type": "work",
+                "workID": "work.bodhicaryavatara",
+                "chapters": [
+                  {
+                    "id": "ch.bca.1",
+                    "number": 1,
+                    "title": "The Praise of the Thought of Enlightenment",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_1"
+                    ],
+                    "estimatedMinutes": 3
+                  },
+                  {
+                    "id": "ch.bca.2",
+                    "number": 2,
+                    "title": "The Confession of Sin",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_2"
+                    ],
+                    "estimatedMinutes": 4
+                  },
+                  {
+                    "id": "ch.bca.3",
+                    "number": 3,
+                    "title": "Taking the Thought of Enlightenment",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_3"
+                    ],
+                    "estimatedMinutes": 3
+                  },
+                  {
+                    "id": "ch.bca.4",
+                    "number": 4,
+                    "title": "Heedfulness in the Thought of Enlightenment",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_4"
+                    ],
+                    "estimatedMinutes": 5
+                  },
+                  {
+                    "id": "ch.bca.5",
+                    "number": 5,
+                    "title": "Watchfulness",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_5"
+                    ],
+                    "estimatedMinutes": 6
+                  },
+                  {
+                    "id": "ch.bca.6",
+                    "number": 6,
+                    "title": "The Perfect Long-Suffering",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_6"
+                    ],
+                    "estimatedMinutes": 17
+                  },
+                  {
+                    "id": "ch.bca.7",
+                    "number": 7,
+                    "title": "The Perfect Strength",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_7"
+                    ],
+                    "estimatedMinutes": 10
+                  },
+                  {
+                    "id": "ch.bca.8",
+                    "number": 8,
+                    "title": "The Perfect Contemplation",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_8"
+                    ],
+                    "estimatedMinutes": 11
+                  },
+                  {
+                    "id": "ch.bca.9",
+                    "number": 9,
+                    "title": "The Perfect Knowledge",
+                    "passageIDs": [
+                      "BCA_BARNETT_CH_9"
+                    ],
+                    "estimatedMinutes": 18
+                  }
+                ]
+              },
+              "acquireURL": "https://archive.org/details/pathoflight00santiala"
+            }
+          ]
+        },
+        {
+          "id": "track.mahayana.stage.8",
+          "trackID": "track.mahayana",
+          "number": 8,
+          "title": "Schools of East Asia",
+          "subtitle": "Pure Land, Tendai, Huayan, Nichiren, Shingon",
+          "blurb": "Where Indian Mahāyāna becomes Japanese and Chinese sectarian Buddhism. Modern translations only.",
+          "items": [
+            {
+              "id": "item.mh.s8.tannisho",
+              "stageID": "track.mahayana.stage.8",
+              "trackID": "track.mahayana",
+              "kind": "commentary",
+              "title": "Tannishō",
+              "subtitle": "Yuien-bo, 13th c. · Shin Buddhism",
+              "blurb": "The entry point to Shinran's teaching. Other-power, the nembutsu.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "meta.tannisho"
+              },
+              "acquireURL": "https://shinranworks.com/text/tannisho/"
+            },
+            {
+              "id": "item.mh.s8.golden-lion",
+              "stageID": "track.mahayana.stage.8",
+              "trackID": "track.mahayana",
+              "kind": "commentary",
+              "title": "Treatise on the Golden Lion",
+              "subtitle": "Fazang (643–712) · Huayan",
+              "blurb": "Every grain a Buddha-land. The classic Huayan analogy.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "meta.golden-lion"
+              },
+              "acquireURL": "https://www2.kenyon.edu/Depts/Religion/Fac/Adler/Reln270/Fa-tsang.htm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "track.vajrayana",
+      "tradition": "vajrayana",
+      "name": "Vajrayāna",
+      "subtitle": "The Diamond Vehicle",
+      "blurb": "The Tibetan path. Mantra, deity, sky. Begin with the preliminary practices — Tokmé's thirty-seven, the slogans, the songs of Milarepa.",
+      "stages": [
+        {
+          "id": "track.vajrayana.stage.0",
+          "trackID": "track.vajrayana",
+          "number": 0,
+          "title": "Entering the Vajrayāna",
+          "subtitle": "Tibet's lotus-born teacher",
+          "blurb": "Before the elaborate practices, the simplest pointing. Padmasambhava's direct words.",
+          "items": [
+            {
+              "id": "item.vj.s0.padmasambhava",
+              "stageID": "track.vajrayana.stage.0",
+              "trackID": "track.vajrayana",
+              "kind": "saying",
+              "title": "Padmasambhava · Direct Pointing",
+              "subtitle": "Four short instructions",
+              "blurb": "The lotus-born. Tibet's second Buddha. Begin with these.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "work",
+                "workID": "work.padmasambhava-intro",
+                "chapters": [
+                  {
+                    "id": "ch.pad.1",
+                    "number": 1,
+                    "title": "The Present Moment",
+                    "passageIDs": [
+                      "VJ_PAD_now"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.pad.2",
+                    "number": 2,
+                    "title": "Resting in Natural Awareness",
+                    "passageIDs": [
+                      "VJ_PAD_rest"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.pad.3",
+                    "number": 3,
+                    "title": "Advice on Fear",
+                    "passageIDs": [
+                      "VJ_PAD_fear"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.pad.4",
+                    "number": 4,
+                    "title": "Hearing in the Bardo",
+                    "passageIDs": [
+                      "VJ_PAD_bardo"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.vajrayana.stage.1",
+          "trackID": "track.vajrayana",
+          "number": 1,
+          "title": "Preliminary Path",
+          "subtitle": "The Thirty-Seven Practices of a Bodhisattva",
+          "blurb": "Tokmé Zangpo's verses. Each one a stone in the foundation.",
+          "items": [
+            {
+              "id": "item.vj.s1.37",
+              "stageID": "track.vajrayana.stage.1",
+              "trackID": "track.vajrayana",
+              "kind": "verse",
+              "title": "Thirty-Seven Practices of a Bodhisattva",
+              "subtitle": "Tokmé Zangpo, 14th c. · 20 verses",
+              "blurb": "The complete map of the bodhisattva's daily life. One verse for each direction the heart can lean.",
+              "estimatedMinutes": 20,
+              "body": {
+                "type": "work",
+                "workID": "work.37-practices",
+                "chapters": [
+                  {
+                    "id": "ch.vj37.1",
+                    "number": 1,
+                    "title": "On the Precious Human Birth",
+                    "passageIDs": [
+                      "VJ_37_1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.2",
+                    "number": 2,
+                    "title": "On Leaving the Homeland",
+                    "passageIDs": [
+                      "VJ_37_2"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.3",
+                    "number": 3,
+                    "title": "On Solitude",
+                    "passageIDs": [
+                      "VJ_37_3"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.4",
+                    "number": 4,
+                    "title": "On Impermanence",
+                    "passageIDs": [
+                      "VJ_37_4"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.5",
+                    "number": 5,
+                    "title": "On Avoiding Bad Friends",
+                    "passageIDs": [
+                      "VJ_37_5"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.6",
+                    "number": 6,
+                    "title": "On Spiritual Friends",
+                    "passageIDs": [
+                      "VJ_37_6"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.7",
+                    "number": 7,
+                    "title": "On Going for Refuge",
+                    "passageIDs": [
+                      "VJ_37_7"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.8",
+                    "number": 8,
+                    "title": "On Bodhicitta",
+                    "passageIDs": [
+                      "VJ_37_10"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.9",
+                    "number": 9,
+                    "title": "On Exchanging Self and Other",
+                    "passageIDs": [
+                      "VJ_37_11"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.10",
+                    "number": 10,
+                    "title": "On Loss",
+                    "passageIDs": [
+                      "VJ_37_12"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.11",
+                    "number": 11,
+                    "title": "On Insult",
+                    "passageIDs": [
+                      "VJ_37_13"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.12",
+                    "number": 12,
+                    "title": "On Slander",
+                    "passageIDs": [
+                      "VJ_37_14"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.13",
+                    "number": 13,
+                    "title": "On Betrayal",
+                    "passageIDs": [
+                      "VJ_37_15"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.14",
+                    "number": 14,
+                    "title": "On Despair",
+                    "passageIDs": [
+                      "VJ_37_18"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.15",
+                    "number": 15,
+                    "title": "On Mind",
+                    "passageIDs": [
+                      "VJ_37_22"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.16",
+                    "number": 16,
+                    "title": "On Adversity as the Path",
+                    "passageIDs": [
+                      "VJ_37_24"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.17",
+                    "number": 17,
+                    "title": "On Discipline",
+                    "passageIDs": [
+                      "VJ_37_26"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.18",
+                    "number": 18,
+                    "title": "On Diligence",
+                    "passageIDs": [
+                      "VJ_37_28"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.19",
+                    "number": 19,
+                    "title": "On Watching the Mind",
+                    "passageIDs": [
+                      "VJ_37_32"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.vj37.20",
+                    "number": 20,
+                    "title": "On Dedication",
+                    "passageIDs": [
+                      "VJ_37_37"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.vajrayana.stage.2",
+          "trackID": "track.vajrayana",
+          "number": 2,
+          "title": "Lamrim and Lojong",
+          "subtitle": "The graduated path · the slogans",
+          "blurb": "Tsongkhapa's three principal aspects, then Atiśa's mind-training slogans. The Tibetan path made portable.",
+          "items": [
+            {
+              "id": "item.vj.s2.tsongkhapa",
+              "stageID": "track.vajrayana.stage.2",
+              "trackID": "track.vajrayana",
+              "kind": "verse",
+              "title": "Three Principal Aspects of the Path",
+              "subtitle": "Tsongkhapa (1357–1419) · the foundation of Geluk lamrim",
+              "blurb": "Renunciation, bodhicitta, the right view of emptiness. The whole path on a single page.",
+              "estimatedMinutes": 3,
+              "body": {
+                "type": "work",
+                "workID": "work.tsongkhapa-three",
+                "chapters": [
+                  {
+                    "id": "ch.tsong.1",
+                    "number": 1,
+                    "title": "Renunciation",
+                    "passageIDs": [
+                      "VJ_TSONG_1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.tsong.2",
+                    "number": 2,
+                    "title": "Bodhicitta — The Awakening Mind",
+                    "passageIDs": [
+                      "VJ_TSONG_2"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.tsong.3",
+                    "number": 3,
+                    "title": "The Correct View — Emptiness",
+                    "passageIDs": [
+                      "VJ_TSONG_3"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.vj.s2.lojong",
+              "stageID": "track.vajrayana.stage.2",
+              "trackID": "track.vajrayana",
+              "kind": "saying",
+              "title": "Lojong · Seven Points of Mind Training",
+              "subtitle": "Atiśa's slogans · 14 curated verses from the 59",
+              "blurb": "The mind-training slogans that turn every circumstance into the path.",
+              "estimatedMinutes": 14,
+              "body": {
+                "type": "work",
+                "workID": "work.lojong",
+                "chapters": [
+                  {
+                    "id": "ch.lojong.1",
+                    "number": 1,
+                    "title": "Train in the Preliminaries",
+                    "passageIDs": [
+                      "VJ_LOJONG_1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.2",
+                    "number": 2,
+                    "title": "Regard All Phenomena as Dreams",
+                    "passageIDs": [
+                      "VJ_LOJONG_2"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.3",
+                    "number": 3,
+                    "title": "Rest in the Nature of Ālaya",
+                    "passageIDs": [
+                      "VJ_LOJONG_5"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.4",
+                    "number": 4,
+                    "title": "Sending and Taking",
+                    "passageIDs": [
+                      "VJ_LOJONG_7"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.5",
+                    "number": 5,
+                    "title": "Turn All Mishaps into the Path",
+                    "passageIDs": [
+                      "VJ_LOJONG_11"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.6",
+                    "number": 6,
+                    "title": "Be Grateful to Everyone",
+                    "passageIDs": [
+                      "VJ_LOJONG_13"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.7",
+                    "number": 7,
+                    "title": "Four Practices Are the Best Method",
+                    "passageIDs": [
+                      "VJ_LOJONG_15"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.8",
+                    "number": 8,
+                    "title": "Always Maintain Only a Joyful Mind",
+                    "passageIDs": [
+                      "VJ_LOJONG_21"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.9",
+                    "number": 9,
+                    "title": "All Activity Should Be Done with One Intention",
+                    "passageIDs": [
+                      "VJ_LOJONG_28"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.10",
+                    "number": 10,
+                    "title": "Don't Talk About Injured Limbs",
+                    "passageIDs": [
+                      "VJ_LOJONG_37"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.11",
+                    "number": 11,
+                    "title": "Don't Wait in Ambush",
+                    "passageIDs": [
+                      "VJ_LOJONG_40"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.12",
+                    "number": 12,
+                    "title": "The Two Activities — At Beginning and End",
+                    "passageIDs": [
+                      "VJ_LOJONG_51"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.13",
+                    "number": 13,
+                    "title": "Don't Make Gods into Demons",
+                    "passageIDs": [
+                      "VJ_LOJONG_53"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.lojong.14",
+                    "number": 14,
+                    "title": "Train Wholeheartedly",
+                    "passageIDs": [
+                      "VJ_LOJONG_59"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.vajrayana.stage.4",
+          "trackID": "track.vajrayana",
+          "number": 4,
+          "title": "Songs of Realization",
+          "subtitle": "Milarepa's voice",
+          "blurb": "Tibet's most-loved poet-yogi. After Marpa, after the years of practice in caves — the songs.",
+          "items": [
+            {
+              "id": "item.vj.s4.milarepa",
+              "stageID": "track.vajrayana.stage.4",
+              "trackID": "track.vajrayana",
+              "kind": "verse",
+              "title": "Songs of Milarepa",
+              "subtitle": "Five signature songs from the Hundred Thousand Songs",
+              "blurb": "On solitary dwelling, on food and clothing, on the hunters, on death, on the kindness of the teacher.",
+              "estimatedMinutes": 5,
+              "body": {
+                "type": "work",
+                "workID": "work.milarepa-songs",
+                "chapters": [
+                  {
+                    "id": "ch.mila.1",
+                    "number": 1,
+                    "title": "On the Joy of Solitary Dwelling",
+                    "passageIDs": [
+                      "VJ_MILA_dwelling"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mila.2",
+                    "number": 2,
+                    "title": "On Food and Clothing",
+                    "passageIDs": [
+                      "VJ_MILA_food"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mila.3",
+                    "number": 3,
+                    "title": "Song to the Hunters",
+                    "passageIDs": [
+                      "VJ_MILA_hunters"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mila.4",
+                    "number": 4,
+                    "title": "Song on the Approach of Death",
+                    "passageIDs": [
+                      "VJ_MILA_death"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mila.5",
+                    "number": 5,
+                    "title": "On the Kindness of the Teacher",
+                    "passageIDs": [
+                      "VJ_MILA_teacher"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.vajrayana.stage.6",
+          "trackID": "track.vajrayana",
+          "number": 6,
+          "title": "Dzogchen and the Bardos",
+          "subtitle": "The path through dying and beyond",
+          "blurb": "Padmasambhava's terma cycle on the after-death state. Read aloud to the dying — and listened to as practice while still alive.",
+          "items": [
+            {
+              "id": "item.vj.s6.bardo",
+              "stageID": "track.vajrayana.stage.6",
+              "trackID": "track.vajrayana",
+              "kind": "sutra",
+              "title": "Bardo Thödol · The Tibetan Book of the Dead",
+              "subtitle": "trans. Lāma Kazi Dawa-Samdup, ed. W.Y. Evans-Wentz (Oxford 1927 PD)",
+              "blurb": "Three transitional states. The Clear Light, the wrathful and peaceful deities, the closing of the wombs.",
+              "estimatedMinutes": 192,
+              "body": {
+                "type": "work",
+                "workID": "work.bardo-thodol",
+                "chapters": [
+                  {
+                    "id": "ch.bardo.chikhai",
+                    "number": 1,
+                    "title": "Chikhai Bardo · The Moments of Death",
+                    "passageIDs": [
+                      "VJ_BARDO_CHIKHAI"
+                    ],
+                    "estimatedMinutes": 9
+                  },
+                  {
+                    "id": "ch.bardo.chonyid",
+                    "number": 2,
+                    "title": "Chönyid Bardo · The Experiencing of Reality",
+                    "passageIDs": [
+                      "VJ_BARDO_CHONYID"
+                    ],
+                    "estimatedMinutes": 110
+                  },
+                  {
+                    "id": "ch.bardo.sidpa",
+                    "number": 3,
+                    "title": "Sidpa Bardo · Rebirth",
+                    "passageIDs": [
+                      "VJ_BARDO_SIDPA"
+                    ],
+                    "estimatedMinutes": 73
+                  }
+                ]
+              },
+              "acquireURL": "https://archive.org/details/the-tibetan-book-of-the-dead_202401"
+            }
+          ]
+        },
+        {
+          "id": "track.vajrayana.stage.7",
+          "trackID": "track.vajrayana",
+          "number": 7,
+          "title": "Pith Material",
+          "subtitle": "The marrow",
+          "blurb": "Where the lineage gathers itself into a few sentences.",
+          "items": [
+            {
+              "id": "item.vj.s7.patrul",
+              "stageID": "track.vajrayana.stage.7",
+              "trackID": "track.vajrayana",
+              "kind": "saying",
+              "title": "Patrul Rinpoche · Pith Advice",
+              "subtitle": "From Words of My Perfect Teacher · canonical excerpt",
+              "blurb": "The Nyingma master's directness.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "VJ_PATRUL_advice"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.vj.s7.lamp",
+              "stageID": "track.vajrayana.stage.7",
+              "trackID": "track.vajrayana",
+              "kind": "saying",
+              "title": "Three Kinds of Practitioner",
+              "subtitle": "From the Lamp for the Path · canonical excerpt",
+              "blurb": "Lesser, middling, greatest. Atiśa's threefold typology.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "VJ_LAMP_3kinds"
+              },
+              "acquireURL": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "track.zen",
+      "tradition": "zen",
+      "name": "Zen / Chan / Seon",
+      "subtitle": "A special transmission outside the scriptures",
+      "blurb": "Zen says the truth doesn't depend on words — and then leaves us a thousand books. Sit first. The texts come second.",
+      "stages": [
+        {
+          "id": "track.zen.stage.0",
+          "trackID": "track.zen",
+          "number": 0,
+          "title": "Sit Down First",
+          "subtitle": "Before any text, the silence",
+          "blurb": "Hear the story of how this came to China, and from China to the rest of the world.",
+          "items": [
+            {
+              "id": "item.zen.s0.huineng",
+              "stageID": "track.zen.stage.0",
+              "trackID": "track.zen",
+              "kind": "story",
+              "title": "Huineng's Verse on the Wall",
+              "subtitle": "Platform Sūtra · Ch. I · trans. Wong Mou-lam (1930), in Goddard 1932 PD",
+              "blurb": "An illiterate woodcutter hears the Diamond Sūtra in a marketplace, walks thirty days to Wong-mui, and writes the verse that wins the Patriarchate.",
+              "estimatedMinutes": 19,
+              "body": {
+                "type": "single",
+                "passageID": "story.zen.huineng-autobiography"
+              },
+              "acquireURL": "https://archive.org/details/buddhistbible00godd"
+            }
+          ]
+        },
+        {
+          "id": "track.zen.stage.1",
+          "trackID": "track.zen",
+          "number": 1,
+          "title": "The Sūtras Chan Inherits",
+          "subtitle": "Mahāyāna texts the Zen masters wouldn't admit they read",
+          "blurb": "Zen says 'a special transmission outside the scriptures' — and yet every Zen master reads these. Sit with each one before turning a page.",
+          "items": [
+            {
+              "id": "item.zen.s1.heart",
+              "stageID": "track.zen.stage.1",
+              "trackID": "track.zen",
+              "kind": "sutra",
+              "title": "Heart Sūtra",
+              "subtitle": "Prajñāpāramitā Hṛdaya · existing canonical entry",
+              "blurb": "Two hundred and sixty characters. Form is emptiness, emptiness is form.",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "MH_HEART"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.zen.s1.diamond",
+              "stageID": "track.zen.stage.1",
+              "trackID": "track.zen",
+              "kind": "sutra",
+              "title": "Diamond Sūtra",
+              "subtitle": "Vajracchedikā · trans. Max Müller (1894 PD)",
+              "blurb": "Where the Heart is the punchline, the Diamond is the argument.",
+              "estimatedMinutes": 42,
+              "body": {
+                "type": "single",
+                "passageID": "MH_DIAMOND_MULLER"
+              },
+              "acquireURL": "https://archive.org/details/buddhistmahy02cowe"
+            }
+          ]
+        },
+        {
+          "id": "track.zen.stage.2",
+          "trackID": "track.zen",
+          "number": 2,
+          "title": "Early Chan",
+          "subtitle": "5th–7th century · before the great masters",
+          "blurb": "The seed-texts. Short, blunt, anti-systematic. Read each one once before any commentary.",
+          "items": [
+            {
+              "id": "item.zen.s2.bodhidharma-twofold",
+              "stageID": "track.zen.stage.2",
+              "trackID": "track.zen",
+              "kind": "saying",
+              "title": "Two Entrances and Four Practices",
+              "subtitle": "Bodhidharma · trans. D.T. Suzuki (Manual of Zen Buddhism, 1934 PD)",
+              "blurb": "The only text scholars give Bodhidharma with reasonable confidence. Entrance by Reason and Entrance by Conduct.",
+              "estimatedMinutes": 5,
+              "body": {
+                "type": "single",
+                "passageID": "ZEN_BODHIDHARMA_TWOFOLD"
+              },
+              "acquireURL": "http://www.thezensite.com/ZenEssays/Miscellaneous/ManualOfZenBuddhism.pdf"
+            },
+            {
+              "id": "item.zen.s2.bod-outline",
+              "stageID": "track.zen.stage.2",
+              "trackID": "track.zen",
+              "kind": "saying",
+              "title": "Outline of Practice",
+              "subtitle": "Bodhidharma · 4 of the four practices",
+              "blurb": "On hatred, on conditions, on seeking, on practising the Dharma. The four practices unpacked.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "work",
+                "workID": "work.bodhidharma-outline",
+                "chapters": [
+                  {
+                    "id": "ch.bod.1",
+                    "number": 1,
+                    "title": "The First Practice · Accepting Adversity",
+                    "passageIDs": [
+                      "ZEN_BOD_hatred"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.bod.2",
+                    "number": 2,
+                    "title": "The Second Practice · Adapting to Conditions",
+                    "passageIDs": [
+                      "ZEN_BOD_conditions"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.bod.3",
+                    "number": 3,
+                    "title": "The Third Practice · Seeking Nothing",
+                    "passageIDs": [
+                      "ZEN_BOD_seeking"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.bod.4",
+                    "number": 4,
+                    "title": "The Fourth Practice · Practicing the Dharma",
+                    "passageIDs": [
+                      "ZEN_BOD_dharma"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.zen.s2.hsin",
+              "stageID": "track.zen.stage.2",
+              "trackID": "track.zen",
+              "kind": "verse",
+              "title": "Xinxin Ming · Verses on Faith-Mind",
+              "subtitle": "Sengcan, Third Patriarch · 5 sections",
+              "blurb": "The Perfect Way is only difficult for those who pick and choose. The earliest Zen poem we have.",
+              "estimatedMinutes": 5,
+              "body": {
+                "type": "work",
+                "workID": "work.xinxin-ming",
+                "chapters": [
+                  {
+                    "id": "ch.faith.1",
+                    "number": 1,
+                    "title": "Section 1",
+                    "passageIDs": [
+                      "ZEN_FAITH_1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.faith.2",
+                    "number": 2,
+                    "title": "Section 2",
+                    "passageIDs": [
+                      "ZEN_FAITH_2"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.faith.3",
+                    "number": 3,
+                    "title": "Section 3",
+                    "passageIDs": [
+                      "ZEN_FAITH_3"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.faith.4",
+                    "number": 4,
+                    "title": "Section 4",
+                    "passageIDs": [
+                      "ZEN_FAITH_4"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.faith.5",
+                    "number": 5,
+                    "title": "Section 5",
+                    "passageIDs": [
+                      "ZEN_FAITH_5"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.zen.s2.song-enlightenment",
+              "stageID": "track.zen.stage.2",
+              "trackID": "track.zen",
+              "kind": "verse",
+              "title": "Song of Enlightenment (Shōdōka)",
+              "subtitle": "Yongjia Xuanjue (665–713) · trans. D.T. Suzuki (Manual of Zen Buddhism, 1934 PD)",
+              "blurb": "Yoka Daishi's hymn after one night with the Sixth Patriarch.",
+              "estimatedMinutes": 16,
+              "body": {
+                "type": "single",
+                "passageID": "ZEN_YONGJIA_SONG"
+              },
+              "acquireURL": "http://www.thezensite.com/ZenEssays/Miscellaneous/ManualOfZenBuddhism.pdf"
+            },
+            {
+              "id": "item.zen.s2.platform-verses",
+              "stageID": "track.zen.stage.2",
+              "trackID": "track.zen",
+              "kind": "verse",
+              "title": "Platform Sūtra · Key Verses",
+              "subtitle": "Huineng · 4 signature passages",
+              "blurb": "The Sixth Patriarch's verse, his teaching on self-nature, on seeing one's nature, on no-thought.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "work",
+                "workID": "work.platform-verses",
+                "chapters": [
+                  {
+                    "id": "ch.platf.1",
+                    "number": 1,
+                    "title": "Huineng's Verse",
+                    "passageIDs": [
+                      "ZEN_PLATFORM_verse"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.platf.2",
+                    "number": 2,
+                    "title": "On Self-Nature",
+                    "passageIDs": [
+                      "ZEN_PLATFORM_self-nature"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.platf.3",
+                    "number": 3,
+                    "title": "Seeing One's Nature",
+                    "passageIDs": [
+                      "ZEN_PLATFORM_seeing-nature"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.platf.4",
+                    "number": 4,
+                    "title": "On No-Thought",
+                    "passageIDs": [
+                      "ZEN_PLATFORM_no-thought"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.zen.stage.3",
+          "trackID": "track.zen",
+          "number": 3,
+          "title": "Tang Masters",
+          "subtitle": "8th–9th century · the golden age",
+          "blurb": "The masters Zen takes itself from. Encounter dialogues, not systematic doctrine. Sit and let them strike.",
+          "items": [
+            {
+              "id": "item.zen.s3.mazu-sekito",
+              "stageID": "track.zen.stage.3",
+              "trackID": "track.zen",
+              "kind": "saying",
+              "title": "Mazu and Shitou (Sekito) · Two Great Masters of the T'ang",
+              "subtitle": "trans. D.T. Suzuki (Manual of Zen Buddhism, 1934 PD)",
+              "blurb": "Biography and dialogues. Mazu the Father, Shitou the Stone-head. The lineage that all Zen comes from.",
+              "estimatedMinutes": 18,
+              "body": {
+                "type": "single",
+                "passageID": "ZEN_MAZU_SEKITO"
+              },
+              "acquireURL": "http://www.thezensite.com/ZenEssays/Miscellaneous/ManualOfZenBuddhism.pdf"
+            },
+            {
+              "id": "item.zen.s3.huangbo",
+              "stageID": "track.zen.stage.3",
+              "trackID": "track.zen",
+              "kind": "saying",
+              "title": "Huangbo · Treatise on the Transmission of Mind",
+              "subtitle": "Huangbo Xiyun (d. 850) · trans. D.T. Suzuki (1934 PD)",
+              "blurb": "By the Dharma is meant Mind. Huangbo's sermon to Pei-hsiu, the prefect.",
+              "estimatedMinutes": 5,
+              "body": {
+                "type": "single",
+                "passageID": "ZEN_HUANGBO_TRANSMISSION"
+              },
+              "acquireURL": "http://www.thezensite.com/ZenEssays/Miscellaneous/ManualOfZenBuddhism.pdf"
+            },
+            {
+              "id": "item.zen.s3.linji",
+              "stageID": "track.zen.stage.3",
+              "trackID": "track.zen",
+              "kind": "saying",
+              "title": "Sayings of Linji",
+              "subtitle": "Linji Yixuan (d. 866) · 3 key sayings",
+              "blurb": "If you meet the Buddha, kill the Buddha. The true person of no rank. Nothing lacking.",
+              "estimatedMinutes": 3,
+              "body": {
+                "type": "work",
+                "workID": "work.linji",
+                "chapters": [
+                  {
+                    "id": "ch.linji.1",
+                    "number": 1,
+                    "title": "If You Meet the Buddha",
+                    "passageIDs": [
+                      "ZEN_LINJI_kill"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.linji.2",
+                    "number": 2,
+                    "title": "The True Person of No Rank",
+                    "passageIDs": [
+                      "ZEN_LINJI_true-person"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.linji.3",
+                    "number": 3,
+                    "title": "Nothing Lacking",
+                    "passageIDs": [
+                      "ZEN_LINJI_nothing"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.zen.stage.4",
+          "trackID": "track.zen",
+          "number": 4,
+          "title": "Song Dynasty Koan Collections",
+          "subtitle": "The curated digest of Tang-era encounter dialogues",
+          "blurb": "When the masters had been gone too long to ask in person, their students gathered the cases.",
+          "items": [
+            {
+              "id": "item.zen.s4.mumon",
+              "stageID": "track.zen.stage.4",
+              "trackID": "track.zen",
+              "kind": "koan",
+              "title": "Mumonkan · The Gateless Gate",
+              "subtitle": "Wumen Huikai, 1228 · 25 of 48 cases",
+              "blurb": "Forty-eight cases. Each one a gate. The gateless gate.",
+              "estimatedMinutes": 25,
+              "body": {
+                "type": "work",
+                "workID": "work.mumonkan",
+                "chapters": [
+                  {
+                    "id": "ch.mumon.1",
+                    "number": 1,
+                    "title": "Joshu's Mu",
+                    "passageIDs": [
+                      "ZEN_MUMON_1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.2",
+                    "number": 2,
+                    "title": "Hyakujō's Fox",
+                    "passageIDs": [
+                      "ZEN_MUMON_2"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.3",
+                    "number": 3,
+                    "title": "Gutei Raises a Finger",
+                    "passageIDs": [
+                      "ZEN_MUMON_3"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.4",
+                    "number": 4,
+                    "title": "The Western Barbarian's Beard",
+                    "passageIDs": [
+                      "ZEN_MUMON_4"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.5",
+                    "number": 5,
+                    "title": "Kyōgen Up a Tree",
+                    "passageIDs": [
+                      "ZEN_MUMON_5"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.6",
+                    "number": 6,
+                    "title": "The Buddha Holds Up a Flower",
+                    "passageIDs": [
+                      "ZEN_MUMON_6"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.7",
+                    "number": 7,
+                    "title": "Joshu Washes the Bowl",
+                    "passageIDs": [
+                      "ZEN_MUMON_7"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.8",
+                    "number": 8,
+                    "title": "Keichu's Wheel",
+                    "passageIDs": [
+                      "ZEN_MUMON_8"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.9",
+                    "number": 9,
+                    "title": "Joshu Sees the Hermits",
+                    "passageIDs": [
+                      "ZEN_MUMON_11"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.10",
+                    "number": 10,
+                    "title": "Zuigan Calls Master",
+                    "passageIDs": [
+                      "ZEN_MUMON_12"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.11",
+                    "number": 11,
+                    "title": "Nansen Cuts the Cat",
+                    "passageIDs": [
+                      "ZEN_MUMON_14"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.12",
+                    "number": 12,
+                    "title": "When the Bell Sounds",
+                    "passageIDs": [
+                      "ZEN_MUMON_16"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.13",
+                    "number": 13,
+                    "title": "Tōzan's Three Pounds",
+                    "passageIDs": [
+                      "ZEN_MUMON_18"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.14",
+                    "number": 14,
+                    "title": "Ordinary Mind Is the Way",
+                    "passageIDs": [
+                      "ZEN_MUMON_19"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.15",
+                    "number": 15,
+                    "title": "Think Neither Good Nor Evil",
+                    "passageIDs": [
+                      "ZEN_MUMON_23"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.16",
+                    "number": 16,
+                    "title": "Not the Wind, Not the Flag",
+                    "passageIDs": [
+                      "ZEN_MUMON_29"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.17",
+                    "number": 17,
+                    "title": "This Mind Is Buddha",
+                    "passageIDs": [
+                      "ZEN_MUMON_30"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.18",
+                    "number": 18,
+                    "title": "No Mind, No Buddha",
+                    "passageIDs": [
+                      "ZEN_MUMON_33"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.19",
+                    "number": 19,
+                    "title": "The Cypress Tree in the Garden",
+                    "passageIDs": [
+                      "ZEN_MUMON_37"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.20",
+                    "number": 20,
+                    "title": "An Ox Through a Window",
+                    "passageIDs": [
+                      "ZEN_MUMON_38"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.21",
+                    "number": 21,
+                    "title": "Tipping Over a Water Bottle",
+                    "passageIDs": [
+                      "ZEN_MUMON_40"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.22",
+                    "number": 22,
+                    "title": "Bodhidharma's Pacification of the Mind",
+                    "passageIDs": [
+                      "ZEN_MUMON_41"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.23",
+                    "number": 23,
+                    "title": "Shuzan's Staff",
+                    "passageIDs": [
+                      "ZEN_MUMON_43"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.24",
+                    "number": 24,
+                    "title": "Step Forward from the Top of the Pole",
+                    "passageIDs": [
+                      "ZEN_MUMON_46"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.mumon.25",
+                    "number": 25,
+                    "title": "Ummon's One Way",
+                    "passageIDs": [
+                      "ZEN_MUMON_48"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.zen.s4.bcr",
+              "stageID": "track.zen.stage.4",
+              "trackID": "track.zen",
+              "kind": "koan",
+              "title": "Blue Cliff Record · Selected Cases",
+              "subtitle": "Yuanwu Keqin, 1125 · 5 of 100 cases",
+              "blurb": "Built on Xuedou's verses. Yuanwu's commentary. The Song-dynasty digest of Tang encounter dialogues.",
+              "estimatedMinutes": 5,
+              "body": {
+                "type": "work",
+                "workID": "work.blue-cliff",
+                "chapters": [
+                  {
+                    "id": "ch.bcr.1",
+                    "number": 1,
+                    "title": "The Highest Holy Truth",
+                    "passageIDs": [
+                      "ZEN_BCR_1"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.bcr.2",
+                    "number": 2,
+                    "title": "Joshu's Great Way",
+                    "passageIDs": [
+                      "ZEN_BCR_2"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.bcr.3",
+                    "number": 3,
+                    "title": "Ummon's Every Day Is a Good Day",
+                    "passageIDs": [
+                      "ZEN_BCR_6"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.bcr.4",
+                    "number": 4,
+                    "title": "Tōzan's No Cold or Heat",
+                    "passageIDs": [
+                      "ZEN_BCR_43"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.bcr.5",
+                    "number": 5,
+                    "title": "Hyakujō's Wild Ducks",
+                    "passageIDs": [
+                      "ZEN_BCR_53"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.zen.s4.hakuin",
+              "stageID": "track.zen.stage.4",
+              "trackID": "track.zen",
+              "kind": "verse",
+              "title": "Hakuin · Song of Zazen",
+              "subtitle": "Hakuin Ekaku (1686–1769) · 3 verses",
+              "blurb": "The formative Rinzai reformer's anthem. All beings are originally Buddha.",
+              "estimatedMinutes": 3,
+              "body": {
+                "type": "work",
+                "workID": "work.hakuin-zazen",
+                "chapters": [
+                  {
+                    "id": "ch.hakuin.1",
+                    "number": 1,
+                    "title": "All Beings Are Buddha",
+                    "passageIDs": [
+                      "ZEN_HAKUIN_inseparable"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.hakuin.2",
+                    "number": 2,
+                    "title": "Seeking and Finding",
+                    "passageIDs": [
+                      "ZEN_HAKUIN_seeking"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.hakuin.3",
+                    "number": 3,
+                    "title": "Right Here",
+                    "passageIDs": [
+                      "ZEN_HAKUIN_right-here"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.zen.stage.5",
+          "trackID": "track.zen",
+          "number": 5,
+          "title": "Dōgen and Sōtō",
+          "subtitle": "13th century · Genjokoan",
+          "blurb": "Dōgen is the one Japanese figure who functions as a primary source on the level of the Tang Chinese masters. Read his own words.",
+          "items": [
+            {
+              "id": "item.zen.s5.dogen",
+              "stageID": "track.zen.stage.5",
+              "trackID": "track.zen",
+              "kind": "commentary",
+              "title": "Shōbōgenzō · Genjokoan",
+              "subtitle": "Eihei Dōgen (1200–1253) · 4 signature passages",
+              "blurb": "To study the Way is to study the self. Firewood does not become ash. Water and the moon. The bird's path.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "work",
+                "workID": "work.dogen-genjokoan",
+                "chapters": [
+                  {
+                    "id": "ch.dogen.1",
+                    "number": 1,
+                    "title": "To Study the Way",
+                    "passageIDs": [
+                      "ZEN_DOGEN_study"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dogen.2",
+                    "number": 2,
+                    "title": "Firewood Does Not Become Ash",
+                    "passageIDs": [
+                      "ZEN_DOGEN_firewood"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dogen.3",
+                    "number": 3,
+                    "title": "Water and the Moon",
+                    "passageIDs": [
+                      "ZEN_DOGEN_water"
+                    ],
+                    "estimatedMinutes": 1
+                  },
+                  {
+                    "id": "ch.dogen.4",
+                    "number": 4,
+                    "title": "The Bird's Path",
+                    "passageIDs": [
+                      "ZEN_DOGEN_birds"
+                    ],
+                    "estimatedMinutes": 1
+                  }
+                ]
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.zen.stage.6",
+          "trackID": "track.zen",
+          "number": 6,
+          "title": "Later Japanese Masters",
+          "subtitle": "14th–18th century",
+          "blurb": "After Dōgen, the tradition deepens. Bankei, Bassui, Hakuin shape modern practice.",
+          "items": [
+            {
+              "id": "item.zen.s6.bankei",
+              "stageID": "track.zen.stage.6",
+              "trackID": "track.zen",
+              "kind": "saying",
+              "title": "Bankei · The Unborn",
+              "subtitle": "Bankei Yōtaku (1622–1693) · Waddell trans. ©",
+              "blurb": "The great anti-systematic teacher. Stay with the Unborn.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "meta.bankei"
+              },
+              "acquireURL": "https://www.shambhala.com/the-unborn-1393.html"
+            },
+            {
+              "id": "item.zen.s6.bassui",
+              "stageID": "track.zen.stage.6",
+              "trackID": "track.zen",
+              "kind": "saying",
+              "title": "Bassui · Mud and Water",
+              "subtitle": "Bassui Tokushō (1327–1387) · Braverman trans. ©",
+              "blurb": "Who is the master of all this?",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "meta.bassui"
+              },
+              "acquireURL": "https://www.wisdomexperience.org/product/mud-water/"
+            }
+          ]
+        },
+        {
+          "id": "track.zen.stage.7",
+          "trackID": "track.zen",
+          "number": 7,
+          "title": "Korean Seon",
+          "subtitle": "12th century",
+          "blurb": "Korean Seon's foundational systematizer.",
+          "items": [
+            {
+              "id": "item.zen.s7.jinul",
+              "stageID": "track.zen.stage.7",
+              "trackID": "track.zen",
+              "kind": "commentary",
+              "title": "Tracing Back the Radiance",
+              "subtitle": "Jinul / Chinul (1158–1210) · Buswell 1991 ©",
+              "blurb": "The Korean equivalent of Dōgen for systematic depth.",
+              "estimatedMinutes": 4,
+              "body": {
+                "type": "single",
+                "passageID": "meta.jinul"
+              },
+              "acquireURL": "https://uhpress.hawaii.edu/title/tracing-back-the-radiance/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "track.secular",
+      "tradition": "secular",
+      "name": "Secular",
+      "subtitle": "Practice without lineage",
+      "blurb": "The teachings as a way of attention. No metaphysics required.",
+      "stages": [
+        {
+          "id": "track.secular.stage.1",
+          "trackID": "track.secular",
+          "number": 1,
+          "title": "Practice Notes",
+          "subtitle": "The bare instructions",
+          "blurb": "Short notes — what to do, where to put attention. No tradition required.",
+          "items": [
+            {
+              "id": "item.sec.s1.SEC_anger",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Working with Anger",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Anger",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_anger"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_anxiety",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Working with Anxiety",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Anxiety",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_anxiety"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_body",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Body Scan",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Body Scan",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_body"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_breath",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Beginning with the Breath",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Breath",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_breath"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_eat",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Eating Mindfully",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Eating",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_eat"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_enough",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "On What Is Enough",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Reflections · Enough",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_enough"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_evening",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "End of the Day",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Evening Reflection",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_evening"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_grief",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Sitting with Grief",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Grief",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_grief"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_impermanence",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Reflection on Change",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Reflections · Impermanence",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_impermanence"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_listen",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Listening as Practice",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Listening",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_listen"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_metta",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Loving-Kindness",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Loving-Kindness",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_metta"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_morning",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Setting an Intention",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Morning Intention",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_morning"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_nature",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Outdoor Meditation",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Outdoors",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_nature"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_phone",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Working with the Phone",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Devices",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_phone"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_sleep",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Falling Asleep",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Sleep",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_sleep"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s1.SEC_walk",
+              "stageID": "track.secular.stage.1",
+              "trackID": "track.secular",
+              "kind": "saying",
+              "title": "Walking Meditation",
+              "subtitle": "Practice notes · existing canonical entry",
+              "blurb": "Practice Notes · Walking",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_walk"
+              },
+              "acquireURL": null
+            }
+          ]
+        },
+        {
+          "id": "track.secular.stage.2",
+          "trackID": "track.secular",
+          "number": 2,
+          "title": "Verses",
+          "subtitle": "Lines to carry",
+          "blurb": "A handful of verses for everyday practice.",
+          "items": [
+            {
+              "id": "item.sec.s2.SEC_V_comparison",
+              "stageID": "track.secular.stage.2",
+              "trackID": "track.secular",
+              "kind": "verse",
+              "title": "On Comparing",
+              "subtitle": "Verses for practice · existing canonical entry",
+              "blurb": "Verses · Comparison",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_V_comparison"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s2.SEC_V_kindness",
+              "stageID": "track.secular.stage.2",
+              "trackID": "track.secular",
+              "kind": "verse",
+              "title": "Kindness as Default",
+              "subtitle": "Verses for practice · existing canonical entry",
+              "blurb": "Verses · Kindness First",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_V_kindness"
+              },
+              "acquireURL": null
+            },
+            {
+              "id": "item.sec.s2.SEC_V_present",
+              "stageID": "track.secular.stage.2",
+              "trackID": "track.secular",
+              "kind": "verse",
+              "title": "Only This Moment",
+              "subtitle": "Verses for practice · existing canonical entry",
+              "blurb": "Verses · The Present",
+              "estimatedMinutes": 1,
+              "body": {
+                "type": "single",
+                "passageID": "SEC_V_present"
+              },
+              "acquireURL": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
