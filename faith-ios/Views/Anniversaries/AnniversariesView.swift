@@ -12,6 +12,7 @@ struct AnniversariesView: View {
     private var anniversaries: [Anniversary]
 
     @State private var showAdd: Bool = false
+    @State private var anniversaryToDelete: Anniversary?
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -30,6 +31,18 @@ struct AnniversariesView: View {
         .presentationBackground(.clear)
         .sheet(isPresented: $showAdd) {
             AnniversaryComposer()
+        }
+        .alert("Delete this anniversary?", isPresented: Binding(
+            get: { anniversaryToDelete != nil },
+            set: { if !$0 { anniversaryToDelete = nil } }
+        )) {
+            Button("Cancel", role: .cancel) { anniversaryToDelete = nil }
+            Button("Delete", role: .destructive) {
+                if let a = anniversaryToDelete {
+                    AnniversaryStore.delete(a, in: context)
+                }
+                anniversaryToDelete = nil
+            }
         }
     }
 
@@ -83,7 +96,7 @@ struct AnniversariesView: View {
                         }
                         Spacer()
                         Button(role: .destructive) {
-                            AnniversaryStore.delete(ann, in: context)
+                            anniversaryToDelete = ann
                         } label: {
                             Image(systemName: "trash")
                                 .font(.system(size: 12, weight: .light))

@@ -13,6 +13,7 @@ struct JournalView: View {
 
     @State private var showingComposer: Bool = false
     @State private var editing: JournalEntry?
+    @State private var entryToDelete: JournalEntry?
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -42,6 +43,18 @@ struct JournalView: View {
             JournalComposer(existing: entry) { text, _ in
                 entry.text = text
                 try? context.save()
+            }
+        }
+        .alert("Delete this entry?", isPresented: Binding(
+            get: { entryToDelete != nil },
+            set: { if !$0 { entryToDelete = nil } }
+        )) {
+            Button("Cancel", role: .cancel) { entryToDelete = nil }
+            Button("Delete", role: .destructive) {
+                if let e = entryToDelete {
+                    JournalStore.delete(e, in: context)
+                }
+                entryToDelete = nil
             }
         }
     }
@@ -86,7 +99,7 @@ struct JournalView: View {
                     .buttonStyle(.plain)
                     .contextMenu {
                         Button(role: .destructive) {
-                            JournalStore.delete(entry, in: context)
+                            entryToDelete = entry
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }

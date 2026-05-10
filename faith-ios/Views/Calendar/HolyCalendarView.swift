@@ -281,6 +281,7 @@ private struct DayDetailSheet: View {
 
     @State private var showAddAnniversary: Bool = false
     @State private var showAddJournal: Bool = false
+    @State private var anniversaryToDelete: Anniversary?
 
     private var observance: HolyDay? {
         HolyDayCalendar.observances(year: month.year, month: month.month)
@@ -346,7 +347,7 @@ private struct DayDetailSheet: View {
                                         .foregroundStyle(theme.ink)
                                     Spacer()
                                     Button(role: .destructive) {
-                                        AnniversaryStore.delete(ann, in: context)
+                                        anniversaryToDelete = ann
                                     } label: {
                                         Image(systemName: "trash")
                                             .font(.system(size: 11, weight: .light))
@@ -419,6 +420,18 @@ private struct DayDetailSheet: View {
                     suttaID: nil,
                     in: context
                 )
+            }
+        }
+        .alert("Delete this anniversary?", isPresented: Binding(
+            get: { anniversaryToDelete != nil },
+            set: { if !$0 { anniversaryToDelete = nil } }
+        )) {
+            Button("Cancel", role: .cancel) { anniversaryToDelete = nil }
+            Button("Delete", role: .destructive) {
+                if let a = anniversaryToDelete {
+                    AnniversaryStore.delete(a, in: context)
+                }
+                anniversaryToDelete = nil
             }
         }
     }
