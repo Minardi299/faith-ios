@@ -294,16 +294,4 @@ struct QuizView: View {
         .buttonStyle(.plain)
     }
 
-    @ViewBuilder
-    private func pill(label: String, isOn: Bool, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(label)
-                .font(BTFont.ui(11.5, weight: .light))
-                .foregroundStyle(.white.opacity(isOn ? 0.95 : 0.55))
-                .padding(.horizontal, 12)
-                .padding(.vertical, 7)
-                .glassEffect(.regular, in: Capsule())
-        }
-        .buttonStyle(.plain)
-    }
 }
