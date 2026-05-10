@@ -9,6 +9,9 @@ struct TodayView: View {
     @Query private var completions: [DayCompletion]
     @Binding var selectedTab: AppTab
     @State private var showingPassage: SuttaPassage?
+    @State private var showingAnniversaries = false
+    @State private var showingJournal = false
+    @State private var showingBlessing = false
 
     private var progress: ProgressStore { ProgressStore(context: context) }
     private var todayKey: String { DayCompletion.key(for: .now) }
@@ -24,6 +27,7 @@ struct TodayView: View {
                     progressSection
                     sitCard
                     passageCard
+                    personalRow
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 24)
@@ -34,6 +38,18 @@ struct TodayView: View {
             .profileToolbar()
             .sheet(item: $showingPassage) { p in
                 NavigationStack { SuttaDetailSheet(passage: p) }
+                    .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $showingAnniversaries) {
+                NavigationStack { AnniversariesView() }
+                    .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $showingJournal) {
+                NavigationStack { JournalView() }
+                    .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $showingBlessing) {
+                NavigationStack { SendBlessingFlow() }
                     .presentationDragIndicator(.visible)
             }
             .onAppear { progress.ensureToday() }
@@ -258,6 +274,44 @@ struct TodayView: View {
                 RoundedRectangle(cornerRadius: 18)
                     .stroke(theme.border, lineWidth: 0.5)
             )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var personalRow: some View {
+        HStack(spacing: 10) {
+            PersonalRowItem(icon: "calendar", label: "Anniversaries") {
+                showingAnniversaries = true
+            }
+            PersonalRowItem(icon: "book.closed", label: "Reflect") {
+                showingJournal = true
+            }
+            PersonalRowItem(icon: "envelope", label: "Bless") {
+                showingBlessing = true
+            }
+        }
+    }
+}
+
+private struct PersonalRowItem: View {
+    let icon: String
+    let label: String
+    let action: () -> Void
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .light))
+                    .foregroundStyle(theme.ink)
+                Text(label)
+                    .font(.system(size: 11, weight: .light))
+                    .foregroundStyle(theme.inkSoft)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
         .buttonStyle(.plain)
     }
