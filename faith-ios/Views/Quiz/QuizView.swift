@@ -15,7 +15,7 @@ struct QuizView: View {
     @State private var traditionFilter: Tradition? = nil
     @State private var phase: Phase = .intro
 
-    enum Phase { case intro, playing, finished }
+    enum Phase { case intro, playing, finished, empty }
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -28,6 +28,7 @@ struct QuizView: View {
                     case .intro:    intro
                     case .playing:  playing
                     case .finished: finished
+                    case .empty:    empty
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -76,6 +77,7 @@ struct QuizView: View {
         case .intro:    "Test what you know"
         case .playing:  "Question"
         case .finished: "Result"
+        case .empty:    "Test what you know"
         }
     }
 
@@ -90,7 +92,12 @@ struct QuizView: View {
             Spacer()
 
             Button {
-                questions = QuizStore.shared.pickRound(10, tradition: traditionFilter)
+                let picked = QuizStore.shared.pickRound(10, tradition: traditionFilter)
+                guard !picked.isEmpty else {
+                    phase = .empty
+                    return
+                }
+                questions = picked
                 currentIndex = 0
                 score = 0
                 revealed = false
@@ -109,58 +116,60 @@ struct QuizView: View {
         }
     }
 
+    @ViewBuilder
     private var playing: some View {
-        let q = (questions.indices.contains(currentIndex) ? questions[currentIndex] : nil) ?? questions.first!
-        return VStack(alignment: .leading, spacing: 18) {
-            Spacer().frame(height: 4)
+        if let q = questions.indices.contains(currentIndex) ? questions[currentIndex] : questions.first {
+            VStack(alignment: .leading, spacing: 18) {
+                Spacer().frame(height: 4)
 
-            Text(q.prompt)
-                .font(BTFont.serif(20, weight: .light))
-                .foregroundStyle(theme.ink)
-                .lineSpacing(5)
+                Text(q.prompt)
+                    .font(BTFont.serif(20, weight: .light))
+                    .foregroundStyle(theme.ink)
+                    .lineSpacing(5)
 
-            VStack(spacing: 8) {
-                ForEach(Array(q.choices.enumerated()), id: \.offset) { idx, choice in
-                    choiceRow(choice: choice, index: idx, q: q)
-                }
-            }
-
-            Spacer()
-
-            if revealed {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(q.explanation)
-                        .font(BTFont.serif(14, weight: .light, italic: true))
-                        .foregroundStyle(theme.inkSoft)
-                        .lineSpacing(4)
-
-                    if let p = CanonStore.shared.passage(byID: q.passageID) {
-                        CitationPill(cite: SuttaCite(code: p.code,
-                                                     englishTitle: p.englishTitle,
-                                                     suttaID: p.id),
-                                     onTap: { _ in openSutta = p })
+                VStack(spacing: 8) {
+                    ForEach(Array(q.choices.enumerated()), id: \.offset) { idx, choice in
+                        choiceRow(choice: choice, index: idx, q: q)
                     }
+                }
 
-                    Button {
-                        if currentIndex == questions.count - 1 {
-                            phase = .finished
-                        } else {
-                            currentIndex += 1
-                            revealed = false
-                            pickedIndex = nil
+                Spacer()
+
+                if revealed {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(q.explanation)
+                            .font(BTFont.serif(14, weight: .light, italic: true))
+                            .foregroundStyle(theme.inkSoft)
+                            .lineSpacing(4)
+
+                        if let p = CanonStore.shared.passage(byID: q.passageID) {
+                            CitationPill(cite: SuttaCite(code: p.code,
+                                                         englishTitle: p.englishTitle,
+                                                         suttaID: p.id),
+                                         onTap: { _ in openSutta = p })
                         }
-                    } label: {
-                        Text(currentIndex == questions.count - 1 ? "Finish" : "Next")
-                            .font(BTFont.ui(15, weight: .regular))
-                            .foregroundStyle(theme.ink)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+
+                        Button {
+                            if currentIndex == questions.count - 1 {
+                                phase = .finished
+                            } else {
+                                currentIndex += 1
+                                revealed = false
+                                pickedIndex = nil
+                            }
+                        } label: {
+                            Text(currentIndex == questions.count - 1 ? "Finish" : "Next")
+                                .font(BTFont.ui(15, weight: .regular))
+                                .foregroundStyle(theme.ink)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.top, 4)
                     }
-                    .buttonStyle(.plain)
-                    .padding(.top, 4)
+                    .padding(.bottom, 22)
                 }
-                .padding(.bottom, 22)
             }
         }
     }
@@ -191,7 +200,12 @@ struct QuizView: View {
                 .buttonStyle(.plain)
 
                 Button {
-                    questions = QuizStore.shared.pickRound(10, tradition: traditionFilter)
+                    let picked = QuizStore.shared.pickRound(10, tradition: traditionFilter)
+                    guard !picked.isEmpty else {
+                        phase = .empty
+                        return
+                    }
+                    questions = picked
                     currentIndex = 0
                     score = 0
                     revealed = false
@@ -208,6 +222,32 @@ struct QuizView: View {
             }
             .padding(.bottom, 22)
         }
+    }
+
+    private var empty: some View {
+        VStack(spacing: 12) {
+            Spacer()
+            Text("No questions yet")
+                .font(BTFont.serif(22, weight: .light))
+                .foregroundStyle(theme.ink)
+            Text("Quiz content for this tradition is in progress.")
+                .font(BTFont.ui(14))
+                .foregroundStyle(theme.inkSoft)
+                .multilineTextAlignment(.center)
+            Button {
+                dismiss()
+            } label: {
+                Text("Close")
+                    .font(BTFont.ui(14, weight: .medium))
+                    .foregroundStyle(theme.ink)
+                    .padding(.horizontal, 22)
+                    .padding(.vertical, 12)
+                    .glassEffect(.regular, in: Capsule())
+            }
+            .buttonStyle(.plain)
+            Spacer()
+        }
+        .padding(40)
     }
 
     private var scoreBlurb: String {
