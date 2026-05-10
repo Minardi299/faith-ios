@@ -1,5 +1,7 @@
 import SwiftUI
 import SwiftData
+import UIKit
+import UserNotifications
 
 @main
 struct FaithApp: App {
@@ -10,6 +12,7 @@ struct FaithApp: App {
     init() {
         let context = PersistenceContainer.shared.mainContext
         _session = StateObject(wrappedValue: SessionStore(modelContext: context))
+        UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
     }
 
     var body: some Scene {
@@ -49,5 +52,30 @@ struct FaithApp: App {
         }
         try? context.save()
         ProgressStore(context: context).pushToWidget()
+    }
+}
+
+// MARK: - NotificationDelegate
+
+final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+    @MainActor static let shared = NotificationDelegate()
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // Show the banner even when app is in foreground.
+        completionHandler([.banner, .sound])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        if let s = response.notification.request.content.userInfo["deeplink"] as? String,
+           let url = URL(string: s) {
+            DispatchQueue.main.async {
+                UIApplication.shared.open(url)
+            }
+        }
+        completionHandler()
     }
 }
