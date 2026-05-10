@@ -12,7 +12,7 @@ struct AppUser: Codable, Hashable {
     static let sample = AppUser(
         id: "local",
         displayName: nil,
-        tradition: .zen,
+        tradition: .secular,
         experience: .someSitting,
         dailyMinutes: 10,
         topics: [],
