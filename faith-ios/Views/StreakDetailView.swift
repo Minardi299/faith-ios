@@ -138,13 +138,19 @@ struct StreakDetailView: View {
     }
 
     private var footerVerse: some View {
-        Text("\u{201C}The mind is everything. What you think, you become.\u{201D}")
-            .font(.system(size: 13, design: .serif))
-            .italic()
-            .foregroundStyle(theme.inkSoft)
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity)
-            .padding(.top, 4)
+        VStack(spacing: 6) {
+            Text("\u{201C}All experience is preceded by mind, led by mind, made by mind.\u{201D}")
+                .font(.system(size: 13, design: .serif))
+                .italic()
+                .foregroundStyle(theme.inkSoft)
+                .multilineTextAlignment(.center)
+            Text("Dhp 1")
+                .font(.system(size: 11, weight: .light))
+                .tracking(0.8)
+                .foregroundStyle(theme.inkMute)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 4)
     }
 
     private var weekdayHeader: [String] {
