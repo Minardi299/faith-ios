@@ -67,7 +67,9 @@ struct MeditateView: View {
     private var configCard: some View {
         VStack(spacing: 22) {
             durationSection
-            backgroundSection
+            if !MeditationBackground.all.isEmpty {
+                backgroundSection
+            }
             chantSection
             beginButton
         }
