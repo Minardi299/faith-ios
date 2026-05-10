@@ -10,11 +10,15 @@ struct ProfileView: View {
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
     @Query private var completions: [DayCompletion]
     @AppStorage("textSizeScale") private var textSizeScale: Double = 1.0
+    @AppStorage("dailyReminderEnabled") private var dailyReminderEnabled: Bool = false
+    @AppStorage("dailyReminderHour") private var dailyReminderHour: Int = 6
+    @AppStorage("dailyReminderMinute") private var dailyReminderMinute: Int = 30
     @State private var showingSignOut = false
     @State private var showingDeleteAccount = false
     @State private var signInError: String?
     @State private var showingTraditionPicker = false
     @State private var showingTextSizePicker = false
+    @State private var showingTimePicker = false
 
     private var textSizeLabel: String {
         switch textSizeScale {
@@ -254,13 +258,47 @@ struct ProfileView: View {
 
     private var practiceSection: some View {
         VStack(spacing: 0) {
-            // TODO: Phase 6 — wire to UNUserNotificationCenter
-            settingsRow("Reminder time", detail: "Set up in a future update", showsChevron: false)
-                .opacity(0.55)
+            Toggle(isOn: $dailyReminderEnabled) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Daily passage reminder").font(.system(size: 15, design: .serif))
+                    Text(dailyReminderEnabled ? formattedTime : "Off")
+                        .font(.system(size: 12))
+                        .foregroundStyle(theme.inkMute)
+                }
+            }
+            .tint(theme.accent)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .onChange(of: dailyReminderEnabled) { _, enabled in
+                Task {
+                    if enabled {
+                        let granted = await Notifications.requestAuthIfNeeded()
+                        if granted {
+                            await Notifications.scheduleDailyReminder(
+                                at: dailyReminderHour, minute: dailyReminderMinute
+                            )
+                        } else {
+                            dailyReminderEnabled = false
+                        }
+                    } else {
+                        Notifications.cancelDailyReminder()
+                    }
+                }
+            }
             Divider().background(theme.border).padding(.leading, 18)
-            // TODO: Phase 6 — wire to UNUserNotificationCenter
-            settingsRow("Daily passage", detail: "Set up in a future update", showsChevron: false)
-                .opacity(0.55)
+            Button { showingTimePicker = true } label: {
+                settingsRow("Reminder time", detail: formattedTime, showsChevron: dailyReminderEnabled)
+            }
+            .buttonStyle(.plain)
+            .disabled(!dailyReminderEnabled)
+            .opacity(dailyReminderEnabled ? 1.0 : 0.55)
+            .sheet(isPresented: $showingTimePicker) {
+                ReminderTimeSheet(hour: $dailyReminderHour, minute: $dailyReminderMinute)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            }
+            .onChange(of: dailyReminderHour) { _, _ in rescheduleIfEnabled() }
+            .onChange(of: dailyReminderMinute) { _, _ in rescheduleIfEnabled() }
             Divider().background(theme.border).padding(.leading, 18)
             Button { showingTraditionPicker = true } label: {
                 settingsRow("Tradition", detail: session.user.tradition.name)
@@ -274,6 +312,23 @@ struct ProfileView: View {
                     set: { newTradition in session.setTradition(newTradition) }
                 ),
                 onPick: { _ in }
+            )
+        }
+    }
+
+    private var formattedTime: String {
+        let comp = DateComponents(hour: dailyReminderHour, minute: dailyReminderMinute)
+        let date = Calendar.current.date(from: comp) ?? Date()
+        let f = DateFormatter()
+        f.timeStyle = .short
+        return f.string(from: date)
+    }
+
+    private func rescheduleIfEnabled() {
+        guard dailyReminderEnabled else { return }
+        Task {
+            await Notifications.scheduleDailyReminder(
+                at: dailyReminderHour, minute: dailyReminderMinute
             )
         }
     }
@@ -424,5 +479,44 @@ struct TextSizeSheet: View {
         }
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
+    }
+}
+
+// MARK: - ReminderTimeSheet
+
+struct ReminderTimeSheet: View {
+    @Binding var hour: Int
+    @Binding var minute: Int
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var theme
+
+    @State private var time: Date = .now
+
+    var body: some View {
+        NavigationStack {
+            VStack {
+                DatePicker("Reminder time", selection: $time, displayedComponents: .hourAndMinute)
+                    .datePickerStyle(.wheel)
+                    .labelsHidden()
+                    .padding()
+                Spacer()
+            }
+            .navigationTitle("Reminder time")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        let comps = Calendar.current.dateComponents([.hour, .minute], from: time)
+                        hour = comps.hour ?? 6
+                        minute = comps.minute ?? 30
+                        dismiss()
+                    }
+                }
+            }
+            .task {
+                let comps = DateComponents(hour: hour, minute: minute)
+                time = Calendar.current.date(from: comps) ?? .now
+            }
+        }
     }
 }
