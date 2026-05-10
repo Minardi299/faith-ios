@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ChatView: View {
     @EnvironmentObject private var session: SessionStore
@@ -236,6 +237,16 @@ private struct MessageRow: View {
     let onContinue: (UUID) -> Void
     let onEnd: () -> Void
 
+    private func plainText(of segments: [MessageSegment]) -> String {
+        segments.map { seg -> String in
+            switch seg {
+            case .text(let s): return s
+            case .italic(let s): return s
+            case .citation(let cite): return "(\(cite.code))"
+            }
+        }.joined()
+    }
+
     var body: some View {
         switch message.role {
         case .user:
@@ -249,6 +260,17 @@ private struct MessageRow: View {
                     .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
             .padding(.horizontal, 22)
+            .contextMenu {
+                let text = plainText(of: message.segments)
+                Button {
+                    UIPasteboard.general.string = text
+                } label: {
+                    Label("Copy", systemImage: "doc.on.doc")
+                }
+                ShareLink(item: text) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+            }
 
         case .assistant:
             if message.kind == .gentleReminder {
@@ -259,6 +281,17 @@ private struct MessageRow: View {
                 )
             } else {
                 AssistantBlock(segments: message.segments, onCite: onCite)
+                    .contextMenu {
+                        let text = plainText(of: message.segments)
+                        Button {
+                            UIPasteboard.general.string = text
+                        } label: {
+                            Label("Copy", systemImage: "doc.on.doc")
+                        }
+                        ShareLink(item: text) {
+                            Label("Share", systemImage: "square.and.arrow.up")
+                        }
+                    }
             }
 
         case .system:
