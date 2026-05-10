@@ -19,8 +19,14 @@ struct QuizView: View {
     enum Phase { case intro, playing, finished, empty }
 
     var body: some View {
-        ZStack(alignment: .top) {
-            NatureSubstrate(tradition: traditionFilter ?? session.user.tradition, dimming: 0.18)
+        let currentQuestion = questions.indices.contains(currentIndex) ? questions[currentIndex] : nil
+        let substrateTraditional = currentQuestion.flatMap { $0.traditionEnum } ?? session.user.tradition
+
+        return ZStack(alignment: .top) {
+            NatureSubstrate(
+                tradition: phase == .playing ? substrateTraditional : session.user.tradition,
+                dimming: 0.18
+            )
 
             VStack(spacing: 0) {
                 header
