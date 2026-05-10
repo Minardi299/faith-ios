@@ -403,6 +403,7 @@ private struct ChantPickerSheet: View {
     @Binding var picked: Chant?
     @Environment(\.dismiss) private var dismiss
     @StateObject private var chants = ChantPlayer.shared
+    @EnvironmentObject private var session: SessionStore
 
     var body: some View {
         NavigationStack {
@@ -410,16 +411,16 @@ private struct ChantPickerSheet: View {
                 LazyVStack(alignment: .leading, spacing: 14, pinnedViews: []) {
                     noneRow
 
-                    ForEach(groupedChants, id: \.0) { group in
+                    ForEach(orderedLanguageGroups, id: \.language) { group in
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(group.0.uppercased())
+                            Text(group.language.uppercased())
                                 .font(BTFont.ui(9.5, weight: .light))
                                 .tracking(2)
                                 .foregroundStyle(theme.inkMute)
                                 .padding(.horizontal, 22)
                                 .padding(.top, 6)
                             VStack(spacing: 6) {
-                                ForEach(group.1) { chant in
+                                ForEach(group.chants) { chant in
                                     chantRow(chant)
                                 }
                             }
@@ -520,13 +521,15 @@ private struct ChantPickerSheet: View {
         .buttonStyle(.plain)
     }
 
-    private var groupedChants: [(String, [Chant])] {
-        var seen: [String] = []
-        var byLang: [String: [Chant]] = [:]
-        for c in Chant.all {
-            if byLang[c.language] == nil { seen.append(c.language) }
-            byLang[c.language, default: []].append(c)
+    private var orderedLanguageGroups: [(language: String, chants: [Chant])] {
+        let primary = session.user.tradition
+        let groups = Dictionary(grouping: Chant.all) { $0.language }
+        let sortedKeys = groups.keys.sorted { a, b in
+            let aHasPrimary = (groups[a] ?? []).contains { $0.traditions.contains(primary) }
+            let bHasPrimary = (groups[b] ?? []).contains { $0.traditions.contains(primary) }
+            if aHasPrimary != bHasPrimary { return aHasPrimary }
+            return a < b
         }
-        return seen.map { ($0, byLang[$0] ?? []) }
+        return sortedKeys.map { (language: $0, chants: groups[$0] ?? []) }
     }
 }
