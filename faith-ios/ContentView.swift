@@ -5,6 +5,7 @@ enum AppTab: Hashable {
 }
 
 struct ContentView: View {
+    @EnvironmentObject private var session: SessionStore
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("palette") private var paletteRaw: String = Palette.moss.rawValue
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
@@ -17,28 +18,16 @@ struct ContentView: View {
     private var theme: Theme { palette.theme(for: effectiveScheme) }
 
     var body: some View {
-        TabView(selection: $selection) {
-            Tab("Today", systemImage: "house.fill", value: AppTab.today) {
-                TodayView(selectedTab: $selection)
-            }
-            Tab("Practice", systemImage: "sun.max.fill", value: AppTab.practice) {
-                MeditateView()
-            }
-            Tab("Library", systemImage: "book.fill", value: AppTab.library) {
-                LibraryView(deepLinkPassageID: $deepLinkPassageID)
-            }
-            Tab("Teacher", systemImage: "bubble.left.fill", value: AppTab.chat, role: .search) {
-                ChatView()
+        Group {
+            switch session.phase {
+            case .splash:     SplashView()
+            case .onboarding: OnboardingFlow()
+            case .main:       mainTabs
             }
         }
         .tint(theme.accent)
         .environment(\.theme, theme)
         .preferredColorScheme(appearance.preferredScheme)
-        .overlay(alignment: .bottom) {
-            MiniPlayerBar()
-                .padding(.bottom, 64)
-                .environment(\.theme, theme)
-        }
         .task(id: paletteRaw + appearanceRaw) {
             SharedProgress.writeAppearance(palette: paletteRaw, appearance: appearanceRaw)
         }
@@ -56,6 +45,28 @@ struct ContentView: View {
                 }
             default: selection = .today
             }
+        }
+    }
+
+    private var mainTabs: some View {
+        TabView(selection: $selection) {
+            Tab("Today", systemImage: "house.fill", value: AppTab.today) {
+                TodayView(selectedTab: $selection)
+            }
+            Tab("Practice", systemImage: "sun.max.fill", value: AppTab.practice) {
+                MeditateView()
+            }
+            Tab("Library", systemImage: "book.fill", value: AppTab.library) {
+                LibraryView(deepLinkPassageID: $deepLinkPassageID)
+            }
+            Tab("Teacher", systemImage: "bubble.left.fill", value: AppTab.chat, role: .search) {
+                ChatView()
+            }
+        }
+        .overlay(alignment: .bottom) {
+            MiniPlayerBar()
+                .padding(.bottom, 64)
+                .environment(\.theme, theme)
         }
     }
 }
