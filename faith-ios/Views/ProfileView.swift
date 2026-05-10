@@ -11,6 +11,7 @@ struct ProfileView: View {
     @Query private var completions: [DayCompletion]
     @State private var showingSignOut = false
     @State private var showingDeleteAccount = false
+    @State private var signInError: String?
 
     private var progress: ProgressStore { ProgressStore(context: context) }
     private var totalCompleted: Int { completions.filter(\.isComplete).count }
@@ -86,6 +87,14 @@ struct ProfileView: View {
         } message: {
             Text("Wipes your sign-in, journal, anniversaries, streak, chat history, and tradition preference. This cannot be undone.")
         }
+        .alert("Sign in failed", isPresented: Binding(
+            get: { signInError != nil },
+            set: { if !$0 { signInError = nil } }
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(signInError ?? "")
+        }
     }
 
     @ViewBuilder
@@ -128,8 +137,12 @@ struct ProfileView: View {
                         session.user = user
                         session.users.save(user)
                     }
-                case .failure:
-                    break
+                case .failure(let error):
+                    if let asAuthError = error as? ASAuthorizationError, asAuthError.code == .canceled {
+                        // User dismissed the sheet — don't alert.
+                        return
+                    }
+                    signInError = error.localizedDescription
                 }
             }
             .signInWithAppleButtonStyle(appearance == .dark ? .white : .black)
