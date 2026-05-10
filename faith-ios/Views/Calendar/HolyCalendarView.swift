@@ -216,10 +216,10 @@ private struct DayCell: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .strokeBorder(isToday ? theme.inkMute : theme.border, lineWidth: 0.5)
+                .strokeBorder(isToday ? theme.accent : theme.border, lineWidth: isToday ? 1.5 : 0.5)
                 .background(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(isToday ? theme.border : theme.border)
+                        .fill(isToday ? theme.accent.opacity(0.18) : theme.border)
                 )
                 .frame(height: 56)
 
