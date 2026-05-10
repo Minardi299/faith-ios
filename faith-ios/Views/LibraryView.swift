@@ -45,8 +45,8 @@ struct LibraryView: View {
             .sheet(isPresented: $showingBlessing) {
                 NavigationStack { SendBlessingFlow() }
             }
-            .onChange(of: deepLinkPassageID) { _, newValue in
-                guard let id = newValue,
+            .task(id: deepLinkPassageID) {
+                guard let id = deepLinkPassageID,
                       let passage = canon.passage(byID: id) else { return }
                 openPassage = passage
                 deepLinkPassageID = nil
