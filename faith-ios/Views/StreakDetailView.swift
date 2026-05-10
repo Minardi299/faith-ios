@@ -4,6 +4,7 @@ import SwiftData
 struct StreakDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
+    @EnvironmentObject private var session: SessionStore
     @Query private var completions: [DayCompletion]
     @State private var displayedMonth: Date = Calendar.current.startOfDay(for: .now)
 
@@ -47,17 +48,20 @@ struct StreakDetailView: View {
     private var totalDays: Int { completions.filter(\.isComplete).count }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 22) {
-                headerBlock
-                statsRow
-                monthCalendar
-                footerVerse
+        ZStack {
+            NatureSubstrate(tradition: session.user.tradition)
+                .ignoresSafeArea()
+            ScrollView {
+                VStack(spacing: 22) {
+                    headerBlock
+                    statsRow
+                    monthCalendar
+                    footerVerse
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 32)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 32)
         }
-        .background(theme.bg.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -129,11 +133,7 @@ struct StreakDetailView: View {
             }
         }
         .padding(18)
-        .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
-        .overlay(
-            RoundedRectangle(cornerRadius: 18)
-                .stroke(theme.border, lineWidth: 0.5)
-        )
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
 
     private var footerVerse: some View {
@@ -207,11 +207,7 @@ private struct StatTile: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 14)
-        .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14)
-                .stroke(theme.border, lineWidth: 0.5)
-        )
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }
 

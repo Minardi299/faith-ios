@@ -4,6 +4,7 @@ import SwiftData
 struct TodayView: View {
     @Environment(DailyPassageStore.self) private var dailyPassage
     @EnvironmentObject private var canon: CanonStore
+    @EnvironmentObject private var session: SessionStore
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
     @Query private var completions: [DayCompletion]
@@ -20,19 +21,22 @@ struct TodayView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    headerBlock
-                    weekStripLink
-                    progressSection
-                    sitCard
-                    passageCard
-                    personalRow
+            ZStack {
+                NatureSubstrate(tradition: session.user.tradition)
+                    .ignoresSafeArea()
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        headerBlock
+                        weekStripLink
+                        progressSection
+                        sitCard
+                        passageCard
+                        personalRow
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 24)
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 24)
             }
-            .background(theme.bg.ignoresSafeArea())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .principal) { EmptyView() } }
             .profileToolbar()
@@ -117,11 +121,7 @@ struct TodayView: View {
                 weekStrip
                     .padding(.vertical, 14)
                     .padding(.horizontal, 6)
-                    .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 18)
-                            .stroke(theme.border, lineWidth: 0.5)
-                    )
+                    .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
             .contentShape(Rectangle())
         }
@@ -269,11 +269,7 @@ struct TodayView: View {
             }
             .padding(20)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
-            .overlay(
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
         .buttonStyle(.plain)
     }

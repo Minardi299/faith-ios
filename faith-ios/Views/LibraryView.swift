@@ -22,18 +22,21 @@ struct LibraryView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 22) {
-                    headerBlock
-                    coreReadsSection
-                    traditionsSection
-                    pathwaysSection
-                    actionsSection
+            ZStack {
+                NatureSubstrate(tradition: session.user.tradition)
+                    .ignoresSafeArea()
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 22) {
+                        headerBlock
+                        coreReadsSection
+                        traditionsSection
+                        pathwaysSection
+                        actionsSection
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 24)
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 24)
             }
-            .background(theme.bg.ignoresSafeArea())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .principal) { EmptyView() } }
             .profileToolbar()
@@ -148,11 +151,7 @@ struct LibraryView: View {
                     .foregroundStyle(theme.inkFaint)
             }
             .padding(14)
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -196,11 +195,7 @@ struct LibraryView: View {
                     .foregroundStyle(theme.inkFaint)
             }
             .padding(14)
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -276,11 +271,7 @@ struct LibraryView: View {
                 Divider().background(theme.border).padding(.leading, 52)
                 actionRow("Send a blessing", systemImage: "envelope") { showingBlessing = true }
             }
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
     }
 
@@ -329,17 +320,14 @@ private struct PathwayRow: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(theme.card, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .stroke(theme.border, lineWidth: 0.5)
-        )
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 }
 
 private struct TraditionBrowseView: View {
     let tradition: Tradition
     @EnvironmentObject private var canon: CanonStore
+    @EnvironmentObject private var session: SessionStore
     @Environment(\.theme) private var theme
 
     private var collections: [CanonCollection] {
@@ -347,41 +335,40 @@ private struct TraditionBrowseView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 8) {
-                ForEach(collections) { collection in
-                    NavigationLink {
-                        CollectionListView(tradition: tradition, collection: collection)
-                    } label: {
-                        HStack(spacing: 12) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(collection.name)
-                                    .font(.system(size: 16, weight: .regular, design: .serif))
-                                    .foregroundStyle(theme.ink)
-                                Text("\(collection.count) · \(collection.subtitle)")
-                                    .font(.caption2)
-                                    .foregroundStyle(theme.inkMute)
+        ZStack {
+            NatureSubstrate(tradition: session.user.tradition)
+                .ignoresSafeArea()
+            ScrollView {
+                VStack(spacing: 8) {
+                    ForEach(collections) { collection in
+                        NavigationLink {
+                            CollectionListView(tradition: tradition, collection: collection)
+                        } label: {
+                            HStack(spacing: 12) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(collection.name)
+                                        .font(.system(size: 16, weight: .regular, design: .serif))
+                                        .foregroundStyle(theme.ink)
+                                    Text("\(collection.count) · \(collection.subtitle)")
+                                        .font(.caption2)
+                                        .foregroundStyle(theme.inkMute)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption2.weight(.semibold))
+                                    .foregroundStyle(theme.inkFaint)
                             }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.caption2.weight(.semibold))
-                                .foregroundStyle(theme.inkFaint)
+                            .padding(14)
+                            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                            .contentShape(Rectangle())
                         }
-                        .padding(14)
-                        .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 14)
-                                .stroke(theme.border, lineWidth: 0.5)
-                        )
-                        .contentShape(Rectangle())
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
                 }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 24)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
         }
-        .background(theme.bg.ignoresSafeArea())
         .navigationTitle(tradition.name)
         .navigationBarTitleDisplayMode(.inline)
     }
