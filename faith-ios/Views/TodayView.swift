@@ -54,10 +54,7 @@ struct TodayView: View {
                 .tracking(2.4)
                 .textCase(.uppercase)
                 .foregroundStyle(theme.inkMute)
-            (Text("May the day\n")
-                + Text("arrive gently.")
-                .italic()
-                .foregroundColor(theme.secondary))
+            Text("\(Text("May the day\n").foregroundStyle(theme.ink))\(Text("arrive gently.").italic().foregroundColor(theme.secondary))")
                 .font(.system(size: 36, weight: .regular, design: .serif))
                 .lineSpacing(-2)
                 .foregroundStyle(theme.ink)
@@ -220,10 +217,7 @@ struct TodayView: View {
                     .foregroundStyle(theme.inkMute)
                 if let passage {
                     let body = passage.lines.first?.text ?? passage.englishTitle
-                    (Text("\u{201C}").foregroundColor(theme.accent).font(.system(size: 26, design: .serif))
-                        + Text(body)
-                        .font(.system(size: 17, weight: .regular, design: .serif))
-                        .foregroundColor(theme.ink))
+                    Text("\(Text("\u{201C}").foregroundColor(theme.accent).font(.system(size: 26, design: .serif)))\(Text(body).font(.system(size: 17, weight: .regular, design: .serif)).foregroundColor(theme.ink))")
                         .lineLimit(6)
                         .multilineTextAlignment(.leading)
                     Divider().background(theme.border)
