@@ -33,50 +33,45 @@ struct ProfileView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 22) {
-                accountSection
-                statsRow
-                section("Appearance") { appearanceSection }
-                section("Palette") { paletteSection }
-                section("Practice") { practiceSection }
-                section("Reading") { readingSection }
-                section("About") { aboutSection }
-                if session.auth.isSignedIn {
-                    Button(role: .destructive) {
-                        showingSignOut = true
-                    } label: {
-                        Text("Sign out")
-                            .font(.system(size: 15, design: .serif))
-                            .foregroundStyle(.red)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .stroke(theme.border, lineWidth: 0.5)
-                            )
-                    }
-                    Button(role: .destructive) {
-                        showingDeleteAccount = true
-                    } label: {
-                        Text("Delete account and all data")
-                            .font(.system(size: 15, design: .serif))
-                            .foregroundStyle(.red)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .stroke(theme.border, lineWidth: 0.5)
-                            )
+        ZStack {
+            NatureSubstrate(tradition: session.user.tradition)
+                .ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 22) {
+                    accountSection
+                    statsRow
+                    section("Appearance") { appearanceSection }
+                    section("Palette") { paletteSection }
+                    section("Practice") { practiceSection }
+                    section("Reading") { readingSection }
+                    section("About") { aboutSection }
+                    if session.auth.isSignedIn {
+                        Button(role: .destructive) {
+                            showingSignOut = true
+                        } label: {
+                            Text("Sign out")
+                                .font(.system(size: 15, design: .serif))
+                                .foregroundStyle(.red)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        }
+                        Button(role: .destructive) {
+                            showingDeleteAccount = true
+                        } label: {
+                            Text("Delete account and all data")
+                                .font(.system(size: 15, design: .serif))
+                                .foregroundStyle(.red)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        }
                     }
                 }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 32)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 32)
         }
-        .background(theme.bg.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -127,11 +122,7 @@ struct ProfileView: View {
                 Spacer()
             }
             .padding(16)
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
             .padding(.top, 8)
         } else {
             SignInWithAppleButton(.signIn) { request in
@@ -187,11 +178,7 @@ struct ProfileView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 14)
-        .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14)
-                .stroke(theme.border, lineWidth: 0.5)
-        )
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
     private func section<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
@@ -204,11 +191,7 @@ struct ProfileView: View {
             VStack(spacing: 0) {
                 content()
             }
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
     }
 
