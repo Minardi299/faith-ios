@@ -56,9 +56,20 @@ struct HolyCalendarView: View {
         return comps.day
     }
 
+    private var eraLabel: String {
+        switch session.user.tradition {
+        case .theravada:
+            return "BE \(month.year + 543)"
+        case .vajrayana:
+            return "Tibetan \(month.year)"
+        case .mahayana, .zen, .secular:
+            return String(month.year)
+        }
+    }
+
     private var header: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text("BE \(month.year + 543)")
+            Text(eraLabel)
                 .font(BTFont.ui(10.5, weight: .light))
                 .tracking(2.2)
                 .foregroundStyle(theme.inkMute)
