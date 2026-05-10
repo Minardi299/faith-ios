@@ -140,7 +140,7 @@ struct CollectionListView: View {
             Text("Nothing here yet.")
                 .font(BTFont.serif(15, weight: .light, italic: true))
                 .foregroundStyle(theme.inkMute)
-            Text("This collection is part of the M4 corpus pack — text arrives soon.")
+            Text("Translations for this collection are still in progress.")
                 .font(BTFont.ui(12, weight: .light))
                 .foregroundStyle(theme.inkMute)
                 .multilineTextAlignment(.center)
