@@ -10,6 +10,7 @@ import SwiftData
 ///    keep looping from the preview into the session — no audio gap at start.
 struct MeditateView: View {
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @EnvironmentObject private var session: SessionStore
     @Environment(\.modelContext) private var context
@@ -142,7 +143,7 @@ struct MeditateView: View {
                     Image(systemName: "waveform")
                         .font(.system(size: 13, weight: .light))
                         .foregroundStyle(theme.ink)
-                        .symbolEffect(.variableColor.iterative)
+                        .symbolEffect(.variableColor.iterative, isActive: !reduceMotion)
                 }
                 checkmark(on: isOn)
             }
@@ -179,7 +180,7 @@ struct MeditateView: View {
                         Image(systemName: "waveform")
                             .font(.system(size: 13, weight: .light))
                             .foregroundStyle(theme.ink)
-                            .symbolEffect(.variableColor.iterative)
+                            .symbolEffect(.variableColor.iterative, isActive: !reduceMotion)
                     }
                     Image(systemName: "chevron.right")
                         .font(.system(size: 11, weight: .light))
@@ -399,6 +400,7 @@ struct MeditateView: View {
 
 private struct ChantPickerSheet: View {
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @Binding var picked: Chant?
     @Environment(\.dismiss) private var dismiss
@@ -503,7 +505,7 @@ private struct ChantPickerSheet: View {
                     Image(systemName: "waveform")
                         .font(.system(size: 13, weight: .light))
                         .foregroundStyle(theme.ink)
-                        .symbolEffect(.variableColor.iterative)
+                        .symbolEffect(.variableColor.iterative, isActive: !reduceMotion)
                 }
                 if isOn {
                     Image(systemName: "checkmark")

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct QuizView: View {
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @EnvironmentObject private var session: SessionStore
     @Environment(\.dismiss) private var dismiss
@@ -180,7 +181,7 @@ struct QuizView: View {
             Text("\(score) / \(questions.count)")
                 .font(BTFont.serif(72, weight: .ultraLight))
                 .foregroundStyle(theme.ink)
-                .contentTransition(.numericText())
+                .contentTransition(reduceMotion ? .identity : .numericText())
             Text(scoreBlurb)
                 .font(BTFont.serif(15, weight: .light, italic: true))
                 .foregroundStyle(theme.inkSoft)

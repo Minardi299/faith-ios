@@ -3,6 +3,7 @@ import SwiftData
 
 struct HolyCalendarView: View {
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @EnvironmentObject private var session: SessionStore
     @Environment(\.modelContext) private var context
@@ -66,7 +67,7 @@ struct HolyCalendarView: View {
                     .font(BTFont.serif(28, weight: .light))
                     .foregroundStyle(theme.ink)
                 Spacer()
-                Button { withAnimation(.easeOut(duration: 0.35)) { month = month.previous } } label: {
+                Button { withAnimation(reduceMotion ? .none : .easeOut(duration: 0.35)) { month = month.previous } } label: {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 11, weight: .light))
                         .foregroundStyle(theme.ink)
@@ -75,7 +76,7 @@ struct HolyCalendarView: View {
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
-                Button { withAnimation(.easeOut(duration: 0.35)) { month = month.next } } label: {
+                Button { withAnimation(reduceMotion ? .none : .easeOut(duration: 0.35)) { month = month.next } } label: {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 11, weight: .light))
                         .foregroundStyle(theme.ink)
