@@ -487,6 +487,8 @@ private struct Composer: View {
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
+            .accessibilityLabel(asr.isListening ? "Stop dictating" : "Start dictating")
+            .accessibilityHint("Speak your question to the Teacher")
             .onChange(of: asr.transcript) { _, newValue in
                 // Stream the live transcription into the text field.
                 if asr.isListening, !newValue.isEmpty {

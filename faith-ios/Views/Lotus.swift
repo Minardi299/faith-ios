@@ -59,6 +59,8 @@ struct Lotus: View {
             context.fill(dot, with: .color(color.opacity(0.7 + bloom * 0.3)))
         }
         .frame(width: size, height: size)
+        .accessibilityLabel("Practice progress")
+        .accessibilityValue("\(Int(bloom * 100)) percent")
     }
 }
 

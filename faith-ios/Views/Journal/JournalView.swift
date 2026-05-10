@@ -85,6 +85,7 @@ struct JournalView: View {
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
+            .accessibilityLabel("Close")
         }
         .padding(.horizontal, 22)
     }
@@ -214,6 +215,7 @@ struct JournalComposer: View {
                     }
                     .buttonStyle(.plain)
                     .glassEffect(.regular, in: Circle())
+                    .accessibilityLabel("Close")
                 }
 
                 Text("What are you noticing?")

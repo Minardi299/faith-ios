@@ -50,6 +50,7 @@ struct SendBlessingFlow: View {
                     }
                     .buttonStyle(.plain)
                     .glassEffect(.regular, in: Circle())
+                    .accessibilityLabel("Close")
                 }
 
                 Group {

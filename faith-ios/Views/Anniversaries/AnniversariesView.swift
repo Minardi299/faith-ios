@@ -71,6 +71,7 @@ struct AnniversariesView: View {
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
+            .accessibilityLabel("Close")
         }
         .padding(.horizontal, 22)
     }
@@ -184,6 +185,7 @@ struct AnniversaryComposer: View {
                     }
                     .buttonStyle(.plain)
                     .glassEffect(.regular, in: Circle())
+                    .accessibilityLabel("Close")
                 }
 
                 Text("Mark a day")

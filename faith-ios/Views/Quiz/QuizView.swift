@@ -68,6 +68,7 @@ struct QuizView: View {
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
+            .accessibilityLabel("Close")
         }
         .padding(.horizontal, 22)
         .padding(.top, 18)

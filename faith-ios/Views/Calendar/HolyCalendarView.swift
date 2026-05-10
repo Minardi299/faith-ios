@@ -76,6 +76,7 @@ struct HolyCalendarView: View {
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Previous month")
                 Button { withAnimation(reduceMotion ? .none : .easeOut(duration: 0.35)) { month = month.next } } label: {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 11, weight: .light))
@@ -85,6 +86,7 @@ struct HolyCalendarView: View {
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Next month")
             }
         }
         .padding(.horizontal, 4)
@@ -214,6 +216,14 @@ private struct DayCell: View {
     let lunar: LunarPhase
     let practice: Int
 
+    private var dayCellLabel: String {
+        var parts = ["Day \(day)"]
+        if isToday { parts.append("today") }
+        if practice > 0 { parts.append("\(practice) minutes practiced") }
+        if let o = observance { parts.append(o.label) }
+        return parts.joined(separator: ", ")
+    }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -257,6 +267,8 @@ private struct DayCell: View {
             }
             .frame(maxWidth: .infinity)
         }
+        .accessibilityLabel(dayCellLabel)
+        .accessibilityAddTraits(.isButton)
     }
 
     @ViewBuilder
@@ -325,6 +337,7 @@ private struct DayDetailSheet: View {
                         }
                         .buttonStyle(.plain)
                         .glassEffect(.regular, in: Circle())
+                        .accessibilityLabel("Close")
                     }
 
                     Divider().background(theme.border)

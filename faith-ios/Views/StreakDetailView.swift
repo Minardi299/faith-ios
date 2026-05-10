@@ -90,6 +90,7 @@ struct StreakDetailView: View {
                     Image(systemName: "chevron.left").font(.subheadline.weight(.medium))
                 }
                 .foregroundStyle(theme.inkMute)
+                .accessibilityLabel("Previous month")
                 Spacer()
                 Text(displayedMonth, format: .dateTime.month(.wide).year())
                     .font(.system(size: 15, design: .serif))
@@ -99,6 +100,7 @@ struct StreakDetailView: View {
                     Image(systemName: "chevron.right").font(.subheadline.weight(.medium))
                 }
                 .foregroundStyle(theme.inkMute)
+                .accessibilityLabel("Next month")
                 .disabled(isCurrentOrFutureMonth)
                 .opacity(isCurrentOrFutureMonth ? 0.3 : 1)
             }
@@ -224,6 +226,15 @@ private struct DayCell: View {
         Calendar.current.component(.day, from: date)
     }
 
+    private var dayCellLabel: String {
+        var parts = ["Day \(dayNumber)"]
+        if isToday { parts.append("today") }
+        if isCompleted { parts.append("practice complete") } else if bloom > 0 {
+            parts.append("\(Int(bloom * 100)) percent")
+        }
+        return parts.joined(separator: ", ")
+    }
+
     var body: some View {
         VStack(spacing: 2) {
             Lotus(
@@ -238,6 +249,7 @@ private struct DayCell: View {
                 .foregroundStyle(isToday ? theme.accent : theme.inkMute)
         }
         .frame(height: 44)
+        .accessibilityLabel(dayCellLabel)
     }
 }
 

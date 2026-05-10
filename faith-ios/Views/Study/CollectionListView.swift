@@ -72,6 +72,7 @@ struct CollectionListView: View {
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
+            .accessibilityLabel("Close")
         }
     }
 
@@ -118,6 +119,7 @@ struct CollectionListView: View {
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 11, weight: .light))
                                 .foregroundStyle(theme.inkMute)
+                                .accessibilityHidden(true)
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 11)
