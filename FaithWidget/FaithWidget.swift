@@ -149,5 +149,6 @@ struct DailyPassageWidget: Widget {
 struct FaithWidgetBundle: WidgetBundle {
     var body: some Widget {
         DailyPassageWidget()
+        SitActivityWidget()
     }
 }
