@@ -12,7 +12,8 @@ struct MiniPlayerBar: View {
                     Image(systemName: queue.isPlaying ? "pause.fill" : "play.fill")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(theme.ink)
-                        .frame(width: 32, height: 32)
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(queue.isPlaying ? "Pause" : "Play")
@@ -32,7 +33,8 @@ struct MiniPlayerBar: View {
                     Image(systemName: "list.bullet")
                         .font(.system(size: 14))
                         .foregroundStyle(theme.inkSoft)
-                        .frame(width: 32, height: 32)
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Queue")
@@ -40,7 +42,8 @@ struct MiniPlayerBar: View {
                     Image(systemName: "xmark")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(theme.inkMute)
-                        .frame(width: 32, height: 32)
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Stop")

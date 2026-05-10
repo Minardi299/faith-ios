@@ -71,9 +71,8 @@ struct HolyCalendarView: View {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 11, weight: .light))
                         .foregroundStyle(theme.ink)
-                        .frame(width: 32, height: 32)
-                        .glassEffect(.regular, in: Circle())
-                        .contentShape(Circle())
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Previous month")
@@ -81,9 +80,8 @@ struct HolyCalendarView: View {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 11, weight: .light))
                         .foregroundStyle(theme.ink)
-                        .frame(width: 32, height: 32)
-                        .glassEffect(.regular, in: Circle())
-                        .contentShape(Circle())
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Next month")
@@ -333,7 +331,8 @@ private struct DayDetailSheet: View {
                             Image(systemName: "xmark")
                                 .font(.system(size: 13, weight: .regular))
                                 .foregroundStyle(theme.ink)
-                                .frame(width: 40, height: 40)
+                                .frame(minWidth: 44, minHeight: 44)
+                                .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
                         .glassEffect(.regular, in: Circle())

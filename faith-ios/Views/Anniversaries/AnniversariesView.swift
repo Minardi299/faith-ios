@@ -67,7 +67,8 @@ struct AnniversariesView: View {
                 Image(systemName: "xmark")
                     .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(theme.ink)
-                    .frame(width: 40, height: 40)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
@@ -181,7 +182,8 @@ struct AnniversaryComposer: View {
                         Image(systemName: "xmark")
                             .font(.system(size: 13, weight: .regular))
                             .foregroundStyle(theme.ink)
-                            .frame(width: 40, height: 40)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .glassEffect(.regular, in: Circle())

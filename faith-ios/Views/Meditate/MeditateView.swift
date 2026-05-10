@@ -89,8 +89,8 @@ struct MeditateView: View {
                         Text("\(m)m")
                             .font(BTFont.ui(13.5, weight: minutes == m ? .regular : .light))
                             .foregroundStyle(minutes == m ? .white : theme.inkSoft)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .contentShape(Rectangle())
                             .glassEffect(minutes == m ? .regular.tint(theme.border) : .regular,
                                           in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }

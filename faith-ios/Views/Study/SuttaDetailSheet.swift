@@ -319,7 +319,8 @@ private struct TopContextStrip: View {
                     Image(systemName: "xmark")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundStyle(theme.inkSoft)
-                        .frame(width: 32, height: 32)
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                         .background(Circle().fill(theme.border))
                 }
                 .buttonStyle(.plain)
