@@ -137,11 +137,21 @@ struct TodayView: View {
         let symbols = ["M", "T", "W", "T", "F", "S", "S"]
         let calendar = Calendar.current
         let todayStart = calendar.startOfDay(for: .now)
+        // Compute composite progress for today so a real sit counts without
+        // the user also tapping the meditation checkbox.
+        let todayCompositeProgress = PracticeQueries.compositeProgress(date: .now, in: context)
+        let todayCompositeDone = todayCompositeProgress >= 1.0
         return HStack(spacing: 0) {
             ForEach(Array(week.enumerated()), id: \.offset) { index, day in
                 let isToday = calendar.isDate(day.date, inSameDayAs: todayStart)
-                let bloom = day.completion.map { $0.progress } ?? 0
-                let done = day.completion?.isComplete == true
+                // For today: use composite (sits OR checklist flag).
+                // For historical days: read DayCompletion directly (captures intent at the time).
+                let bloom: Double = isToday
+                    ? todayCompositeProgress
+                    : (day.completion.map { $0.progress } ?? 0)
+                let done: Bool = isToday
+                    ? todayCompositeDone
+                    : (day.completion?.isComplete == true)
                 VStack(spacing: 6) {
                     Lotus(
                         size: 26,
@@ -160,8 +170,14 @@ struct TodayView: View {
         }
     }
 
+    // Composite progress uses PracticeRecord sits OR the meditationDone flag,
+    // so a completed sit timer automatically registers without a double-tap.
+    private var todayProgress: Double {
+        PracticeQueries.compositeProgress(date: .now, in: context)
+    }
+
     private var progressSection: some View {
-        let value = today?.progress ?? 0
+        let value = todayProgress
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("Progress today")
