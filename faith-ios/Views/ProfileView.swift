@@ -61,7 +61,7 @@ struct ProfileView: View {
             Button("Cancel", role: .cancel) {}
             Button("Sign out", role: .destructive) { session.signOut() }
         } message: {
-            Text("Your local journal and streak stay on this device.")
+            Text("Your journal, anniversaries, and streak stay on this device. You'll need to pick your tradition again on next launch.")
         }
     }
 
