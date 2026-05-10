@@ -10,6 +10,7 @@ struct ProfileView: View {
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
     @Query private var completions: [DayCompletion]
     @State private var showingSignOut = false
+    @State private var showingDeleteAccount = false
 
     private var progress: ProgressStore { ProgressStore(context: context) }
     private var totalCompleted: Int { completions.filter(\.isComplete).count }
@@ -43,6 +44,20 @@ struct ProfileView: View {
                                     .stroke(theme.border, lineWidth: 0.5)
                             )
                     }
+                    Button(role: .destructive) {
+                        showingDeleteAccount = true
+                    } label: {
+                        Text("Delete account and all data")
+                            .font(.system(size: 15, design: .serif))
+                            .foregroundStyle(.red)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .stroke(theme.border, lineWidth: 0.5)
+                            )
+                    }
                 }
             }
             .padding(.horizontal, 24)
@@ -62,6 +77,14 @@ struct ProfileView: View {
             Button("Sign out", role: .destructive) { session.signOut() }
         } message: {
             Text("Your journal, anniversaries, and streak stay on this device. You'll need to pick your tradition again on next launch.")
+        }
+        .alert("Delete account?", isPresented: $showingDeleteAccount) {
+            Button("Cancel", role: .cancel) {}
+            Button("Delete everything", role: .destructive) {
+                session.deleteAccount()
+            }
+        } message: {
+            Text("Wipes your sign-in, journal, anniversaries, streak, chat history, and tradition preference. This cannot be undone.")
         }
     }
 

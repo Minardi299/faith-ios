@@ -83,6 +83,23 @@ final class SessionStore: ObservableObject {
         phase = .splash
     }
 
+    func deleteAccount() {
+        let savedOK = AccountDeletion.wipe(modelContext: modelContext, users: users)
+        auth.signOut()
+        if savedOK {
+            user = .sample
+            phase = .splash
+            // Reset cached streak/minutes here but not in signOut() — on normal
+            // sign-out the numbers refresh on next view appearance; on deletion
+            // we want immediate zero so the splash → onboarding flow doesn't
+            // momentarily show stale values.
+            refreshDerivedStats()
+        }
+        // TODO: if savedOK == false, surface a UI alert so the user knows
+        // deletion was incomplete and can retry. The session remains signed-out
+        // (Apple credential revoked) but the phase is not advanced.
+    }
+
     func markPracticed(_ mark: PracticeMark) {
         todayPracticed = mark
     }

@@ -152,4 +152,15 @@ final class ListenProgressStore: ObservableObject {
             print("⚠️ ListenProgressStore encode failed: \(error)")
         }
     }
+
+    /// Clears all in-memory listening progress and removes both UserDefaults
+    /// keys. Called by AccountDeletion.wipe() to satisfy App Store 5.1.1(v).
+    func reset() {
+        pendingSave?.cancel()
+        pendingSave = nil
+        byPassageID = [:]
+        lastListened = nil
+        UserDefaults.standard.removeObject(forKey: defaultsKey)
+        UserDefaults.standard.removeObject(forKey: lastListenedKey)
+    }
 }

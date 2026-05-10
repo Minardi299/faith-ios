@@ -103,4 +103,11 @@ final class PathwayProgressStore: ObservableObject {
             print("⚠️ PathwayProgressStore encode failed: \(error)")
         }
     }
+
+    /// Clears all in-memory pathway progress and removes the UserDefaults key.
+    /// Called by AccountDeletion.wipe() to satisfy App Store 5.1.1(v).
+    func reset() {
+        byPathway = [:]
+        UserDefaults.standard.removeObject(forKey: defaultsKey)
+    }
 }
