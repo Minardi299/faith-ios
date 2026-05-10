@@ -76,18 +76,31 @@ struct LibraryView: View {
                 .foregroundStyle(theme.inkMute)
                 .padding(.leading, 4)
             VStack(spacing: 8) {
-                let core = canon.coreReads().prefix(8)
-                if core.isEmpty {
-                    Text("Loading canon…")
-                        .font(.subheadline)
-                        .foregroundStyle(theme.inkMute)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(14)
-                        .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-                } else {
-                    ForEach(Array(core), id: \.id) { passage in
+                switch canon.loadStatus {
+                case .pending:
+                    ProgressView().tint(theme.accent)
+                case .loaded:
+                    ForEach(Array(canon.coreReads().prefix(8)), id: \.id) { passage in
                         passageRow(passage)
                     }
+                case .failed(let message):
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("The canon failed to load")
+                            .font(BTFont.ui(14, weight: .medium))
+                            .foregroundStyle(theme.ink)
+                        Text(message)
+                            .font(BTFont.ui(11))
+                            .foregroundStyle(theme.inkMute)
+                            .lineLimit(3)
+                        Button("Retry") {
+                            canon.load()
+                        }
+                        .font(BTFont.ui(12, weight: .medium))
+                        .foregroundStyle(theme.accent)
+                    }
+                    .padding(14)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
             }
         }

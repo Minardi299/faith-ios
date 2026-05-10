@@ -3,6 +3,7 @@ import SwiftData
 
 struct TodayView: View {
     @Environment(DailyPassageStore.self) private var dailyPassage
+    @EnvironmentObject private var canon: CanonStore
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
     @Query private var completions: [DayCompletion]
@@ -232,7 +233,21 @@ struct TodayView: View {
                             .foregroundStyle(theme.inkMute)
                     }
                 } else {
-                    ContentUnavailableView("No passage yet", systemImage: "book.closed")
+                    if case .failed(let message) = canon.loadStatus {
+                        VStack(spacing: 8) {
+                            Text("The canon failed to load")
+                                .font(BTFont.ui(14))
+                            Text(message)
+                                .font(BTFont.ui(11))
+                                .foregroundStyle(theme.inkMute)
+                            Button("Retry") { canon.load() }
+                                .font(BTFont.ui(12, weight: .medium))
+                                .foregroundStyle(theme.accent)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    } else {
+                        ContentUnavailableView("No passage yet", systemImage: "book.closed")
+                    }
                 }
             }
             .padding(20)
