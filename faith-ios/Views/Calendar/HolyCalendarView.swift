@@ -250,18 +250,21 @@ private struct DayCell: View {
                     .font(BTFont.serif(15, weight: isToday ? .regular : .light))
                     .foregroundStyle(.white.opacity(isToday ? 0.95 : 0.78))
                 Spacer().frame(height: 3)
-                // practice marks bottom-center
-                HStack(spacing: 2) {
-                    if practice & 1 != 0 {
-                        Circle().fill(theme.inkSoft).frame(width: 3, height: 3)
-                    }
-                    if practice & 2 != 0 {
-                        Rectangle().fill(theme.inkSoft).frame(width: 4, height: 1)
-                    }
-                }
-                .padding(.bottom, 4)
+                // practice mark bottom-center
+                practiceMark
+                    .padding(.bottom, 4)
             }
             .frame(maxWidth: .infinity)
+        }
+    }
+
+    @ViewBuilder
+    private var practiceMark: some View {
+        if practice > 0 {
+            Circle()
+                .fill(theme.accent)
+                .frame(width: 4, height: 4)
+                .opacity(practice >= 20 ? 1.0 : practice >= 10 ? 0.7 : 0.4)
         }
     }
 }
