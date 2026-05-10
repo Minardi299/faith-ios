@@ -3,9 +3,10 @@ import SwiftData
 
 @MainActor
 enum ChatStore {
-    /// Returns the most recent thread, creating one if none exists.
+    /// Returns the most recent thread for the given tradition, creating one if none exists.
     static func currentThread(traditionRaw: String, in context: ModelContext) -> StoredChatThread {
         let descriptor = FetchDescriptor<StoredChatThread>(
+            predicate: #Predicate { $0.traditionRaw == traditionRaw },
             sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
         )
         if let existing = (try? context.fetch(descriptor))?.first {

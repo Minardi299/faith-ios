@@ -88,6 +88,13 @@ struct ChatView: View {
         .onAppear {
             loadThreadIfNeeded()
         }
+        .onChange(of: session.user.tradition) { _, newTradition in
+            streamTask?.cancel()
+            streamTask = nil
+            let t = ChatStore.currentThread(traditionRaw: newTradition.rawValue, in: context)
+            thread = t
+            messages = ChatStore.sortedMessages(t).map(\.asChatMessage)
+        }
     }
 
     private var clearChatButton: AnyView {
