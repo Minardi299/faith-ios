@@ -8,7 +8,8 @@ struct ChatView: View {
 
     @State private var messages: [ChatMessage] = []
     @State private var draft: String = ""
-    @State private var isReplying: Bool = false
+    @State private var isAwaitingFirstToken: Bool = false
+    @State private var isStreaming: Bool = false
     @State private var openSutta: SuttaPassage?
     @State private var thread: StoredChatThread?
     @State private var showClearConfirm: Bool = false
@@ -45,9 +46,11 @@ struct ChatView: View {
                             )
                             .id(msg.id)
                         }
-                        if isReplying {
+                        if isAwaitingFirstToken {
                             HStack { ThinkingDot(); Spacer() }
                                 .padding(.horizontal, 22)
+                        } else if isStreaming {
+                            HStack { StreamingCaret(); Spacer() }
                         }
                     }
                     .padding(.top, 14)
@@ -91,6 +94,8 @@ struct ChatView: View {
         .onChange(of: session.user.tradition) { _, newTradition in
             streamTask?.cancel()
             streamTask = nil
+            isAwaitingFirstToken = false
+            isStreaming = false
             let t = ChatStore.currentThread(traditionRaw: newTradition.rawValue, in: context)
             thread = t
             messages = ChatStore.sortedMessages(t).map(\.asChatMessage)
@@ -117,6 +122,8 @@ struct ChatView: View {
     private func clearChat() {
         streamTask?.cancel()
         streamTask = nil
+        isAwaitingFirstToken = false
+        isStreaming = false
         if let t = thread {
             ChatStore.clear(t, in: context)
         }
@@ -135,6 +142,8 @@ struct ChatView: View {
     private func endConversation() {
         streamTask?.cancel()
         streamTask = nil
+        isAwaitingFirstToken = false
+        isStreaming = false
         if let t = thread {
             ChatStore.clear(t, in: context)
         }
@@ -173,7 +182,8 @@ struct ChatView: View {
 
         streamTask?.cancel()
         streamTask = Task {
-            isReplying = true
+            isAwaitingFirstToken = true
+            isStreaming = false
             // Stream the assistant message — first emission appends a new
             // message; subsequent emissions update its segments in place.
             // Persist only the FINAL emission to SwiftData.
@@ -184,21 +194,28 @@ struct ChatView: View {
                 tradition: session.user.tradition,
                 history: messages
             ) {
-                if Task.isCancelled { return }
+                if Task.isCancelled {
+                    isAwaitingFirstToken = false
+                    isStreaming = false
+                    return
+                }
+                if isAwaitingFirstToken {
+                    isAwaitingFirstToken = false
+                    isStreaming = true
+                }
                 lastSegments = segments
                 if let id = assistantID, let idx = messages.firstIndex(where: { $0.id == id }) {
                     messages[idx] = ChatMessage(id: id, role: .assistant, segments: segments)
-                    isReplying = false
                 } else {
                     let msg = ChatMessage(role: .assistant, segments: segments)
                     assistantID = msg.id
                     messages.append(msg)
-                    isReplying = false
                 }
             }
             // If the stream finished without ever yielding (e.g. an error
-            // path that just calls finish), still flip the indicator off.
-            isReplying = false
+            // path that just calls finish), still flip both indicators off.
+            isAwaitingFirstToken = false
+            isStreaming = false
             guard !Task.isCancelled else { return }
             if let id = assistantID, let t = thread,
                let final = messages.first(where: { $0.id == id }) {
@@ -342,6 +359,24 @@ private struct ThinkingDot: View {
                     pulse = 1.0
                 }
             }
+    }
+}
+
+private struct StreamingCaret: View {
+    @State private var opacity: Double = 0.3
+    @Environment(\.theme) private var theme
+    var body: some View {
+        Rectangle()
+            .fill(theme.inkSoft)
+            .frame(width: 8, height: 2)
+            .opacity(opacity)
+            .padding(.horizontal, 22)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 0.6).repeatForever()) {
+                    opacity = 0.9
+                }
+            }
+            .accessibilityHidden(true)
     }
 }
 
