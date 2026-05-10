@@ -32,6 +32,7 @@ struct SuttaDetailSheet: View {
     @State private var glossTerm: GlossTerm? = nil
     @State private var showJournal: Bool = false
     @State private var showShare: Bool = false
+    @State private var showQueue: Bool = false
     @State private var nextPassage: SuttaPassage? = nil
 
     var body: some View {
@@ -83,9 +84,11 @@ struct SuttaDetailSheet: View {
                 ReadingRail(
                     tradition: passage.tradition,
                     isPlayingThis: listen.isPlaying && listen.current?.passageID == passage.id,
+                    hasQueue: listen.current != nil,
                     onListen: listenAction,
                     onPause: { listen.togglePlayPause() },
                     onStop:  { listen.stop() },
+                    onQueue: { showQueue = true },
                     onNote:  { showJournal = true },
                     onShare: { showShare = true }
                 )
@@ -117,6 +120,9 @@ struct SuttaDetailSheet: View {
         }
         .sheet(item: $nextPassage) { p in
             SuttaDetailSheet(passage: p, pathwayContext: nextPathwayContext)
+        }
+        .sheet(isPresented: $showQueue) {
+            QueueSheet().presentationDragIndicator(.visible)
         }
         .onDisappear {
             audio.stop()
@@ -345,9 +351,11 @@ private struct ReadingRail: View {
 
     let tradition: Tradition
     let isPlayingThis: Bool
+    let hasQueue: Bool
     let onListen: () -> Void
     let onPause: () -> Void
     let onStop:  () -> Void
+    let onQueue: () -> Void
     let onNote:  () -> Void
     let onShare: () -> Void
 
@@ -359,6 +367,9 @@ private struct ReadingRail: View {
                     stopButton
                 } else {
                     listenButton
+                }
+                if hasQueue {
+                    queueButton
                 }
             }
 
@@ -409,6 +420,17 @@ private struct ReadingRail: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Stop")
+    }
+
+    private var queueButton: some View {
+        Button(action: onQueue) {
+            Image(systemName: "list.bullet")
+                .font(.system(size: 12, weight: .regular))
+                .foregroundStyle(theme.inkSoft)
+                .frame(width: 26, height: 26)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Show queue")
     }
 }
 

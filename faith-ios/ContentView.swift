@@ -34,6 +34,11 @@ struct ContentView: View {
         .tint(theme.accent)
         .environment(\.theme, theme)
         .preferredColorScheme(appearance.preferredScheme)
+        .overlay(alignment: .bottom) {
+            MiniPlayerBar()
+                .padding(.bottom, 64)
+                .environment(\.theme, theme)
+        }
         .task(id: paletteRaw + appearanceRaw) {
             SharedProgress.writeAppearance(palette: paletteRaw, appearance: appearanceRaw)
         }

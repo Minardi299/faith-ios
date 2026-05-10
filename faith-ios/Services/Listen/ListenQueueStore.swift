@@ -1,13 +1,15 @@
 import Foundation
 import AVFoundation
 import Combine
+import MediaPlayer
 
 /// The playback brain: holds the current item, upcoming queue, and history;
 /// drives the AudioSource; persists progress; fires stage-completion events.
 ///
 /// All views observe this store; nothing else owns playback state. Lifetime is
-/// the app — the singleton is instantiated early in `FaithApp` so its
-/// MPNowPlayingInfoCenter coordinator is wired before the first audio attempt.
+/// the app — the singleton is instantiated early in `FaithApp`. The singleton's
+/// `init` wires `MPNowPlayingInfoCenter` and `MPRemoteCommandCenter` so
+/// lock-screen controls and the Now Playing widget stay in sync.
 @MainActor
 final class ListenQueueStore: ObservableObject {
 
@@ -41,12 +43,52 @@ final class ListenQueueStore: ObservableObject {
         self.source.delegate = self
         self.source.rate = rate
         configureAudioSession()
+        setupRemoteCommandCenter()
     }
 
     private func configureAudioSession() {
         let session = AVAudioSession.sharedInstance()
         try? session.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
         try? session.setActive(true)
+    }
+
+    // MARK: - Now Playing info
+
+    private func updateNowPlayingInfo() {
+        guard let current else {
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+            return
+        }
+        let info: [String: Any] = [
+            MPMediaItemPropertyTitle: current.displayTitle,
+            MPMediaItemPropertyArtist: current.displaySubtitle,
+            MPMediaItemPropertyPlaybackDuration: duration,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: position,
+            MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? rate : 0.0
+        ]
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    // MARK: - Remote command center
+
+    private func setupRemoteCommandCenter() {
+        let cc = MPRemoteCommandCenter.shared()
+        cc.playCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.togglePlayPause() }
+            return .success
+        }
+        cc.pauseCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.togglePlayPause() }
+            return .success
+        }
+        cc.nextTrackCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.next() }
+            return .success
+        }
+        cc.previousTrackCommand.addTarget { [weak self] _ in
+            Task { @MainActor in self?.previous() }
+            return .success
+        }
     }
 
     // MARK: - Public API: play
@@ -166,6 +208,7 @@ final class ListenQueueStore: ObservableObject {
         isPlaying = false
         position = 0
         duration = 0
+        updateNowPlayingInfo()
     }
 
     func clear() { stop() }
@@ -274,6 +317,7 @@ final class ListenQueueStore: ObservableObject {
         stoppedIntentionally = false
         source.play()
         recordRecent(item: item)
+        updateNowPlayingInfo()
     }
 
     private func passageFor(_ item: PlayableItem) -> SuttaPassage? {
@@ -386,11 +430,13 @@ extension ListenQueueStore: AudioSourceDelegate {
         isPlaying = true
         duration = source.duration
         lastPositionTickAt = Date()
+        updateNowPlayingInfo()
     }
 
     func audioSourceDidPause(_ source: AudioSource) {
         isPlaying = false
         flushTickAccumulation()
+        updateNowPlayingInfo()
     }
 
     func audioSourceDidFinish(_ source: AudioSource, naturally: Bool) {
@@ -398,11 +444,13 @@ extension ListenQueueStore: AudioSourceDelegate {
         if !stoppedIntentionally {
             advance(naturalCompletion: naturally)
         }
+        updateNowPlayingInfo()
     }
 
     func audioSource(_ source: AudioSource, didTickPosition pos: TimeInterval) {
         position = pos
         duration = max(duration, source.duration)
+        updateNowPlayingInfo()
         // Throttle disk writes: ListenProgressStore.recordPosition is debounced.
         if let cur = current {
             let now = Date()
