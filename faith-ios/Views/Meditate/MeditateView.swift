@@ -43,6 +43,7 @@ struct MeditateView: View {
         .sheet(isPresented: $showChantPicker) {
             ChantPickerSheet(picked: $pickedChant)
                 .environmentObject(session)
+                .presentationDragIndicator(.visible)
         }
         .onDisappear {
             // Stop any preview playback when the user navigates away.

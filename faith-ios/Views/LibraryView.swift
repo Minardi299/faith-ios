@@ -29,21 +29,27 @@ struct LibraryView: View {
             .profileToolbar()
             .sheet(item: $openPassage) { p in
                 NavigationStack { SuttaDetailSheet(passage: p) }
+                    .presentationDragIndicator(.visible)
             }
             .sheet(isPresented: $showingCalendar) {
                 NavigationStack { HolyCalendarView() }
+                    .presentationDragIndicator(.visible)
             }
             .sheet(isPresented: $showingAnniversaries) {
                 NavigationStack { AnniversariesView() }
+                    .presentationDragIndicator(.visible)
             }
             .sheet(isPresented: $showingJournal) {
                 NavigationStack { JournalView() }
+                    .presentationDragIndicator(.visible)
             }
             .sheet(isPresented: $showingQuiz) {
                 NavigationStack { QuizView() }
+                    .presentationDragIndicator(.visible)
             }
             .sheet(isPresented: $showingBlessing) {
                 NavigationStack { SendBlessingFlow() }
+                    .presentationDragIndicator(.visible)
             }
             .task(id: deepLinkPassageID) {
                 guard let id = deepLinkPassageID,

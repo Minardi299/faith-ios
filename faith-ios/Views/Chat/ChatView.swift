@@ -77,6 +77,7 @@ struct ChatView: View {
         }
         .sheet(item: $openSutta) { passage in
             SuttaDetailSheet(passage: passage)
+                .presentationDragIndicator(.visible)
         }
         .alert("Clear conversation?", isPresented: $showClearConfirm) {
             Button("Cancel", role: .cancel) { }

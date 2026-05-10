@@ -34,6 +34,7 @@ struct TodayView: View {
             .profileToolbar()
             .sheet(item: $showingPassage) { p in
                 NavigationStack { SuttaDetailSheet(passage: p) }
+                    .presentationDragIndicator(.visible)
             }
             .onAppear { progress.ensureToday() }
             .task(id: today?.doneCount) { progress.pushToWidget() }
