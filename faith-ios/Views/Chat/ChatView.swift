@@ -317,9 +317,15 @@ private struct AssistantBlock: View {
                             .foregroundStyle(theme.ink)
                     }
                 case .italic(let s):
-                    Text(s)
-                        .font(BTFont.serif(17, weight: .light, italic: true))
-                        .foregroundStyle(theme.ink)
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Rectangle()
+                            .fill(theme.accent.opacity(0.4))
+                            .frame(width: 1.5)
+                            .accessibilityHidden(true)
+                        Text(s)
+                            .font(BTFont.serif(17, weight: .light, italic: true))
+                            .foregroundStyle(theme.ink)
+                    }
                 case .citation(let cite):
                     CitationPill(cite: cite, onTap: onCite)
                 }
@@ -420,7 +426,7 @@ private struct EmptyChatPrompt: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Ask a question").eyebrow()
-            Text(.init("A passage will arrive — *grounded in the canon*."))
+            Text(.init("Ask a question. The Teacher will reply with a single sentence of framing and *verbatim quotes from the canon* — never a paraphrase."))
                 .font(BTFont.serif(22, weight: .light))
                 .lineSpacing(5)
                 .foregroundStyle(theme.ink)
