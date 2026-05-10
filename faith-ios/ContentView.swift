@@ -25,6 +25,7 @@ struct ContentView: View {
             case .main:       mainTabs
             }
         }
+        .dynamicTypeSize(.xSmall ... .accessibility5)
         .tint(theme.accent)
         .environment(\.theme, theme)
         .preferredColorScheme(appearance.preferredScheme)
