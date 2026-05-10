@@ -1,5 +1,8 @@
 import Foundation
 import Observation
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "pathways")
 
 /// Loads bundled `pathways.json` (curated reading sequences per tradition).
 @MainActor
@@ -20,7 +23,7 @@ final class PathwayStore: ObservableObject {
         let url = Bundle.main.url(forResource: "pathways", withExtension: "json")
             ?? Bundle(for: type(of: self)).url(forResource: "pathways", withExtension: "json")
         guard let url else {
-            print("⚠️ pathways.json not found in bundle")
+            log.error("pathways.json not found in bundle")
             return
         }
         do {
@@ -28,7 +31,7 @@ final class PathwayStore: ObservableObject {
             let payload = try JSONDecoder().decode(Payload.self, from: data)
             self.pathways = payload.pathways
         } catch {
-            print("⚠️ pathways.json decode failed: \(error)")
+            log.error("pathways.json decode failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 

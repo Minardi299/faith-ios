@@ -1,5 +1,8 @@
 import Foundation
 import SwiftData
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "accountdeletion")
 
 @MainActor
 enum AccountDeletion {
@@ -26,7 +29,7 @@ enum AccountDeletion {
             try modelContext.save()
             savedOK = true
         } catch {
-            print("⚠️ AccountDeletion: modelContext.save() failed — \(error)")
+            log.error("AccountDeletion: modelContext.save() failed — \(error.localizedDescription, privacy: .public)")
             savedOK = false
         }
 
@@ -55,7 +58,7 @@ enum AccountDeletion {
             let items = try ctx.fetch(FetchDescriptor<T>())
             items.forEach { ctx.delete($0) }
         } catch {
-            print("⚠️ AccountDeletion: failed to fetch \(T.self) — \(error)")
+            log.error("AccountDeletion: failed to fetch \(String(describing: T.self), privacy: .public) — \(error.localizedDescription, privacy: .public)")
         }
     }
 }

@@ -1,7 +1,10 @@
 import Foundation
+import os
 #if canImport(FoundationModels)
 import FoundationModels
 #endif
+
+private let log = Logger(subsystem: "com.faith.app", category: "foundationmodels")
 
 /// LLMRuntime backed by Apple's on-device Foundation Models framework
 /// (`LanguageModelSession`). The model only **picks passage ids** and
@@ -71,7 +74,7 @@ final class FoundationModelsRuntime: ObservableObject, LLMRuntime {
             let response = try await session.respond(to: prompt, generating: ChatResponse.self)
             return Self.makeSegments(from: response.content, query: prompt)
         } catch {
-            print("⚠️ FoundationModels error: \(error)")
+            log.warning("FoundationModels error: \(error.localizedDescription, privacy: .public)")
             return await fallback.reply(to: prompt, tradition: tradition, history: history)
         }
     }
@@ -139,7 +142,7 @@ final class FoundationModelsRuntime: ObservableObject, LLMRuntime {
                         }
                     }
                 } catch {
-                    print("⚠️ FoundationModels stream error: \(error)")
+                    log.warning("FoundationModels stream error: \(error.localizedDescription, privacy: .public)")
                     let final = await fallback.reply(to: prompt, tradition: tradition, history: history)
                     continuation.yield(final)
                 }

@@ -1,5 +1,8 @@
 import Foundation
 import Observation
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "listenprogress")
 
 /// Lightweight per-user pathway progress, persisted to UserDefaults so we
 /// don't pay a SwiftData migration for what is fundamentally a small key/value
@@ -91,7 +94,7 @@ final class PathwayProgressStore: ObservableObject {
             let decoded = try JSONDecoder().decode([String: Progress].self, from: data)
             self.byPathway = decoded
         } catch {
-            print("⚠️ PathwayProgressStore decode failed: \(error)")
+            log.error("PathwayProgressStore decode failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -100,7 +103,7 @@ final class PathwayProgressStore: ObservableObject {
             let data = try JSONEncoder().encode(byPathway)
             UserDefaults.standard.set(data, forKey: defaultsKey)
         } catch {
-            print("⚠️ PathwayProgressStore encode failed: \(error)")
+            log.error("PathwayProgressStore encode failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 

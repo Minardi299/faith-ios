@@ -1,6 +1,9 @@
 import Foundation
 import AVFoundation
 import Combine
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "backgroundplayer")
 
 /// Seamless looping ambient player. Uses `AVQueuePlayer` + `AVPlayerLooper`,
 /// which is Apple's purpose-built primitive for gapless audio looping —
@@ -34,7 +37,7 @@ final class BackgroundPlayer: ObservableObject {
             Bundle.main.url(forResource: background.filename, withExtension: "mp3"),
         ]
         guard let url = candidates.compactMap({ $0 }).first else {
-            print("⚠️ BackgroundPlayer: bundle is missing \(background.filename).mp3")
+            log.warning("BackgroundPlayer: bundle is missing \(background.filename, privacy: .public).mp3")
             return
         }
 

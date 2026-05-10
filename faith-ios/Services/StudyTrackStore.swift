@@ -1,4 +1,7 @@
 import Foundation
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "studytracks")
 
 /// Loads `study-tracks.json` and exposes lookups by track / stage / item.
 /// Mirrors the `PathwayStore` pattern.
@@ -47,7 +50,7 @@ final class StudyTrackStore: ObservableObject {
             loadStatus = .loaded(count: payload.tracks.count)
         } catch {
             loadStatus = .failed(message: error.localizedDescription)
-            print("⚠️ study-tracks.json decode failed: \(error)")
+            log.error("study-tracks.json decode failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 

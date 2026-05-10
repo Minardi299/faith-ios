@@ -1,6 +1,9 @@
 import Foundation
 import AVFoundation
 import Combine
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "audioservice")
 
 @MainActor
 protocol AudioService: AnyObject {
@@ -75,7 +78,7 @@ final class LiveAudioService: NSObject, AudioService, ObservableObject {
                 bellPlayer?.play()
                 return
             } catch {
-                print("⚠️ bell sample failed: \(error)")
+                log.warning("bell sample failed: \(error.localizedDescription, privacy: .public)")
             }
         }
         // Fallback: a soft synthetic bell via the speech synthesizer (one note tone).

@@ -1,5 +1,8 @@
 import Foundation
 import SwiftData
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "persistence")
 
 @MainActor
 enum PersistenceContainer {
@@ -24,7 +27,7 @@ enum PersistenceContainer {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
             // If a migration fails, fall back to in-memory so the app still launches.
-            print("⚠️ ModelContainer init failed: \(error). Falling back to in-memory.")
+            log.error("ModelContainer init failed: \(error.localizedDescription, privacy: .public). Falling back to in-memory.")
             let inMemory = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
             return try! ModelContainer(for: schema, configurations: [inMemory])
         }
@@ -43,7 +46,7 @@ enum PersistenceContainer {
                              create: true)
         } catch {
             // Last-resort fallback: Documents/ always exists in an iOS app sandbox.
-            print("⚠️ Could not resolve Application Support directory: \(error). Falling back to Documents.")
+            log.warning("Could not resolve Application Support directory: \(error.localizedDescription, privacy: .public). Falling back to Documents.")
             return fm.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 .appendingPathComponent("default.store")
         }

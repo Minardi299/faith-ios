@@ -1,4 +1,7 @@
 import Foundation
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "listenprogress")
 
 /// Per-passage listening progress: how far the user got, whether they finished.
 /// UserDefaults-backed with throttled writes (5s debounce) — high-frequency
@@ -79,7 +82,7 @@ final class ListenProgressStore: ObservableObject {
             let data = try JSONEncoder().encode(ref)
             UserDefaults.standard.set(data, forKey: lastListenedKey)
         } catch {
-            print("⚠️ ListenProgressStore lastListened encode failed: \(error)")
+            log.error("ListenProgressStore lastListened encode failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 
@@ -121,14 +124,14 @@ final class ListenProgressStore: ObservableObject {
             do {
                 self.byPassageID = try JSONDecoder().decode([String: Progress].self, from: data)
             } catch {
-                print("⚠️ ListenProgressStore decode failed: \(error)")
+                log.error("ListenProgressStore decode failed: \(error.localizedDescription, privacy: .public)")
             }
         }
         if let data = UserDefaults.standard.data(forKey: lastListenedKey) {
             do {
                 self.lastListened = try JSONDecoder().decode(RecentListenRef.self, from: data)
             } catch {
-                print("⚠️ ListenProgressStore lastListened decode failed: \(error)")
+                log.error("ListenProgressStore lastListened decode failed: \(error.localizedDescription, privacy: .public)")
             }
         }
     }
@@ -149,7 +152,7 @@ final class ListenProgressStore: ObservableObject {
             let data = try JSONEncoder().encode(byPassageID)
             UserDefaults.standard.set(data, forKey: defaultsKey)
         } catch {
-            print("⚠️ ListenProgressStore encode failed: \(error)")
+            log.error("ListenProgressStore encode failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 

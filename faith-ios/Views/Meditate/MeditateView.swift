@@ -1,6 +1,9 @@
 import SwiftUI
 import SwiftData
+import os
 @preconcurrency import ActivityKit
+
+private let log = Logger(subsystem: "com.faith.app", category: "meditate-liveactivity")
 
 /// The Meditate tab. Two states:
 /// 1. **Configuring** — pick duration, optional background, optional chant.
@@ -356,7 +359,7 @@ struct MeditateView: View {
             )
             sitActivity = activity
         } catch {
-            print("⚠️ Sit live activity failed: \(error)")
+            log.warning("Sit live activity failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 
