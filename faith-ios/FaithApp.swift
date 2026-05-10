@@ -13,6 +13,7 @@ struct FaithApp: App {
         let context = PersistenceContainer.shared.mainContext
         _session = StateObject(wrappedValue: SessionStore(modelContext: context))
         UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
+        LegacyMigrator.runIfNeeded()
     }
 
     var body: some Scene {
