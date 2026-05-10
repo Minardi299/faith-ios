@@ -108,10 +108,10 @@ struct ChatView: View {
             ChatStore.append(user, to: t, in: context)
         }
 
-        if GentleReminder.shouldFire(on: text) {
+        if CrisisClassifier.detects(in: text) {
             let reminder = ChatMessage(role: .assistant,
                                        kind: .gentleReminder,
-                                       segments: [.text(GentleReminder.line)])
+                                       segments: [.text(CrisisClassifier.interceptMessage)])
             messages.append(reminder)
             if let t = thread {
                 ChatStore.append(reminder, to: t, in: context)
@@ -178,7 +178,7 @@ private struct MessageRow: View {
 
         case .assistant:
             if message.kind == .gentleReminder {
-                GentleReminderRow(text: message.segments.first?.plainText ?? GentleReminder.line)
+                CrisisInterceptRow(text: message.segments.first?.plainText ?? CrisisClassifier.interceptMessage)
             } else {
                 AssistantBlock(segments: message.segments, onCite: onCite)
             }
@@ -218,7 +218,7 @@ private struct AssistantBlock: View {
     }
 }
 
-private struct GentleReminderRow: View {
+private struct CrisisInterceptRow: View {
     @Environment(\.theme) private var theme
 
     let text: String

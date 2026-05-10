@@ -21,11 +21,11 @@ final class ChatViewModel: ObservableObject {
         messages.append(userMsg)
         draft = ""
 
-        // Gentle reminder check (M3d)
-        if GentleReminder.shouldFire(on: text) {
+        // Crisis intercept check (M3d)
+        if CrisisClassifier.detects(in: text) {
             let reminder = ChatMessage(role: .assistant,
                                        kind: .gentleReminder,
-                                       segments: [.text(GentleReminder.line)])
+                                       segments: [.text(CrisisClassifier.interceptMessage)])
             messages.append(reminder)
             return
         }
