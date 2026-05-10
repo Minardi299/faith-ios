@@ -9,9 +9,21 @@ struct ProfileView: View {
     @AppStorage("palette") private var paletteRaw: String = Palette.moss.rawValue
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
     @Query private var completions: [DayCompletion]
+    @AppStorage("textSizeScale") private var textSizeScale: Double = 1.0
     @State private var showingSignOut = false
     @State private var showingDeleteAccount = false
     @State private var signInError: String?
+    @State private var showingTraditionPicker = false
+    @State private var showingTextSizePicker = false
+
+    private var textSizeLabel: String {
+        switch textSizeScale {
+        case ..<0.9: "Small"
+        case ..<1.1: "Medium"
+        case ..<1.3: "Large"
+        default:     "Extra large"
+        }
+    }
 
     private var progress: ProgressStore { ProgressStore(context: context) }
     private var totalCompleted: Int { completions.filter(\.isComplete).count }
@@ -259,17 +271,39 @@ struct ProfileView: View {
 
     private var practiceSection: some View {
         VStack(spacing: 0) {
-            settingsRow("Reminder time", detail: "6:30 am")
+            // TODO: Phase 6 — wire to UNUserNotificationCenter
+            settingsRow("Reminder time", detail: "Set up in a future update", showsChevron: false)
+                .opacity(0.55)
             Divider().background(theme.border).padding(.leading, 18)
-            settingsRow("Daily passage", detail: "On")
+            // TODO: Phase 6 — wire to UNUserNotificationCenter
+            settingsRow("Daily passage", detail: "Set up in a future update", showsChevron: false)
+                .opacity(0.55)
             Divider().background(theme.border).padding(.leading, 18)
-            settingsRow("Tradition", detail: session.user.tradition.name)
+            Button { showingTraditionPicker = true } label: {
+                settingsRow("Tradition", detail: session.user.tradition.name)
+            }
+            .buttonStyle(.plain)
+        }
+        .sheet(isPresented: $showingTraditionPicker) {
+            TraditionPickerSheet(
+                selected: Binding(
+                    get: { session.user.tradition },
+                    set: { newTradition in session.setTradition(newTradition) }
+                ),
+                onPick: { _ in }
+            )
         }
     }
 
     private var readingSection: some View {
         VStack(spacing: 0) {
-            settingsRow("Text size", detail: "Medium")
+            Button { showingTextSizePicker = true } label: {
+                settingsRow("Text size", detail: textSizeLabel)
+            }
+            .buttonStyle(.plain)
+        }
+        .sheet(isPresented: $showingTextSizePicker) {
+            TextSizeSheet(scale: $textSizeScale)
         }
     }
 
@@ -310,5 +344,102 @@ struct ProfileView: View {
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    }
+}
+
+// MARK: - TraditionPickerSheet
+
+struct TraditionPickerSheet: View {
+    @Binding var selected: Tradition
+    let onPick: (Tradition) -> Void
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(Tradition.allCases) { tradition in
+                    Button {
+                        selected = tradition
+                        onPick(tradition)
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Circle()
+                                .fill(tradition.accent)
+                                .frame(width: 12, height: 12)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(tradition.name)
+                                    .font(.system(size: 16, design: .serif))
+                                    .foregroundStyle(theme.ink)
+                                Text(tradition.pali)
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(theme.inkMute)
+                            }
+                            Spacer()
+                            if selected == tradition {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(theme.accent)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .navigationTitle("Tradition")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
+    }
+}
+
+// MARK: - TextSizeSheet
+
+struct TextSizeSheet: View {
+    @Binding var scale: Double
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 24) {
+                Text("Aa")
+                    .font(.system(size: 48 * scale, weight: .light, design: .serif))
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+
+                Slider(value: $scale, in: 0.8 ... 1.5, step: 0.05) {
+                    Text("Text size")
+                } minimumValueLabel: {
+                    Text("A").font(.caption)
+                } maximumValueLabel: {
+                    Text("A").font(.title3)
+                }
+                .padding(.horizontal, 32)
+
+                Text("Affects reading sizes throughout the app.")
+                    .font(.system(size: 13))
+                    .foregroundStyle(theme.inkMute)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+
+                Spacer()
+            }
+            .navigationTitle("Text size")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
     }
 }
