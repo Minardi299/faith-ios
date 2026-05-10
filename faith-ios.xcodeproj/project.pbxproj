@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA001A022FA586E60084FC82 /* SitActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA001A012FA586E60084FC82 /* SitActivityAttributes.swift */; };
 		BAE14AE52FA5B10C0084FC82 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE14AE42FA5B10C0084FC82 /* WidgetKit.framework */; };
 		BAE14AE72FA5B10C0084FC82 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE14AE62FA5B10C0084FC82 /* SwiftUI.framework */; };
 		BAE14AF82FA5B10D0084FC82 /* FaithWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BAE14AE22FA5B10C0084FC82 /* FaithWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -51,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BA001A012FA586E60084FC82 /* SitActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SitActivityAttributes.swift; path = "faith-ios/Models/SitActivityAttributes.swift"; sourceTree = "<group>"; };
 		BAE14A702FA586E60084FC82 /* faith-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = faith-ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE14A832FA586E80084FC82 /* faith-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = faith-iosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE14A8D2FA586E80084FC82 /* faith-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = faith-iosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -361,6 +363,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA001A022FA586E60084FC82 /* SitActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
