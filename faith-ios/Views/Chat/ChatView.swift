@@ -11,6 +11,8 @@ struct ChatView: View {
     @State private var openSutta: SuttaPassage?
     @State private var thread: StoredChatThread?
     @State private var showClearConfirm: Bool = false
+    @State private var bypassClassifierOnce: Bool = false
+    @State private var streamTask: Task<Void, Never>? = nil
 
     var body: some View {
         PageScaffold(title: nil, trailing: clearChatButton) {
@@ -22,13 +24,20 @@ struct ChatView: View {
                                 .padding(.top, 40)
                         }
                         ForEach(messages) { msg in
-                            MessageRow(message: msg, onCite: { cite in
-                                if let p = CanonStore.shared.passage(byID: cite.suttaID) {
-                                    openSutta = p
-                                } else if let p = SeedContent.sutta(byID: cite.suttaID) {
-                                    openSutta = p
-                                }
-                            })
+                            MessageRow(
+                                message: msg,
+                                onCite: { cite in
+                                    if let p = CanonStore.shared.passage(byID: cite.suttaID) {
+                                        openSutta = p
+                                    } else if let p = SeedContent.sutta(byID: cite.suttaID) {
+                                        openSutta = p
+                                    }
+                                },
+                                onContinue: { interceptedID in
+                                    continueAfterIntercept(interceptedMessageID: interceptedID)
+                                },
+                                onEnd: endConversation
+                            )
                             .id(msg.id)
                         }
                         if isReplying {
@@ -85,10 +94,31 @@ struct ChatView: View {
     }
 
     private func clearChat() {
+        streamTask?.cancel()
+        streamTask = nil
         if let t = thread {
             ChatStore.clear(t, in: context)
         }
         messages = []
+    }
+
+    private func continueAfterIntercept(interceptedMessageID: UUID) {
+        guard let interceptIdx = messages.firstIndex(where: { $0.id == interceptedMessageID }) else { return }
+        let userMessage = messages[..<interceptIdx].last(where: { $0.role == .user })
+        guard let originalText = userMessage?.segments.first?.plainText else { return }
+        bypassClassifierOnce = true
+        draft = originalText
+        send()
+    }
+
+    private func endConversation() {
+        streamTask?.cancel()
+        streamTask = nil
+        if let t = thread {
+            ChatStore.clear(t, in: context)
+        }
+        messages = []
+        bypassClassifierOnce = false
     }
 
     private func loadThreadIfNeeded() {
@@ -108,7 +138,7 @@ struct ChatView: View {
             ChatStore.append(user, to: t, in: context)
         }
 
-        if CrisisClassifier.detects(in: text) {
+        if !bypassClassifierOnce, CrisisClassifier.detects(in: text) {
             let reminder = ChatMessage(role: .assistant,
                                        kind: .gentleReminder,
                                        segments: [.text(CrisisClassifier.interceptMessage)])
@@ -118,8 +148,10 @@ struct ChatView: View {
             }
             return
         }
+        bypassClassifierOnce = false
 
-        Task {
+        streamTask?.cancel()
+        streamTask = Task {
             isReplying = true
             // Stream the assistant message — first emission appends a new
             // message; subsequent emissions update its segments in place.
@@ -131,6 +163,7 @@ struct ChatView: View {
                 tradition: session.user.tradition,
                 history: messages
             ) {
+                if Task.isCancelled { return }
                 lastSegments = segments
                 if let id = assistantID, let idx = messages.firstIndex(where: { $0.id == id }) {
                     messages[idx] = ChatMessage(id: id, role: .assistant, segments: segments)
@@ -145,6 +178,7 @@ struct ChatView: View {
             // If the stream finished without ever yielding (e.g. an error
             // path that just calls finish), still flip the indicator off.
             isReplying = false
+            guard !Task.isCancelled else { return }
             if let id = assistantID, let t = thread,
                let final = messages.first(where: { $0.id == id }) {
                 ChatStore.append(final, to: t, in: context)
@@ -161,6 +195,8 @@ private struct MessageRow: View {
 
     let message: ChatMessage
     let onCite: (SuttaCite) -> Void
+    let onContinue: (UUID) -> Void
+    let onEnd: () -> Void
 
     var body: some View {
         switch message.role {
@@ -178,7 +214,11 @@ private struct MessageRow: View {
 
         case .assistant:
             if message.kind == .gentleReminder {
-                CrisisInterceptRow(text: message.segments.first?.plainText ?? CrisisClassifier.interceptMessage)
+                CrisisInterceptCard(
+                    text: message.segments.first?.plainText ?? CrisisClassifier.interceptMessage,
+                    onContinue: { onContinue(message.id) },
+                    onEnd: onEnd
+                )
             } else {
                 AssistantBlock(segments: message.segments, onCite: onCite)
             }
@@ -218,16 +258,50 @@ private struct AssistantBlock: View {
     }
 }
 
-private struct CrisisInterceptRow: View {
+private struct CrisisInterceptCard: View {
     @Environment(\.theme) private var theme
 
     let text: String
+    let onContinue: () -> Void
+    let onEnd: () -> Void
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 14) {
             Text(text)
                 .font(BTFont.serif(15.5, weight: .light, italic: true))
                 .foregroundStyle(theme.inkSoft)
                 .lineSpacing(5)
+
+            VStack(spacing: 8) {
+                Link(destination: CrisisClassifier.helplineURL) {
+                    Label("Get help now", systemImage: "phone.fill")
+                        .font(BTFont.ui(13, weight: .medium))
+                        .foregroundStyle(theme.ink)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .glassEffect(.regular, in: Capsule())
+                }
+                .buttonStyle(.plain)
+
+                Button(action: onContinue) {
+                    Text("I'm OK, continue")
+                        .font(BTFont.ui(13))
+                        .foregroundStyle(theme.ink)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .glassEffect(.regular, in: Capsule())
+                }
+                .buttonStyle(.plain)
+
+                Button(action: onEnd) {
+                    Text("End conversation")
+                        .font(BTFont.ui(13))
+                        .foregroundStyle(theme.inkMute)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)

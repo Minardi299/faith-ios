@@ -14,6 +14,9 @@ enum CrisisClassifier {
 
     static let interceptMessage = "What you said sounds heavy. Maybe step away from the screen for a bit. The chat will be here when you come back."
 
+    /// Global helpline aggregator — appropriate for a multi-language audience.
+    static let helplineURL = URL(string: "https://findahelpline.com/")!
+
     static func detects(in input: String) -> Bool {
         let lower = input.lowercased()
         return crisisTokens.contains { lower.contains($0) }
