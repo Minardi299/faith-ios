@@ -4,6 +4,7 @@ import SwiftData
 struct ChatView: View {
     @EnvironmentObject private var session: SessionStore
     @Environment(\.modelContext) private var context
+    @Environment(\.theme) private var theme
 
     @State private var messages: [ChatMessage] = []
     @State private var draft: String = ""
@@ -13,6 +14,10 @@ struct ChatView: View {
     @State private var showClearConfirm: Bool = false
     @State private var bypassClassifierOnce: Bool = false
     @State private var streamTask: Task<Void, Never>? = nil
+
+    private var usedFallback: Bool {
+        (session.llm as? FoundationModelsRuntime)?.lastReplyUsedFallback ?? false
+    }
 
     var body: some View {
         PageScaffold(title: nil, trailing: clearChatButton) {
@@ -58,6 +63,14 @@ struct ChatView: View {
                 }
             }
 
+            if usedFallback, !messages.isEmpty {
+                Text("Showing canon excerpts — Apple Intelligence not available on this device.")
+                    .font(BTFont.ui(11))
+                    .tracking(0.6)
+                    .foregroundStyle(theme.inkMute)
+                    .padding(.horizontal, 22)
+                    .padding(.bottom, 8)
+            }
             Composer(text: $draft, onSend: send)
                 .padding(.horizontal, 14)
                 .padding(.bottom, 8)

@@ -12,9 +12,14 @@ import FoundationModels
 /// **Availability gate:** `SystemLanguageModel.default.availability` is
 /// checked at call time. Sim or pre-iOS-26 → `RetrievalOnlyRuntime`.
 @MainActor
-final class FoundationModelsRuntime: LLMRuntime {
+final class FoundationModelsRuntime: ObservableObject, LLMRuntime {
 
     private let fallback = RetrievalOnlyRuntime()
+
+    /// `true` when the last reply was produced by `RetrievalOnlyRuntime`
+    /// because Apple Intelligence was unavailable. Reset to `false` whenever
+    /// the on-device model is used. Used by `ChatView` to display a footer.
+    @Published private(set) var lastReplyUsedFallback: Bool = false
 
     func reply(to prompt: String,
                tradition: Tradition,
@@ -22,12 +27,14 @@ final class FoundationModelsRuntime: LLMRuntime {
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
             if case .available = SystemLanguageModel.default.availability {
+                lastReplyUsedFallback = false
                 return await replyWithFoundationModels(to: prompt,
                                                         tradition: tradition,
                                                         history: history)
             }
         }
         #endif
+        lastReplyUsedFallback = true
         return await fallback.reply(to: prompt, tradition: tradition, history: history)
     }
 
@@ -39,12 +46,14 @@ final class FoundationModelsRuntime: LLMRuntime {
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
             if case .available = SystemLanguageModel.default.availability {
+                lastReplyUsedFallback = false
                 return streamReplyWithFoundationModels(to: prompt,
                                                         tradition: tradition,
                                                         history: history)
             }
         }
         #endif
+        lastReplyUsedFallback = true
         return fallback.streamReply(to: prompt, tradition: tradition, history: history)
     }
 
