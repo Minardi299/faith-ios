@@ -16,7 +16,6 @@ struct ProfileView: View {
     @State private var showingSignOut = false
     @State private var showingDeleteAccount = false
     @State private var signInError: String?
-    @State private var showingTraditionPicker = false
     @State private var showingTextSizePicker = false
     @State private var showingTimePicker = false
 
@@ -299,20 +298,6 @@ struct ProfileView: View {
             }
             .onChange(of: dailyReminderHour) { _, _ in rescheduleIfEnabled() }
             .onChange(of: dailyReminderMinute) { _, _ in rescheduleIfEnabled() }
-            Divider().background(theme.border).padding(.leading, 18)
-            Button { showingTraditionPicker = true } label: {
-                settingsRow("Tradition", detail: session.user.tradition.name)
-            }
-            .buttonStyle(.plain)
-        }
-        .sheet(isPresented: $showingTraditionPicker) {
-            TraditionPickerSheet(
-                selected: Binding(
-                    get: { session.user.tradition },
-                    set: { newTradition in session.setTradition(newTradition) }
-                ),
-                onPick: { _ in }
-            )
         }
     }
 
@@ -382,58 +367,6 @@ struct ProfileView: View {
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-    }
-}
-
-// MARK: - TraditionPickerSheet
-
-struct TraditionPickerSheet: View {
-    @Binding var selected: Tradition
-    let onPick: (Tradition) -> Void
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.theme) private var theme
-
-    var body: some View {
-        NavigationStack {
-            List {
-                ForEach(Tradition.allCases) { tradition in
-                    Button {
-                        selected = tradition
-                        onPick(tradition)
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Circle()
-                                .fill(tradition.accent)
-                                .frame(width: 12, height: 12)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(tradition.name)
-                                    .font(.system(size: 16, design: .serif))
-                                    .foregroundStyle(theme.ink)
-                                Text(tradition.pali)
-                                    .font(.system(size: 12))
-                                    .foregroundStyle(theme.inkMute)
-                            }
-                            Spacer()
-                            if selected == tradition {
-                                Image(systemName: "checkmark")
-                                    .foregroundStyle(theme.accent)
-                            }
-                        }
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-            .navigationTitle("Tradition")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
-                }
-            }
-        }
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
     }
 }
 
