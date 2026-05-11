@@ -5,12 +5,12 @@ enum AppTab: Hashable {
 }
 
 struct ContentView: View {
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("palette") private var paletteRaw: String = Palette.moss.rawValue
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
     @State private var selection: AppTab = .today
     @State private var deepLinkPassageID: String?
+    @State private var showSplash: Bool = true
 
     private var palette: Palette { Palette(rawValue: paletteRaw) ?? .moss }
     private var appearance: AppearanceMode { AppearanceMode(rawValue: appearanceRaw) ?? .system }
@@ -18,13 +18,15 @@ struct ContentView: View {
     private var theme: Theme { palette.theme(for: effectiveScheme) }
 
     var body: some View {
-        Group {
-            switch session.phase {
-            case .splash:     SplashView()
-            case .onboarding: OnboardingFlow()
-            case .main:       mainTabs
+        ZStack {
+            mainTabs
+            if showSplash {
+                SplashView { showSplash = false }
+                    .transition(.opacity)
+                    .zIndex(1)
             }
         }
+        .animation(.easeOut(duration: 0.3), value: showSplash)
         .dynamicTypeSize(.xSmall ... .accessibility5)
         .tint(theme.accent)
         .environment(\.theme, theme)

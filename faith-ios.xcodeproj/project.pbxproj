@@ -19,14 +19,14 @@
 			containerPortal = BAE14A682FA586E60084FC82 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = BAE14A6F2FA586E60084FC82;
-			remoteInfo = faith-ios;
+			remoteInfo = "faith-ios";
 		};
 		BAE14A8E2FA586E80084FC82 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BAE14A682FA586E60084FC82 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = BAE14A6F2FA586E60084FC82;
-			remoteInfo = faith-ios;
+			remoteInfo = "faith-ios";
 		};
 		BAE14AF62FA5B10D0084FC82 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -53,9 +53,9 @@
 
 /* Begin PBXFileReference section */
 		BA001A012FA586E60084FC82 /* SitActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SitActivityAttributes.swift; path = "faith-ios/Models/SitActivityAttributes.swift"; sourceTree = "<group>"; };
-		BAE14A702FA586E60084FC82 /* faith-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = faith-ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BAE14A832FA586E80084FC82 /* faith-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = faith-iosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BAE14A8D2FA586E80084FC82 /* faith-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = faith-iosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAE14A702FA586E60084FC82 /* faith-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "faith-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAE14A832FA586E80084FC82 /* faith-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "faith-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAE14A8D2FA586E80084FC82 /* faith-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "faith-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE14AE22FA5B10C0084FC82 /* FaithWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FaithWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE14AE42FA5B10C0084FC82 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		BAE14AE62FA5B10C0084FC82 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -74,17 +74,17 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BAE14A722FA586E60084FC82 /* faith-ios */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = faith-ios;
+			path = "faith-ios";
 			sourceTree = "<group>";
 		};
 		BAE14A862FA586E80084FC82 /* faith-iosTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = faith-iosTests;
+			path = "faith-iosTests";
 			sourceTree = "<group>";
 		};
 		BAE14A902FA586E80084FC82 /* faith-iosUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = faith-iosUITests;
+			path = "faith-iosUITests";
 			sourceTree = "<group>";
 		};
 		BAE14AE82FA5B10C0084FC82 /* FaithWidget */ = {
@@ -131,6 +131,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6DF2CE7A2FB25B0500587E4C /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				BA001A012FA586E60084FC82 /* SitActivityAttributes.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		BAE14A672FA586E60084FC82 = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +148,7 @@
 				BAE14AE82FA5B10C0084FC82 /* FaithWidget */,
 				BAE14AE32FA5B10C0084FC82 /* Frameworks */,
 				BAE14A712FA586E60084FC82 /* Products */,
+				6DF2CE7A2FB25B0500587E4C /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,10 +192,10 @@
 			fileSystemSynchronizedGroups = (
 				BAE14A722FA586E60084FC82 /* faith-ios */,
 			);
-			name = faith-ios;
+			name = "faith-ios";
 			packageProductDependencies = (
 			);
-			productName = faith-ios;
+			productName = "faith-ios";
 			productReference = BAE14A702FA586E60084FC82 /* faith-ios.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -206,10 +215,10 @@
 			fileSystemSynchronizedGroups = (
 				BAE14A862FA586E80084FC82 /* faith-iosTests */,
 			);
-			name = faith-iosTests;
+			name = "faith-iosTests";
 			packageProductDependencies = (
 			);
-			productName = faith-iosTests;
+			productName = "faith-iosTests";
 			productReference = BAE14A832FA586E80084FC82 /* faith-iosTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -229,10 +238,10 @@
 			fileSystemSynchronizedGroups = (
 				BAE14A902FA586E80084FC82 /* faith-iosUITests */,
 			);
-			name = faith-iosUITests;
+			name = "faith-iosUITests";
 			packageProductDependencies = (
 			);
-			productName = faith-iosUITests;
+			productName = "faith-iosUITests";
 			productReference = BAE14A8D2FA586E80084FC82 /* faith-iosUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -507,7 +516,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = faith-ios/faith-ios.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "faith-ios/faith-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"faith-ios/Preview Content\"";
@@ -515,6 +524,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Faith;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Faith uses the mic only when you tap to dictate a question to the Teacher. Audio is processed on-device.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Faith transcribes your spoken question on-device using Apple's speech framework. The text never leaves your phone.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -534,7 +544,6 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				INFOPLIST_KEY_CFBundleDisplayName = Faith;
 				PRODUCT_BUNDLE_IDENTIFIER = com.faith.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -551,7 +560,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = faith-ios/faith-ios.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "faith-ios/faith-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"faith-ios/Preview Content\"";
@@ -559,6 +568,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Faith;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Faith uses the mic only when you tap to dictate a question to the Teacher. Audio is processed on-device.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Faith transcribes your spoken question on-device using Apple's speech framework. The text never leaves your phone.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -578,7 +588,6 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				INFOPLIST_KEY_CFBundleDisplayName = Faith;
 				PRODUCT_BUNDLE_IDENTIFIER = com.faith.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -653,7 +662,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = faith-ios;
+				TEST_TARGET_NAME = "faith-ios";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Debug;
@@ -675,7 +684,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = faith-ios;
+				TEST_TARGET_NAME = "faith-ios";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Release;

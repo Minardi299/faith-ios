@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SplashView: View {
-    @EnvironmentObject private var session: SessionStore
+    let onComplete: () -> Void
 
     var body: some View {
         ZStack {
@@ -25,7 +25,7 @@ struct SplashView: View {
         }
         .task {
             try? await Task.sleep(for: .seconds(1.2))
-            session.advanceFromSplash()
+            onComplete()
         }
     }
 }
