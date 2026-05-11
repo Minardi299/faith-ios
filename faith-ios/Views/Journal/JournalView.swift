@@ -5,7 +5,6 @@ struct JournalView: View {
     @Environment(\.theme) private var theme
 
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.dismiss) private var dismiss
 
     @Query(sort: [SortDescriptor(\JournalEntry.date, order: .reverse)])
@@ -34,7 +33,6 @@ struct JournalView: View {
         .sheet(isPresented: $showingComposer) {
             JournalComposer(prefillSuttaID: nil) { text, suttaID in
                 JournalStore.add(text: text,
-                                 tradition: session.user.tradition,
                                  suttaID: suttaID,
                                  in: context)
             }
@@ -189,7 +187,6 @@ struct JournalComposer: View {
     let onSave: (String, String?) -> Void
 
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var session: SessionStore
     @State private var text: String = ""
 
     init(prefillSuttaID: String? = nil,

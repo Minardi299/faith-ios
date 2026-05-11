@@ -6,7 +6,6 @@ struct AnniversariesView: View {
 
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var session: SessionStore
 
     @Query(sort: [SortDescriptor(\Anniversary.month), SortDescriptor(\Anniversary.day)])
     private var anniversaries: [Anniversary]
@@ -163,7 +162,6 @@ struct AnniversaryComposer: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var session: SessionStore
 
     @State private var label: String = ""
     @State private var date: Date = .now
@@ -202,12 +200,12 @@ struct AnniversaryComposer: View {
 
                 DatePicker("Date", selection: $date, displayedComponents: .date)
                     .datePickerStyle(.compact)
-                    .tint(session.user.tradition.accent)
+                    .tint(theme.accent)
                     .padding(14)
                     .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
 
                 Toggle("Repeat each year", isOn: $repeatsYearly)
-                    .tint(session.user.tradition.accent)
+                    .tint(theme.accent)
                     .padding(14)
                     .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
 

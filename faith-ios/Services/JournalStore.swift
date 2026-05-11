@@ -4,7 +4,7 @@ import SwiftData
 @MainActor
 enum JournalStore {
     static func add(text: String,
-                    tradition: Tradition,
+                    tradition: Tradition = .secular,
                     suttaID: String? = nil,
                     planID: UUID? = nil,
                     in context: ModelContext) {

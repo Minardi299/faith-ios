@@ -27,7 +27,7 @@ struct ChatView: View {
                 ScrollView {
                     VStack(spacing: 22) {
                         if messages.isEmpty {
-                            EmptyChatPrompt(tradition: session.user.tradition)
+                            EmptyChatPrompt()
                                 .padding(.top, 40)
                         }
                         ForEach(messages) { msg in
@@ -183,7 +183,7 @@ struct ChatView: View {
             var lastSegments: [MessageSegment] = []
             for await segments in session.llm.streamReply(
                 to: text,
-                tradition: session.user.tradition,
+                tradition: .secular,
                 history: messages
             ) {
                 if Task.isCancelled {
@@ -413,7 +413,6 @@ private struct StreamingCaret: View {
 private struct EmptyChatPrompt: View {
     @Environment(\.theme) private var theme
 
-    let tradition: Tradition
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Ask a question").eyebrow()

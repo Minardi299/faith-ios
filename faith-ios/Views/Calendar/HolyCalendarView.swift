@@ -286,7 +286,6 @@ private struct DayDetailSheet: View {
     let month: MonthSpec
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var session: SessionStore
 
     @State private var showAddAnniversary: Bool = false
     @State private var showAddJournal: Bool = false
@@ -427,7 +426,6 @@ private struct DayDetailSheet: View {
             JournalComposer(prefillSuttaID: nil) { text, _ in
                 JournalStore.add(
                     text: text,
-                    tradition: session.user.tradition,
                     suttaID: nil,
                     in: context
                 )

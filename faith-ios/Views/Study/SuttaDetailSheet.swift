@@ -25,7 +25,6 @@ struct SuttaDetailSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var scenePhase
-    @EnvironmentObject private var session: SessionStore
 
     @StateObject private var audio = LiveAudioService.shared
     @StateObject private var listen = ListenQueueStore.shared
@@ -108,7 +107,6 @@ struct SuttaDetailSheet: View {
             JournalComposer(prefillSuttaID: passage.id) { text, suttaID in
                 JournalStore.add(
                     text: text,
-                    tradition: session.user.tradition,
                     suttaID: suttaID,
                     in: context
                 )
