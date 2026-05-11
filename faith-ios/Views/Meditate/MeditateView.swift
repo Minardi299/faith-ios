@@ -15,7 +15,6 @@ struct MeditateView: View {
     @Environment(\.theme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.modelContext) private var context
     @StateObject private var chants = ChantPlayer.shared
     @StateObject private var bg = BackgroundPlayer.shared
@@ -46,7 +45,6 @@ struct MeditateView: View {
         }
         .sheet(isPresented: $showChantPicker) {
             ChantPickerSheet(picked: $pickedChant)
-                .environmentObject(session)
                 .presentationDragIndicator(.visible)
         }
         .onDisappear {
@@ -408,7 +406,6 @@ private struct ChantPickerSheet: View {
     @Binding var picked: Chant?
     @Environment(\.dismiss) private var dismiss
     @StateObject private var chants = ChantPlayer.shared
-    @EnvironmentObject private var session: SessionStore
 
     var body: some View {
         NavigationStack {
@@ -527,14 +524,14 @@ private struct ChantPickerSheet: View {
     }
 
     private var orderedLanguageGroups: [(language: String, chants: [Chant])] {
-        let primary = session.user.tradition
-        let groups = Dictionary(grouping: Chant.all) { $0.language }
-        let sortedKeys = groups.keys.sorted { a, b in
-            let aHasPrimary = (groups[a] ?? []).contains { $0.traditions.contains(primary) }
-            let bHasPrimary = (groups[b] ?? []).contains { $0.traditions.contains(primary) }
-            if aHasPrimary != bHasPrimary { return aHasPrimary }
-            return a < b
+        var seen: [String] = []
+        var byLanguage: [String: [Chant]] = [:]
+        for chant in Chant.all {
+            if byLanguage[chant.language] == nil {
+                seen.append(chant.language)
+            }
+            byLanguage[chant.language, default: []].append(chant)
         }
-        return sortedKeys.map { (language: $0, chants: groups[$0] ?? []) }
+        return seen.map { ($0, byLanguage[$0] ?? []) }
     }
 }
