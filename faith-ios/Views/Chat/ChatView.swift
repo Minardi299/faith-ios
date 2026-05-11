@@ -92,15 +92,6 @@ struct ChatView: View {
         .onAppear {
             loadThreadIfNeeded()
         }
-        .onChange(of: session.user.tradition) { _, newTradition in
-            streamTask?.cancel()
-            streamTask = nil
-            isAwaitingFirstToken = false
-            isStreaming = false
-            let t = ChatStore.currentThread(traditionRaw: newTradition.rawValue, in: context)
-            thread = t
-            messages = ChatStore.sortedMessages(t).map(\.asChatMessage)
-        }
     }
 
     private var clearChatButton: AnyView {
@@ -154,7 +145,7 @@ struct ChatView: View {
 
     private func loadThreadIfNeeded() {
         guard thread == nil else { return }
-        let t = ChatStore.currentThread(traditionRaw: session.user.tradition.rawValue, in: context)
+        let t = ChatStore.currentThread(in: context)
         thread = t
         messages = ChatStore.sortedMessages(t).map(\.asChatMessage)
     }
