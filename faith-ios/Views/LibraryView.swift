@@ -2,7 +2,6 @@ import SwiftUI
 
 struct LibraryView: View {
     @EnvironmentObject private var canon: CanonStore
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.theme) private var theme
     @Binding var deepLinkPassageID: String?
     @State private var openPassage: SuttaPassage?
@@ -17,7 +16,7 @@ struct LibraryView: View {
     @StateObject private var pathwayProgress = PathwayProgressStore.shared
 
     private var pathways: [ReadingPathway] {
-        pathwayStore.pathways(prioritizing: session.user.tradition)
+        pathwayStore.pathways
     }
 
     var body: some View {
@@ -327,7 +326,6 @@ private struct PathwayRow: View {
 private struct TraditionBrowseView: View {
     let tradition: Tradition
     @EnvironmentObject private var canon: CanonStore
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.theme) private var theme
 
     private var collections: [CanonCollection] {

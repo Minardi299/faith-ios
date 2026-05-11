@@ -3,7 +3,6 @@ import SwiftUI
 struct PathwaysView: View {
     @StateObject private var store = PathwayStore.shared
     @StateObject private var progress = PathwayProgressStore.shared
-    @EnvironmentObject private var session: SessionStore
     @EnvironmentObject private var canon: CanonStore
     @Environment(\.dismiss) private var dismiss
     @Environment(\.theme) private var theme
@@ -12,7 +11,7 @@ struct PathwaysView: View {
     @State private var openContext: PathwayContext?
 
     private var pathways: [ReadingPathway] {
-        store.pathways(prioritizing: session.user.tradition)
+        store.pathways
     }
 
     var body: some View {
