@@ -6,7 +6,7 @@ import SwiftUI
 /// Today / Practice / Library. `tradition` is preserved as a hint for
 /// the accent tint.
 struct NatureSubstrate: View {
-    let tradition: Tradition
+    var tradition: Tradition = .secular
     var dimming: Double = 0.0
 
     @Environment(\.theme) private var theme
