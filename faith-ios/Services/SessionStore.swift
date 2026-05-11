@@ -13,17 +13,10 @@ final class SessionStore: ObservableObject {
 
     // observed state
     @Published var user: AppUser
-    @Published var phase: AppPhase
 
     @Published var streakDays: Int = 0
     @Published var todayPracticed: PracticeMark? = nil
     @Published var minutesSatToday: Int = 0
-
-    enum AppPhase: Equatable {
-        case splash
-        case onboarding
-        case main
-    }
 
     /// Production runtime: real Foundation Models when available, retrieval-
     /// only fallback otherwise (Simulator and pre-iOS-26 devices). Mock stays
@@ -46,41 +39,16 @@ final class SessionStore: ObservableObject {
         } else {
             self.user = AppUser.sample
         }
-        self.phase = resolvedUsers.hasCompletedOnboarding ? .main : .splash
 
         refreshDerivedStats()
     }
 
     // MARK: - Mutations
 
-    func setTradition(_ t: Tradition) {
-        user.tradition = t
-        users.save(user)
-    }
-
-    func completeOnboarding(with user: AppUser) {
-        self.user = user
-        users.save(user)
-        users.hasCompletedOnboarding = true
-        self.phase = .main
-    }
-
-    func advanceFromSplash() {
-        phase = users.hasCompletedOnboarding ? .main : .onboarding
-    }
-
-    func resetForDev() {
-        users.clear()
-        auth.signOut()
-        user = .sample
-        phase = .splash
-    }
-
     func signOut() {
         auth.signOut()
         users.clear()
         user = .sample
-        phase = .splash
     }
 
     func deleteAccount() {
@@ -88,7 +56,6 @@ final class SessionStore: ObservableObject {
         auth.signOut()
         if savedOK {
             user = .sample
-            phase = .splash
             // Reset cached streak/minutes here but not in signOut() — on normal
             // sign-out the numbers refresh on next view appearance; on deletion
             // we want immediate zero so the splash → onboarding flow doesn't
