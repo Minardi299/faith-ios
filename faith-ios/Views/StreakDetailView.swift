@@ -49,7 +49,7 @@ struct StreakDetailView: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition)
+            NatureSubstrate()
                 .ignoresSafeArea()
             ScrollView {
                 VStack(spacing: 22) {

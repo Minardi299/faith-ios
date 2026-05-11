@@ -322,7 +322,7 @@ private struct DayDetailSheet: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            NatureSubstrate(tradition: observance?.tradition ?? session.user.tradition, dimming: 0.18)
+            NatureSubstrate(tradition: observance?.tradition ?? .secular, dimming: 0.18)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {

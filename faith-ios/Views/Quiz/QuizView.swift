@@ -20,11 +20,11 @@ struct QuizView: View {
 
     var body: some View {
         let currentQuestion = questions.indices.contains(currentIndex) ? questions[currentIndex] : nil
-        let substrateTraditional = currentQuestion.flatMap { $0.traditionEnum } ?? session.user.tradition
+        let substrateTraditional = currentQuestion.flatMap { $0.traditionEnum } ?? .secular
 
         return ZStack(alignment: .top) {
             NatureSubstrate(
-                tradition: phase == .playing ? substrateTraditional : session.user.tradition,
+                tradition: phase == .playing ? substrateTraditional : .secular,
                 dimming: 0.18
             )
 

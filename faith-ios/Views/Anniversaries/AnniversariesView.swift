@@ -16,7 +16,7 @@ struct AnniversariesView: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.18)
+            NatureSubstrate(dimming: 0.18)
             VStack(alignment: .leading, spacing: 16) {
                 header
                 if anniversaries.isEmpty {
@@ -172,7 +172,7 @@ struct AnniversaryComposer: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.2)
+            NatureSubstrate(dimming: 0.2)
 
             VStack(alignment: .leading, spacing: 16) {
                 HStack {

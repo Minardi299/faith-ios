@@ -17,7 +17,7 @@ struct JournalView: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.18)
+            NatureSubstrate(dimming: 0.18)
 
             VStack(alignment: .leading, spacing: 14) {
                 header
@@ -203,7 +203,7 @@ struct JournalComposer: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.2)
+            NatureSubstrate(dimming: 0.2)
             VStack(alignment: .leading, spacing: 16) {
                 HStack {
                     Text(existing == nil ? "Write" : "Edit").eyebrow()

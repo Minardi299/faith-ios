@@ -23,7 +23,7 @@ struct LibraryView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                NatureSubstrate(tradition: session.user.tradition)
+                NatureSubstrate()
                     .ignoresSafeArea()
                 ScrollView {
                     VStack(alignment: .leading, spacing: 22) {
@@ -336,7 +336,7 @@ private struct TraditionBrowseView: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition)
+            NatureSubstrate(tradition: tradition)
                 .ignoresSafeArea()
             ScrollView {
                 VStack(spacing: 8) {

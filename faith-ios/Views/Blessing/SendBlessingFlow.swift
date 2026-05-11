@@ -36,7 +36,7 @@ struct SendBlessingFlow: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.2)
+            NatureSubstrate(dimming: 0.2)
 
             VStack(alignment: .leading, spacing: 18) {
                 HStack {

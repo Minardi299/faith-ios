@@ -38,7 +38,7 @@ struct ProfileView: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition)
+            NatureSubstrate()
                 .ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 22) {

@@ -22,7 +22,7 @@ struct TodayView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                NatureSubstrate(tradition: session.user.tradition)
+                NatureSubstrate()
                     .ignoresSafeArea()
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
