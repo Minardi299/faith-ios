@@ -3,7 +3,6 @@ import Foundation
 struct AppUser: Codable, Hashable {
     var id: String
     var displayName: String?
-    var tradition: Tradition
     var experience: Experience
     var dailyMinutes: Int        // 5/10/20/30
     var topics: Set<Topic>
@@ -12,7 +11,6 @@ struct AppUser: Codable, Hashable {
     static let sample = AppUser(
         id: "local",
         displayName: nil,
-        tradition: .secular,
         experience: .someSitting,
         dailyMinutes: 10,
         topics: [],
