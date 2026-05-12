@@ -188,8 +188,14 @@ struct HolyCalendarView: View {
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 
-    private func barHeight(_ depth: Int) -> CGFloat {
-        switch depth { case 3: 28; case 2: 18; case 1: 12; default: 5 }
+    private func barHeight(_ minutes: Int) -> CGFloat {
+        switch minutes {
+        case 30...:    28
+        case 20..<30:  22
+        case 10..<20:  16
+        case 1..<10:   10
+        default:       5
+        }
     }
 
     private func phaseLabel(_ p: LunarPhase) -> String {
