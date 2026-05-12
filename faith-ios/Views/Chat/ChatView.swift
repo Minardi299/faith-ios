@@ -14,7 +14,6 @@ struct ChatView: View {
     @State private var openSutta: SuttaPassage?
     @State private var thread: StoredChatThread?
     @State private var showClearConfirm: Bool = false
-    @State private var bypassClassifierOnce: Bool = false
     @State private var streamTask: Task<Void, Never>? = nil
 
     private var usedFallback: Bool {
@@ -126,9 +125,22 @@ struct ChatView: View {
         guard let interceptIdx = messages.firstIndex(where: { $0.id == interceptedMessageID }) else { return }
         let userMessage = messages[..<interceptIdx].last(where: { $0.role == .user })
         guard let originalText = userMessage?.segments.first?.plainText else { return }
-        bypassClassifierOnce = true
-        draft = originalText
-        send()
+
+        // Remove the intercept card from in-memory list AND from the persisted
+        // thread, so the LLM doesn't see it in `history` and the user doesn't
+        // see it linger in the transcript.
+        let intercept = messages[interceptIdx]
+        messages.remove(at: interceptIdx)
+        if let t = thread,
+           let stored = t.messages.first(where: { $0.timestamp == intercept.timestamp }) {
+            context.delete(stored)
+            try? context.save()
+        }
+
+        // Stream a fresh reply using the original user prompt. History is
+        // already correct (intercept card was just removed; original user
+        // message is the last entry).
+        streamReply(to: originalText)
     }
 
     private func endConversation() {
@@ -140,7 +152,6 @@ struct ChatView: View {
             ChatStore.clear(t, in: context)
         }
         messages = []
-        bypassClassifierOnce = false
     }
 
     private func loadThreadIfNeeded() {
@@ -160,7 +171,7 @@ struct ChatView: View {
             ChatStore.append(user, to: t, in: context)
         }
 
-        if !bypassClassifierOnce, CrisisClassifier.detects(in: text) {
+        if CrisisClassifier.detects(in: text) {
             let reminder = ChatMessage(role: .assistant,
                                        kind: .gentleReminder,
                                        segments: [.text(CrisisClassifier.interceptMessage)])
@@ -170,8 +181,11 @@ struct ChatView: View {
             }
             return
         }
-        bypassClassifierOnce = false
 
+        streamReply(to: text)
+    }
+
+    private func streamReply(to text: String) {
         streamTask?.cancel()
         streamTask = Task {
             isAwaitingFirstToken = true
