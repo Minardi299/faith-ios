@@ -1,10 +1,13 @@
 import SwiftUI
 import SwiftData
 import AuthenticationServices
+import UIKit
+import UserNotifications
 
 struct ProfileView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
+    @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var session: SessionStore
     @AppStorage("palette") private var paletteRaw: String = Palette.moss.rawValue
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
@@ -13,6 +16,8 @@ struct ProfileView: View {
     @AppStorage("dailyReminderEnabled") private var dailyReminderEnabled: Bool = false
     @AppStorage("dailyReminderHour") private var dailyReminderHour: Int = 6
     @AppStorage("dailyReminderMinute") private var dailyReminderMinute: Int = 30
+    @State private var notificationAuthStatus: UNAuthorizationStatus = .notDetermined
+    @State private var showAuthDeniedAlert: Bool = false
     @State private var showingSignOut = false
     @State private var showingDeleteAccount = false
     @State private var signInError: String?
@@ -75,6 +80,14 @@ struct ProfileView: View {
                 .padding(.bottom, 32)
             }
         }
+        .task(id: "init") {
+            await refreshNotificationStatus()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                Task { await refreshNotificationStatus() }
+            }
+        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -87,7 +100,7 @@ struct ProfileView: View {
             Button("Cancel", role: .cancel) {}
             Button("Sign out", role: .destructive) { session.signOut() }
         } message: {
-            Text("Your journal, anniversaries, and streak stay on this device. You'll need to pick your tradition again on next launch.")
+            Text("Your journal, anniversaries, and streak stay on this device. You can sign back in any time.")
         }
         .alert("Delete account?", isPresented: $showingDeleteAccount) {
             Button("Cancel", role: .cancel) {}
@@ -95,7 +108,7 @@ struct ProfileView: View {
                 session.deleteAccount()
             }
         } message: {
-            Text("Wipes your sign-in, journal, anniversaries, streak, chat history, and tradition preference. This cannot be undone.")
+            Text("Wipes your sign-in, journal, anniversaries, streak, and chat history. This cannot be undone.")
         }
         .alert("Sign in failed", isPresented: Binding(
             get: { signInError != nil },
@@ -276,13 +289,25 @@ struct ProfileView: View {
                             await Notifications.scheduleDailyReminder(
                                 at: dailyReminderHour, minute: dailyReminderMinute
                             )
+                            await refreshNotificationStatus()
                         } else {
                             dailyReminderEnabled = false
+                            showAuthDeniedAlert = true
                         }
                     } else {
                         Notifications.cancelDailyReminder()
                     }
                 }
+            }
+            .alert("Notifications are off", isPresented: $showAuthDeniedAlert) {
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("To enable the daily reminder, allow notifications for Faith in iOS Settings.")
             }
             Divider().background(theme.border).padding(.leading, 18)
             Button { showingTimePicker = true } label: {
@@ -315,6 +340,18 @@ struct ProfileView: View {
             await Notifications.scheduleDailyReminder(
                 at: dailyReminderHour, minute: dailyReminderMinute
             )
+        }
+    }
+
+    private func refreshNotificationStatus() async {
+        let status = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+        notificationAuthStatus = status
+
+        // If the user disabled notifications externally, sync our toggle so we
+        // don't claim to be scheduling reminders we no longer can.
+        if dailyReminderEnabled && status != .authorized && status != .provisional && status != .ephemeral {
+            dailyReminderEnabled = false
+            Notifications.cancelDailyReminder()
         }
     }
 
