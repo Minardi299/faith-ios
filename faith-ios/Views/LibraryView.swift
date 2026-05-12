@@ -74,6 +74,13 @@ struct LibraryView: View {
                 openPassage = passage
                 deepLinkPassageID = nil
             }
+            .onChange(of: canon.loadStatus) { _, _ in
+                guard let id = deepLinkPassageID,
+                      let passage = canon.passage(byID: id) else { return }
+                openContext = nil
+                openPassage = passage
+                deepLinkPassageID = nil
+            }
         }
     }
 
@@ -240,8 +247,8 @@ struct LibraryView: View {
 
     private func openPathwayDirect(_ pathway: ReadingPathway) {
         let nextIndex = pathwayProgress.nextStepIndex(in: pathway)
-        let step = pathway.steps[nextIndex]
-        guard let passage = canon.passage(byID: step.suttaID) else { return }
+        guard pathway.steps.indices.contains(nextIndex),
+              let passage = canon.passage(byID: pathway.steps[nextIndex].suttaID) else { return }
         openContext = PathwayContext(
             pathwayID: pathway.id,
             pathwayTitle: pathway.title,
