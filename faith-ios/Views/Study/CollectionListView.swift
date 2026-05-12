@@ -68,10 +68,12 @@ struct CollectionListView: View {
                 Image(systemName: "xmark")
                     .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(theme.ink)
-                    .frame(width: 40, height: 40)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
+            .accessibilityLabel("Close")
         }
     }
 
@@ -118,6 +120,7 @@ struct CollectionListView: View {
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 11, weight: .light))
                                 .foregroundStyle(theme.inkMute)
+                                .accessibilityHidden(true)
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 11)
@@ -140,7 +143,7 @@ struct CollectionListView: View {
             Text("Nothing here yet.")
                 .font(BTFont.serif(15, weight: .light, italic: true))
                 .foregroundStyle(theme.inkMute)
-            Text("This collection is part of the M4 corpus pack — text arrives soon.")
+            Text("Translations for this collection are still in progress.")
                 .font(BTFont.ui(12, weight: .light))
                 .foregroundStyle(theme.inkMute)
                 .multilineTextAlignment(.center)

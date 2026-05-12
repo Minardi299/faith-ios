@@ -4,14 +4,16 @@ import SwiftData
 @MainActor
 enum ChatStore {
     /// Returns the most recent thread, creating one if none exists.
-    static func currentThread(traditionRaw: String, in context: ModelContext) -> StoredChatThread {
+    /// New threads write traditionRaw = "secular" — the field is kept in
+    /// the schema for compatibility but no longer scopes anything.
+    static func currentThread(in context: ModelContext) -> StoredChatThread {
         let descriptor = FetchDescriptor<StoredChatThread>(
             sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
         )
         if let existing = (try? context.fetch(descriptor))?.first {
             return existing
         }
-        let new = StoredChatThread(traditionRaw: traditionRaw)
+        let new = StoredChatThread(traditionRaw: "secular")
         context.insert(new)
         try? context.save()
         return new

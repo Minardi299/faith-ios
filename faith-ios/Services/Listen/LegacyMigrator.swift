@@ -1,4 +1,7 @@
 import Foundation
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "legacymigrator")
 
 /// One-shot migration: copy progress from the legacy `PathwayProgressStore`
 /// into the new `ListenProgressStore` so users who marked suttas read in the
@@ -26,7 +29,7 @@ enum LegacyMigrator {
         listen.saveImmediately()
         UserDefaults.standard.set(true, forKey: migratedKey)
         if migrated > 0 {
-            print("✅ LegacyMigrator: migrated \(migrated) read marks from PathwayProgressStore")
+            log.notice("LegacyMigrator: migrated \(migrated, privacy: .public) read marks from PathwayProgressStore")
         }
     }
 }

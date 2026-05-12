@@ -3,8 +3,8 @@ import SwiftData
 
 struct HolyCalendarView: View {
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.modelContext) private var context
 
     @State private var month: MonthSpec = .currentOrSeed
@@ -57,7 +57,7 @@ struct HolyCalendarView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text("BE \(month.year + 543)")
+            Text(String(month.year))
                 .font(BTFont.ui(10.5, weight: .light))
                 .tracking(2.2)
                 .foregroundStyle(theme.inkMute)
@@ -66,24 +66,24 @@ struct HolyCalendarView: View {
                     .font(BTFont.serif(28, weight: .light))
                     .foregroundStyle(theme.ink)
                 Spacer()
-                Button { withAnimation(.easeOut(duration: 0.35)) { month = month.previous } } label: {
+                Button { withAnimation(reduceMotion ? .none : .easeOut(duration: 0.35)) { month = month.previous } } label: {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 11, weight: .light))
                         .foregroundStyle(theme.ink)
-                        .frame(width: 32, height: 32)
-                        .glassEffect(.regular, in: Circle())
-                        .contentShape(Circle())
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                Button { withAnimation(.easeOut(duration: 0.35)) { month = month.next } } label: {
+                .accessibilityLabel("Previous month")
+                Button { withAnimation(reduceMotion ? .none : .easeOut(duration: 0.35)) { month = month.next } } label: {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 11, weight: .light))
                         .foregroundStyle(theme.ink)
-                        .frame(width: 32, height: 32)
-                        .glassEffect(.regular, in: Circle())
-                        .contentShape(Circle())
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Next month")
             }
         }
         .padding(.horizontal, 4)
@@ -188,8 +188,14 @@ struct HolyCalendarView: View {
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 
-    private func barHeight(_ depth: Int) -> CGFloat {
-        switch depth { case 3: 28; case 2: 18; case 1: 12; default: 5 }
+    private func barHeight(_ minutes: Int) -> CGFloat {
+        switch minutes {
+        case 30...:    28
+        case 20..<30:  22
+        case 10..<20:  16
+        case 1..<10:   10
+        default:       5
+        }
     }
 
     private func phaseLabel(_ p: LunarPhase) -> String {
@@ -213,13 +219,21 @@ private struct DayCell: View {
     let lunar: LunarPhase
     let practice: Int
 
+    private var dayCellLabel: String {
+        var parts = ["Day \(day)"]
+        if isToday { parts.append("today") }
+        if practice > 0 { parts.append("\(practice) minutes practiced") }
+        if let o = observance { parts.append(o.label) }
+        return parts.joined(separator: ", ")
+    }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .strokeBorder(isToday ? theme.inkMute : theme.border, lineWidth: 0.5)
+                .strokeBorder(isToday ? theme.accent : theme.border, lineWidth: isToday ? 1.5 : 0.5)
                 .background(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(isToday ? theme.border : theme.border)
+                        .fill(isToday ? theme.accent.opacity(0.18) : theme.border)
                 )
                 .frame(height: 56)
 
@@ -250,18 +264,23 @@ private struct DayCell: View {
                     .font(BTFont.serif(15, weight: isToday ? .regular : .light))
                     .foregroundStyle(.white.opacity(isToday ? 0.95 : 0.78))
                 Spacer().frame(height: 3)
-                // practice marks bottom-center
-                HStack(spacing: 2) {
-                    if practice & 1 != 0 {
-                        Circle().fill(theme.inkSoft).frame(width: 3, height: 3)
-                    }
-                    if practice & 2 != 0 {
-                        Rectangle().fill(theme.inkSoft).frame(width: 4, height: 1)
-                    }
-                }
-                .padding(.bottom, 4)
+                // practice mark bottom-center
+                practiceMark
+                    .padding(.bottom, 4)
             }
             .frame(maxWidth: .infinity)
+        }
+        .accessibilityLabel(dayCellLabel)
+        .accessibilityAddTraits(.isButton)
+    }
+
+    @ViewBuilder
+    private var practiceMark: some View {
+        if practice > 0 {
+            Circle()
+                .fill(theme.accent)
+                .frame(width: 4, height: 4)
+                .opacity(practice >= 20 ? 1.0 : practice >= 10 ? 0.7 : 0.4)
         }
     }
 }
@@ -273,10 +292,10 @@ private struct DayDetailSheet: View {
     let month: MonthSpec
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var session: SessionStore
 
     @State private var showAddAnniversary: Bool = false
     @State private var showAddJournal: Bool = false
+    @State private var anniversaryToDelete: Anniversary?
 
     private var observance: HolyDay? {
         HolyDayCalendar.observances(year: month.year, month: month.month)
@@ -296,7 +315,7 @@ private struct DayDetailSheet: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            NatureSubstrate(tradition: observance?.tradition ?? session.user.tradition, dimming: 0.18)
+            NatureSubstrate(tradition: observance?.tradition ?? .secular, dimming: 0.18)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
@@ -316,10 +335,12 @@ private struct DayDetailSheet: View {
                             Image(systemName: "xmark")
                                 .font(.system(size: 13, weight: .regular))
                                 .foregroundStyle(theme.ink)
-                                .frame(width: 40, height: 40)
+                                .frame(minWidth: 44, minHeight: 44)
+                                .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
                         .glassEffect(.regular, in: Circle())
+                        .accessibilityLabel("Close")
                     }
 
                     Divider().background(theme.border)
@@ -342,7 +363,7 @@ private struct DayDetailSheet: View {
                                         .foregroundStyle(theme.ink)
                                     Spacer()
                                     Button(role: .destructive) {
-                                        AnniversaryStore.delete(ann, in: context)
+                                        anniversaryToDelete = ann
                                     } label: {
                                         Image(systemName: "trash")
                                             .font(.system(size: 11, weight: .light))
@@ -411,10 +432,21 @@ private struct DayDetailSheet: View {
             JournalComposer(prefillSuttaID: nil) { text, _ in
                 JournalStore.add(
                     text: text,
-                    tradition: session.user.tradition,
                     suttaID: nil,
                     in: context
                 )
+            }
+        }
+        .alert("Delete this anniversary?", isPresented: Binding(
+            get: { anniversaryToDelete != nil },
+            set: { if !$0 { anniversaryToDelete = nil } }
+        )) {
+            Button("Cancel", role: .cancel) { anniversaryToDelete = nil }
+            Button("Delete", role: .destructive) {
+                if let a = anniversaryToDelete {
+                    AnniversaryStore.delete(a, in: context)
+                }
+                anniversaryToDelete = nil
             }
         }
     }

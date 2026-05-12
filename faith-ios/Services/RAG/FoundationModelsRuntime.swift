@@ -1,7 +1,10 @@
 import Foundation
+import os
 #if canImport(FoundationModels)
 import FoundationModels
 #endif
+
+private let log = Logger(subsystem: "com.faith.app", category: "foundationmodels")
 
 /// LLMRuntime backed by Apple's on-device Foundation Models framework
 /// (`LanguageModelSession`). The model only **picks passage ids** and
@@ -12,9 +15,14 @@ import FoundationModels
 /// **Availability gate:** `SystemLanguageModel.default.availability` is
 /// checked at call time. Sim or pre-iOS-26 → `RetrievalOnlyRuntime`.
 @MainActor
-final class FoundationModelsRuntime: LLMRuntime {
+final class FoundationModelsRuntime: ObservableObject, LLMRuntime {
 
     private let fallback = RetrievalOnlyRuntime()
+
+    /// `true` when the last reply was produced by `RetrievalOnlyRuntime`
+    /// because Apple Intelligence was unavailable. Reset to `false` whenever
+    /// the on-device model is used. Used by `ChatView` to display a footer.
+    @Published private(set) var lastReplyUsedFallback: Bool = false
 
     func reply(to prompt: String,
                tradition: Tradition,
@@ -22,12 +30,14 @@ final class FoundationModelsRuntime: LLMRuntime {
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
             if case .available = SystemLanguageModel.default.availability {
+                lastReplyUsedFallback = false
                 return await replyWithFoundationModels(to: prompt,
                                                         tradition: tradition,
                                                         history: history)
             }
         }
         #endif
+        lastReplyUsedFallback = true
         return await fallback.reply(to: prompt, tradition: tradition, history: history)
     }
 
@@ -39,12 +49,14 @@ final class FoundationModelsRuntime: LLMRuntime {
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
             if case .available = SystemLanguageModel.default.availability {
+                lastReplyUsedFallback = false
                 return streamReplyWithFoundationModels(to: prompt,
                                                         tradition: tradition,
                                                         history: history)
             }
         }
         #endif
+        lastReplyUsedFallback = true
         return fallback.streamReply(to: prompt, tradition: tradition, history: history)
     }
 
@@ -62,7 +74,7 @@ final class FoundationModelsRuntime: LLMRuntime {
             let response = try await session.respond(to: prompt, generating: ChatResponse.self)
             return Self.makeSegments(from: response.content, query: prompt)
         } catch {
-            print("⚠️ FoundationModels error: \(error)")
+            log.warning("FoundationModels error: \(error.localizedDescription, privacy: .private)")
             return await fallback.reply(to: prompt, tradition: tradition, history: history)
         }
     }
@@ -130,7 +142,7 @@ final class FoundationModelsRuntime: LLMRuntime {
                         }
                     }
                 } catch {
-                    print("⚠️ FoundationModels stream error: \(error)")
+                    log.warning("FoundationModels stream error: \(error.localizedDescription, privacy: .private)")
                     let final = await fallback.reply(to: prompt, tradition: tradition, history: history)
                     continuation.yield(final)
                 }

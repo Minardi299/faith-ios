@@ -6,16 +6,16 @@ struct AnniversariesView: View {
 
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var session: SessionStore
 
     @Query(sort: [SortDescriptor(\Anniversary.month), SortDescriptor(\Anniversary.day)])
     private var anniversaries: [Anniversary]
 
     @State private var showAdd: Bool = false
+    @State private var anniversaryToDelete: Anniversary?
 
     var body: some View {
         ZStack(alignment: .top) {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.18)
+            NatureSubstrate(dimming: 0.18)
             VStack(alignment: .leading, spacing: 16) {
                 header
                 if anniversaries.isEmpty {
@@ -30,6 +30,18 @@ struct AnniversariesView: View {
         .presentationBackground(.clear)
         .sheet(isPresented: $showAdd) {
             AnniversaryComposer()
+        }
+        .alert("Delete this anniversary?", isPresented: Binding(
+            get: { anniversaryToDelete != nil },
+            set: { if !$0 { anniversaryToDelete = nil } }
+        )) {
+            Button("Cancel", role: .cancel) { anniversaryToDelete = nil }
+            Button("Delete", role: .destructive) {
+                if let a = anniversaryToDelete {
+                    AnniversaryStore.delete(a, in: context)
+                }
+                anniversaryToDelete = nil
+            }
         }
     }
 
@@ -54,10 +66,12 @@ struct AnniversariesView: View {
                 Image(systemName: "xmark")
                     .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(theme.ink)
-                    .frame(width: 40, height: 40)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
+            .accessibilityLabel("Close")
         }
         .padding(.horizontal, 22)
     }
@@ -83,7 +97,7 @@ struct AnniversariesView: View {
                         }
                         Spacer()
                         Button(role: .destructive) {
-                            AnniversaryStore.delete(ann, in: context)
+                            anniversaryToDelete = ann
                         } label: {
                             Image(systemName: "trash")
                                 .font(.system(size: 12, weight: .light))
@@ -148,7 +162,6 @@ struct AnniversaryComposer: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var session: SessionStore
 
     @State private var label: String = ""
     @State private var date: Date = .now
@@ -157,7 +170,7 @@ struct AnniversaryComposer: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.2)
+            NatureSubstrate(dimming: 0.2)
 
             VStack(alignment: .leading, spacing: 16) {
                 HStack {
@@ -167,10 +180,12 @@ struct AnniversaryComposer: View {
                         Image(systemName: "xmark")
                             .font(.system(size: 13, weight: .regular))
                             .foregroundStyle(theme.ink)
-                            .frame(width: 40, height: 40)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .glassEffect(.regular, in: Circle())
+                    .accessibilityLabel("Close")
                 }
 
                 Text("Mark a day")
@@ -185,12 +200,12 @@ struct AnniversaryComposer: View {
 
                 DatePicker("Date", selection: $date, displayedComponents: .date)
                     .datePickerStyle(.compact)
-                    .tint(session.user.tradition.accent)
+                    .tint(theme.accent)
                     .padding(14)
                     .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
 
                 Toggle("Repeat each year", isOn: $repeatsYearly)
-                    .tint(session.user.tradition.accent)
+                    .tint(theme.accent)
                     .padding(14)
                     .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
 

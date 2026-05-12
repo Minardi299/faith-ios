@@ -3,7 +3,6 @@ import SwiftUI
 /// Standard scaffold for tab pages: tradition substrate + top glyph row + content.
 /// Tab bar is supplied by the enclosing `TabView` (iOS 26 liquid glass tab bar).
 struct PageScaffold<Content: View>: View {
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.theme) private var theme
     let title: String?
     let trailing: AnyView?
@@ -19,7 +18,7 @@ struct PageScaffold<Content: View>: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            NatureSubstrate(tradition: session.user.tradition)
+            NatureSubstrate()
             VStack(spacing: 0) {
                 HStack(alignment: .center) {
                     Spacer()

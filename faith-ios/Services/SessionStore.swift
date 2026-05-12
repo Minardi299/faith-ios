@@ -3,6 +3,17 @@ import SwiftUI
 import SwiftData
 import Combine
 
+enum AccountDeletionError: LocalizedError {
+    case wipeFailed
+
+    var errorDescription: String? {
+        switch self {
+        case .wipeFailed:
+            return "Some data could not be deleted. Please try again or check Settings."
+        }
+    }
+}
+
 @MainActor
 final class SessionStore: ObservableObject {
     // dependencies
@@ -13,17 +24,11 @@ final class SessionStore: ObservableObject {
 
     // observed state
     @Published var user: AppUser
-    @Published var phase: AppPhase
 
     @Published var streakDays: Int = 0
     @Published var todayPracticed: PracticeMark? = nil
     @Published var minutesSatToday: Int = 0
-
-    enum AppPhase: Equatable {
-        case splash
-        case onboarding
-        case main
-    }
+    @Published var lastDeletionError: Error? = nil
 
     /// Production runtime: real Foundation Models when available, retrieval-
     /// only fallback otherwise (Simulator and pre-iOS-26 devices). Mock stays
@@ -46,41 +51,31 @@ final class SessionStore: ObservableObject {
         } else {
             self.user = AppUser.sample
         }
-        self.phase = resolvedUsers.hasCompletedOnboarding ? .main : .splash
 
         refreshDerivedStats()
     }
 
     // MARK: - Mutations
 
-    func setTradition(_ t: Tradition) {
-        user.tradition = t
-        users.save(user)
-    }
-
-    func completeOnboarding(with user: AppUser) {
-        self.user = user
-        users.save(user)
-        users.hasCompletedOnboarding = true
-        self.phase = .main
-    }
-
-    func advanceFromSplash() {
-        phase = users.hasCompletedOnboarding ? .main : .onboarding
-    }
-
-    func resetForDev() {
-        users.clear()
-        auth.signOut()
-        user = .sample
-        phase = .splash
-    }
-
     func signOut() {
         auth.signOut()
         users.clear()
         user = .sample
-        phase = .splash
+    }
+
+    func deleteAccount() {
+        lastDeletionError = nil
+        let savedOK = AccountDeletion.wipe(modelContext: modelContext, users: users)
+        auth.signOut()
+        if savedOK {
+            user = .sample
+            // Reset cached streak/minutes immediately so the home view
+            // doesn't momentarily show stale values after sign-out.
+            refreshDerivedStats()
+        } else {
+            // SwiftData wipe failed — surface so Profile can alert the user.
+            lastDeletionError = AccountDeletionError.wipeFailed
+        }
     }
 
     func markPracticed(_ mark: PracticeMark) {

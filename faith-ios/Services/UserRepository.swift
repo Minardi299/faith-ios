@@ -5,7 +5,6 @@ protocol UserRepository: AnyObject {
     func load() -> AppUser?
     func save(_ user: AppUser)
     func clear()
-    var hasCompletedOnboarding: Bool { get set }
 }
 
 @MainActor
@@ -33,8 +32,4 @@ final class LocalUserRepository: UserRepository {
         defaults.removeObject(forKey: onboardingKey)
     }
 
-    var hasCompletedOnboarding: Bool {
-        get { defaults.bool(forKey: onboardingKey) }
-        set { defaults.set(newValue, forKey: onboardingKey) }
-    }
 }

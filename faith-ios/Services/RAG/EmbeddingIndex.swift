@@ -1,6 +1,9 @@
 import Foundation
 import NaturalLanguage
 import Observation
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "embeddings")
 
 /// On-device retrieval index over the bundled canon. Each non-stub passage
 /// with body text gets a single L2-normalised vector built by averaging the
@@ -224,7 +227,7 @@ final class EmbeddingIndex: ObservableObject {
         do {
             try data.write(to: url, options: .atomic)
         } catch {
-            print("⚠️ EmbeddingIndex save failed: \(error)")
+            log.warning("EmbeddingIndex save failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 

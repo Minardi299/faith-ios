@@ -14,54 +14,11 @@ struct MeditationBackground: Identifiable, Hashable {
     /// textures use 0 for a seamless join.
     let loopGapSeconds: TimeInterval
 
-    static let all: [MeditationBackground] = [
-        MeditationBackground(
-            id: "mokugyo",
-            title: "Wooden fish",
-            romanised: "Mõ · Mokugyo",
-            filename: "mokugyo",
-            icon: "drum.fill",
-            loopGapSeconds: 1.5
-        ),
-        MeditationBackground(
-            id: "singing-bowl",
-            title: "Singing bowl",
-            romanised: nil,
-            filename: "singing-bowl",
-            icon: "circle.dotted",
-            loopGapSeconds: 4.0
-        ),
-        MeditationBackground(
-            id: "tingsha",
-            title: "Tingsha",
-            romanised: "Tibetan bells",
-            filename: "tingsha",
-            icon: "bell.fill",
-            loopGapSeconds: 3.0
-        ),
-        MeditationBackground(
-            id: "temple-drum",
-            title: "Temple drum",
-            romanised: nil,
-            filename: "temple-drum",
-            icon: "drum",
-            loopGapSeconds: 2.5
-        ),
-        MeditationBackground(
-            id: "rain",
-            title: "Rain",
-            romanised: nil,
-            filename: "rain",
-            icon: "cloud.rain.fill",
-            loopGapSeconds: 0.0
-        ),
-        MeditationBackground(
-            id: "stream",
-            title: "Stream",
-            romanised: nil,
-            filename: "stream",
-            icon: "water.waves",
-            loopGapSeconds: 0.0
-        ),
-    ]
+}
+
+extension MeditationBackground {
+    /// Empty until ambient mp3s are sourced and dropped into Resources/backgrounds/.
+    /// Phase 0.8 of the UX-fixes plan: shown rows pointed at missing audio,
+    /// producing silent no-op taps that confused users.
+    static let all: [MeditationBackground] = []
 }

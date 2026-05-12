@@ -7,7 +7,6 @@ protocol AuthService: AnyObject {
     var isSignedIn: Bool { get }
     var appleUserID: String? { get }
     func handleAppleAuthorization(_ authorization: ASAuthorization) -> AppleSignInResult?
-    func continueWithoutAccount()
     func signOut()
 }
 
@@ -44,10 +43,6 @@ final class AppleAuthService: AuthService {
                                  email: email)
     }
 
-    func continueWithoutAccount() {
-        anonymous = true
-    }
-
     func signOut() {
         Keychain.delete(key: keychainKey)
         anonymous = false
@@ -62,10 +57,6 @@ final class MockAuthService: AuthService {
     func handleAppleAuthorization(_ authorization: ASAuthorization) -> AppleSignInResult? {
         isSignedIn = true
         return AppleSignInResult(userID: "mock", givenName: nil, familyName: nil, email: nil)
-    }
-
-    func continueWithoutAccount() {
-        isSignedIn = true
     }
 
     func signOut() {

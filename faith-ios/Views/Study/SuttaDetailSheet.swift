@@ -25,13 +25,13 @@ struct SuttaDetailSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var scenePhase
-    @EnvironmentObject private var session: SessionStore
 
-    @StateObject private var audio = LiveAudioService.shared
-    @StateObject private var listen = ListenQueueStore.shared
+    @ObservedObject private var audio = LiveAudioService.shared
+    @ObservedObject private var listen = ListenQueueStore.shared
     @State private var glossTerm: GlossTerm? = nil
     @State private var showJournal: Bool = false
     @State private var showShare: Bool = false
+    @State private var showQueue: Bool = false
     @State private var nextPassage: SuttaPassage? = nil
 
     var body: some View {
@@ -83,9 +83,11 @@ struct SuttaDetailSheet: View {
                 ReadingRail(
                     tradition: passage.tradition,
                     isPlayingThis: listen.isPlaying && listen.current?.passageID == passage.id,
+                    hasQueue: listen.current != nil,
                     onListen: listenAction,
                     onPause: { listen.togglePlayPause() },
                     onStop:  { listen.stop() },
+                    onQueue: { showQueue = true },
                     onNote:  { showJournal = true },
                     onShare: { showShare = true }
                 )
@@ -105,7 +107,6 @@ struct SuttaDetailSheet: View {
             JournalComposer(prefillSuttaID: passage.id) { text, suttaID in
                 JournalStore.add(
                     text: text,
-                    tradition: session.user.tradition,
                     suttaID: suttaID,
                     in: context
                 )
@@ -117,6 +118,9 @@ struct SuttaDetailSheet: View {
         }
         .sheet(item: $nextPassage) { p in
             SuttaDetailSheet(passage: p, pathwayContext: nextPathwayContext)
+        }
+        .sheet(isPresented: $showQueue) {
+            QueueSheet().presentationDragIndicator(.visible)
         }
         .onDisappear {
             audio.stop()
@@ -313,7 +317,8 @@ private struct TopContextStrip: View {
                     Image(systemName: "xmark")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundStyle(theme.inkSoft)
-                        .frame(width: 32, height: 32)
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
                         .background(Circle().fill(theme.border))
                 }
                 .buttonStyle(.plain)
@@ -345,9 +350,11 @@ private struct ReadingRail: View {
 
     let tradition: Tradition
     let isPlayingThis: Bool
+    let hasQueue: Bool
     let onListen: () -> Void
     let onPause: () -> Void
     let onStop:  () -> Void
+    let onQueue: () -> Void
     let onNote:  () -> Void
     let onShare: () -> Void
 
@@ -359,6 +366,9 @@ private struct ReadingRail: View {
                     stopButton
                 } else {
                     listenButton
+                }
+                if hasQueue {
+                    queueButton
                 }
             }
 
@@ -409,6 +419,17 @@ private struct ReadingRail: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Stop")
+    }
+
+    private var queueButton: some View {
+        Button(action: onQueue) {
+            Image(systemName: "list.bullet")
+                .font(.system(size: 12, weight: .regular))
+                .foregroundStyle(theme.inkSoft)
+                .frame(width: 26, height: 26)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Show queue")
     }
 }
 

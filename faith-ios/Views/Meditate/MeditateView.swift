@@ -1,6 +1,9 @@
 import SwiftUI
 import SwiftData
+import os
 @preconcurrency import ActivityKit
+
+private let log = Logger(subsystem: "com.faith.app", category: "meditate-liveactivity")
 
 /// The Meditate tab. Two states:
 /// 1. **Configuring** — pick duration, optional background, optional chant.
@@ -10,11 +13,11 @@ import SwiftData
 ///    keep looping from the preview into the session — no audio gap at start.
 struct MeditateView: View {
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.modelContext) private var context
-    @StateObject private var chants = ChantPlayer.shared
-    @StateObject private var bg = BackgroundPlayer.shared
+    @ObservedObject private var chants = ChantPlayer.shared
+    @ObservedObject private var bg = BackgroundPlayer.shared
 
     @State private var minutes: Int = 10
     @State private var pickedBackground: MeditationBackground? = nil
@@ -42,7 +45,7 @@ struct MeditateView: View {
         }
         .sheet(isPresented: $showChantPicker) {
             ChantPickerSheet(picked: $pickedChant)
-                .environmentObject(session)
+                .presentationDragIndicator(.visible)
         }
         .onDisappear {
             // Stop any preview playback when the user navigates away.
@@ -67,7 +70,9 @@ struct MeditateView: View {
     private var configCard: some View {
         VStack(spacing: 22) {
             durationSection
-            backgroundSection
+            if !MeditationBackground.all.isEmpty {
+                backgroundSection
+            }
             chantSection
             beginButton
         }
@@ -85,8 +90,8 @@ struct MeditateView: View {
                         Text("\(m)m")
                             .font(BTFont.ui(13.5, weight: minutes == m ? .regular : .light))
                             .foregroundStyle(minutes == m ? .white : theme.inkSoft)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .contentShape(Rectangle())
                             .glassEffect(minutes == m ? .regular.tint(theme.border) : .regular,
                                           in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }
@@ -139,7 +144,7 @@ struct MeditateView: View {
                     Image(systemName: "waveform")
                         .font(.system(size: 13, weight: .light))
                         .foregroundStyle(theme.ink)
-                        .symbolEffect(.variableColor.iterative)
+                        .symbolEffect(.variableColor.iterative, isActive: !reduceMotion)
                 }
                 checkmark(on: isOn)
             }
@@ -176,7 +181,7 @@ struct MeditateView: View {
                         Image(systemName: "waveform")
                             .font(.system(size: 13, weight: .light))
                             .foregroundStyle(theme.ink)
-                            .symbolEffect(.variableColor.iterative)
+                            .symbolEffect(.variableColor.iterative, isActive: !reduceMotion)
                     }
                     Image(systemName: "chevron.right")
                         .font(.system(size: 11, weight: .light))
@@ -352,7 +357,7 @@ struct MeditateView: View {
             )
             sitActivity = activity
         } catch {
-            print("⚠️ Sit live activity failed: \(error)")
+            log.warning("Sit live activity failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 
@@ -396,10 +401,11 @@ struct MeditateView: View {
 
 private struct ChantPickerSheet: View {
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @Binding var picked: Chant?
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var chants = ChantPlayer.shared
+    @ObservedObject private var chants = ChantPlayer.shared
 
     var body: some View {
         NavigationStack {
@@ -407,16 +413,16 @@ private struct ChantPickerSheet: View {
                 LazyVStack(alignment: .leading, spacing: 14, pinnedViews: []) {
                     noneRow
 
-                    ForEach(groupedChants, id: \.0) { group in
+                    ForEach(orderedLanguageGroups, id: \.language) { group in
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(group.0.uppercased())
+                            Text(group.language.uppercased())
                                 .font(BTFont.ui(9.5, weight: .light))
                                 .tracking(2)
                                 .foregroundStyle(theme.inkMute)
                                 .padding(.horizontal, 22)
                                 .padding(.top, 6)
                             VStack(spacing: 6) {
-                                ForEach(group.1) { chant in
+                                ForEach(group.chants) { chant in
                                     chantRow(chant)
                                 }
                             }
@@ -499,7 +505,7 @@ private struct ChantPickerSheet: View {
                     Image(systemName: "waveform")
                         .font(.system(size: 13, weight: .light))
                         .foregroundStyle(theme.ink)
-                        .symbolEffect(.variableColor.iterative)
+                        .symbolEffect(.variableColor.iterative, isActive: !reduceMotion)
                 }
                 if isOn {
                     Image(systemName: "checkmark")
@@ -517,13 +523,15 @@ private struct ChantPickerSheet: View {
         .buttonStyle(.plain)
     }
 
-    private var groupedChants: [(String, [Chant])] {
+    private var orderedLanguageGroups: [(language: String, chants: [Chant])] {
         var seen: [String] = []
-        var byLang: [String: [Chant]] = [:]
-        for c in Chant.all {
-            if byLang[c.language] == nil { seen.append(c.language) }
-            byLang[c.language, default: []].append(c)
+        var byLanguage: [String: [Chant]] = [:]
+        for chant in Chant.all {
+            if byLanguage[chant.language] == nil {
+                seen.append(chant.language)
+            }
+            byLanguage[chant.language, default: []].append(chant)
         }
-        return seen.map { ($0, byLang[$0] ?? []) }
+        return seen.map { ($0, byLanguage[$0] ?? []) }
     }
 }

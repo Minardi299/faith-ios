@@ -20,17 +20,20 @@ final class StoredChatMessage {
     var kindRaw: String        // "normal" | "gentleReminder"
     var segmentsJSON: String   // encoded [SegmentDTO]
     var timestamp: Date
+    var messageID: UUID = UUID()  // stable identity; lightweight migration assigns new UUIDs to existing rows
     var thread: StoredChatThread?
 
     init(roleRaw: String,
          kindRaw: String,
          segmentsJSON: String,
          timestamp: Date = .now,
+         messageID: UUID = UUID(),
          thread: StoredChatThread? = nil) {
         self.roleRaw = roleRaw
         self.kindRaw = kindRaw
         self.segmentsJSON = segmentsJSON
         self.timestamp = timestamp
+        self.messageID = messageID
         self.thread = thread
     }
 }
@@ -87,7 +90,8 @@ extension StoredChatMessage {
         default:          role = .system
         }
         let kind: ChatMessage.Kind = kindRaw == "gentleReminder" ? .gentleReminder : .normal
-        return ChatMessage(role: role,
+        return ChatMessage(id: messageID,
+                           role: role,
                            kind: kind,
                            segments: SegmentDTO.decode(segmentsJSON),
                            timestamp: timestamp)
@@ -106,6 +110,7 @@ extension StoredChatMessage {
             kindRaw: kindRaw,
             segmentsJSON: SegmentDTO.encode(msg.segments),
             timestamp: msg.timestamp,
+            messageID: msg.id,
             thread: thread
         )
     }

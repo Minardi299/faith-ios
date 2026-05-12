@@ -1,6 +1,9 @@
 import Foundation
 import AVFoundation
 import Combine
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "chantplayer")
 
 /// Looping chant player. Uses `AVQueuePlayer` + `AVPlayerLooper` for
 /// seamless gapless looping — no stop/start at clip boundary. When `loop`
@@ -43,7 +46,7 @@ final class ChantPlayer: ObservableObject {
             Bundle.main.url(forResource: chant.filename, withExtension: "m4a"),
         ]
         guard let url = candidates.compactMap({ $0 }).first else {
-            print("⚠️ ChantPlayer: bundle is missing \(chant.filename).mp3 — run tools/build_chants.py")
+            log.warning("ChantPlayer: bundle is missing \(chant.filename, privacy: .public).mp3 — run tools/build_chants.py")
             return
         }
 

@@ -36,7 +36,7 @@ struct SendBlessingFlow: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.2)
+            NatureSubstrate(dimming: 0.2)
 
             VStack(alignment: .leading, spacing: 18) {
                 HStack {
@@ -46,10 +46,12 @@ struct SendBlessingFlow: View {
                         Image(systemName: "xmark")
                             .font(.system(size: 13, weight: .regular))
                             .foregroundStyle(theme.ink)
-                            .frame(width: 40, height: 40)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .glassEffect(.regular, in: Circle())
+                    .accessibilityLabel("Close")
                 }
 
                 Group {

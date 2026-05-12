@@ -1,15 +1,37 @@
 import SwiftUI
 import SwiftData
 import AuthenticationServices
+import UIKit
+import UserNotifications
 
 struct ProfileView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
+    @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var session: SessionStore
     @AppStorage("palette") private var paletteRaw: String = Palette.moss.rawValue
     @AppStorage("appearance") private var appearanceRaw: String = AppearanceMode.system.rawValue
     @Query private var completions: [DayCompletion]
+    @AppStorage("textSizeScale") private var textSizeScale: Double = 1.0
+    @AppStorage("dailyReminderEnabled") private var dailyReminderEnabled: Bool = false
+    @AppStorage("dailyReminderHour") private var dailyReminderHour: Int = 6
+    @AppStorage("dailyReminderMinute") private var dailyReminderMinute: Int = 30
+    @State private var notificationAuthStatus: UNAuthorizationStatus = .notDetermined
+    @State private var showAuthDeniedAlert: Bool = false
     @State private var showingSignOut = false
+    @State private var showingDeleteAccount = false
+    @State private var signInError: String?
+    @State private var showingTextSizePicker = false
+    @State private var showingTimePicker = false
+
+    private var textSizeLabel: String {
+        switch textSizeScale {
+        case ..<0.9: "Small"
+        case ..<1.1: "Medium"
+        case ..<1.3: "Large"
+        default:     "Extra large"
+        }
+    }
 
     private var progress: ProgressStore { ProgressStore(context: context) }
     private var totalCompleted: Int { completions.filter(\.isComplete).count }
@@ -19,36 +41,53 @@ struct ProfileView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 22) {
-                accountSection
-                statsRow
-                section("Appearance") { appearanceSection }
-                section("Palette") { paletteSection }
-                section("Practice") { practiceSection }
-                section("Reading") { readingSection }
-                section("About") { aboutSection }
-                if session.auth.isSignedIn {
-                    Button(role: .destructive) {
-                        showingSignOut = true
-                    } label: {
-                        Text("Sign out")
-                            .font(.system(size: 15, design: .serif))
-                            .foregroundStyle(.red)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .stroke(theme.border, lineWidth: 0.5)
-                            )
+        ZStack {
+            NatureSubstrate()
+                .ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 22) {
+                    accountSection
+                    statsRow
+                    section("Appearance") { appearanceSection }
+                    section("Palette") { paletteSection }
+                    section("Practice") { practiceSection }
+                    section("Reading") { readingSection }
+                    section("About") { aboutSection }
+                    if session.auth.isSignedIn {
+                        Button(role: .destructive) {
+                            showingSignOut = true
+                        } label: {
+                            Text("Sign out")
+                                .font(.system(size: 15, design: .serif))
+                                .foregroundStyle(.red)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        }
+                        Button(role: .destructive) {
+                            showingDeleteAccount = true
+                        } label: {
+                            Text("Delete account and all data")
+                                .font(.system(size: 15, design: .serif))
+                                .foregroundStyle(.red)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        }
                     }
                 }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 32)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 32)
         }
-        .background(theme.bg.ignoresSafeArea())
+        .task(id: "init") {
+            await refreshNotificationStatus()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                Task { await refreshNotificationStatus() }
+            }
+        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -61,7 +100,23 @@ struct ProfileView: View {
             Button("Cancel", role: .cancel) {}
             Button("Sign out", role: .destructive) { session.signOut() }
         } message: {
-            Text("Your local journal and streak stay on this device.")
+            Text("Your journal, anniversaries, and streak stay on this device. You can sign back in any time.")
+        }
+        .alert("Delete account?", isPresented: $showingDeleteAccount) {
+            Button("Cancel", role: .cancel) {}
+            Button("Delete everything", role: .destructive) {
+                session.deleteAccount()
+            }
+        } message: {
+            Text("Wipes your sign-in, journal, anniversaries, streak, and chat history. This cannot be undone.")
+        }
+        .alert("Sign in failed", isPresented: Binding(
+            get: { signInError != nil },
+            set: { if !$0 { signInError = nil } }
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(signInError ?? "")
         }
     }
 
@@ -83,11 +138,7 @@ struct ProfileView: View {
                 Spacer()
             }
             .padding(16)
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
             .padding(.top, 8)
         } else {
             SignInWithAppleButton(.signIn) { request in
@@ -105,8 +156,12 @@ struct ProfileView: View {
                         session.user = user
                         session.users.save(user)
                     }
-                case .failure:
-                    break
+                case .failure(let error):
+                    if let asAuthError = error as? ASAuthorizationError, asAuthError.code == .canceled {
+                        // User dismissed the sheet — don't alert.
+                        return
+                    }
+                    signInError = error.localizedDescription
                 }
             }
             .signInWithAppleButtonStyle(appearance == .dark ? .white : .black)
@@ -139,11 +194,7 @@ struct ProfileView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 14)
-        .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14)
-                .stroke(theme.border, lineWidth: 0.5)
-        )
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
     private func section<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
@@ -156,11 +207,7 @@ struct ProfileView: View {
             VStack(spacing: 0) {
                 content()
             }
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
     }
 
@@ -223,17 +270,100 @@ struct ProfileView: View {
 
     private var practiceSection: some View {
         VStack(spacing: 0) {
-            settingsRow("Reminder time", detail: "6:30 am")
+            Toggle(isOn: $dailyReminderEnabled) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Daily passage reminder").font(.system(size: 15, design: .serif))
+                    Text(dailyReminderEnabled ? formattedTime : "Off")
+                        .font(.system(size: 12))
+                        .foregroundStyle(theme.inkMute)
+                }
+            }
+            .tint(theme.accent)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .onChange(of: dailyReminderEnabled) { _, enabled in
+                Task {
+                    if enabled {
+                        let granted = await Notifications.requestAuthIfNeeded()
+                        if granted {
+                            await Notifications.scheduleDailyReminder(
+                                at: dailyReminderHour, minute: dailyReminderMinute
+                            )
+                            await refreshNotificationStatus()
+                        } else {
+                            dailyReminderEnabled = false
+                            showAuthDeniedAlert = true
+                        }
+                    } else {
+                        Notifications.cancelDailyReminder()
+                    }
+                }
+            }
+            .alert("Notifications are off", isPresented: $showAuthDeniedAlert) {
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("To enable the daily reminder, allow notifications for Faith in iOS Settings.")
+            }
             Divider().background(theme.border).padding(.leading, 18)
-            settingsRow("Daily passage", detail: "On")
-            Divider().background(theme.border).padding(.leading, 18)
-            settingsRow("Tradition", detail: session.user.tradition.name)
+            Button { showingTimePicker = true } label: {
+                settingsRow("Reminder time", detail: formattedTime, showsChevron: dailyReminderEnabled)
+            }
+            .buttonStyle(.plain)
+            .disabled(!dailyReminderEnabled)
+            .opacity(dailyReminderEnabled ? 1.0 : 0.55)
+            .sheet(isPresented: $showingTimePicker) {
+                ReminderTimeSheet(hour: $dailyReminderHour, minute: $dailyReminderMinute)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            }
+            .onChange(of: dailyReminderHour) { _, _ in rescheduleIfEnabled() }
+            .onChange(of: dailyReminderMinute) { _, _ in rescheduleIfEnabled() }
+        }
+    }
+
+    private var formattedTime: String {
+        let comp = DateComponents(hour: dailyReminderHour, minute: dailyReminderMinute)
+        let date = Calendar.current.date(from: comp) ?? Date()
+        let f = DateFormatter()
+        f.timeStyle = .short
+        return f.string(from: date)
+    }
+
+    private func rescheduleIfEnabled() {
+        guard dailyReminderEnabled else { return }
+        Task {
+            await Notifications.scheduleDailyReminder(
+                at: dailyReminderHour, minute: dailyReminderMinute
+            )
+        }
+    }
+
+    private func refreshNotificationStatus() async {
+        let status = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+        notificationAuthStatus = status
+
+        // If the user disabled notifications externally, sync our toggle so we
+        // don't claim to be scheduling reminders we no longer can.
+        if dailyReminderEnabled && status != .authorized && status != .provisional && status != .ephemeral {
+            dailyReminderEnabled = false
+            Notifications.cancelDailyReminder()
         }
     }
 
     private var readingSection: some View {
         VStack(spacing: 0) {
-            settingsRow("Text size", detail: "Medium")
+            Button { showingTextSizePicker = true } label: {
+                settingsRow("Text size", detail: textSizeLabel)
+            }
+            .buttonStyle(.plain)
+        }
+        .sheet(isPresented: $showingTextSizePicker) {
+            TextSizeSheet(scale: $textSizeScale)
         }
     }
 
@@ -274,5 +404,89 @@ struct ProfileView: View {
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    }
+}
+
+// MARK: - TextSizeSheet
+
+struct TextSizeSheet: View {
+    @Binding var scale: Double
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 24) {
+                Text("Aa")
+                    .font(.system(size: 48 * scale, weight: .light, design: .serif))
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+
+                Slider(value: $scale, in: 0.8 ... 1.5, step: 0.05) {
+                    Text("Text size")
+                } minimumValueLabel: {
+                    Text("A").font(.caption)
+                } maximumValueLabel: {
+                    Text("A").font(.title3)
+                }
+                .padding(.horizontal, 32)
+
+                Text("Affects reading sizes throughout the app.")
+                    .font(.system(size: 13))
+                    .foregroundStyle(theme.inkMute)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+
+                Spacer()
+            }
+            .navigationTitle("Text size")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+        .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
+    }
+}
+
+// MARK: - ReminderTimeSheet
+
+struct ReminderTimeSheet: View {
+    @Binding var hour: Int
+    @Binding var minute: Int
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var theme
+
+    @State private var time: Date = .now
+
+    var body: some View {
+        NavigationStack {
+            VStack {
+                DatePicker("Reminder time", selection: $time, displayedComponents: .hourAndMinute)
+                    .datePickerStyle(.wheel)
+                    .labelsHidden()
+                    .padding()
+                Spacer()
+            }
+            .navigationTitle("Reminder time")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        let comps = Calendar.current.dateComponents([.hour, .minute], from: time)
+                        hour = comps.hour ?? 6
+                        minute = comps.minute ?? 30
+                        dismiss()
+                    }
+                }
+            }
+            .task {
+                let comps = DateComponents(hour: hour, minute: minute)
+                time = Calendar.current.date(from: comps) ?? .now
+            }
+        }
     }
 }

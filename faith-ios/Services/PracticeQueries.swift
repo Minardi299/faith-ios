@@ -44,6 +44,42 @@ enum PracticeQueries {
         return streak
     }
 
+    /// Composite "tasks completed today" — counts the 5 DayCompletion flags
+    /// PLUS treats meditationDone as TRUE if any PracticeRecord sit exists for today.
+    /// This prevents the user from having to double-tap (sit timer + checkbox)
+    /// just to register that they meditated.
+    ///
+    /// NOTE: The meditation OR-clause uses `minutesSatToday(in:)` which always checks
+    /// today's sits. Calling this for a non-today date will still give the correct
+    /// checklist count but the meditation OR won't apply to that past date correctly.
+    /// For Phase 5.7's primary use case — Today's progress bar — this is fine.
+    static func compositeDoneCount(date: Date, in context: ModelContext) -> Int {
+        let dayKey = DayCompletion.key(for: date)
+        let dc = (try? context.fetch(
+            FetchDescriptor<DayCompletion>(
+                predicate: #Predicate { $0.dayKey == dayKey }
+            )
+        ))?.first
+
+        let didMeditateChecklist = dc?.meditationDone ?? false
+        let didMeditateActual = minutesSatToday(in: context) > 0
+        let didMeditate = didMeditateChecklist || didMeditateActual
+
+        let otherFlags: [Bool] = [
+            dc?.morningPrayerDone ?? false,
+            dc?.storyReadDone ?? false,
+            dc?.gratitudeDone ?? false,
+            dc?.eveningReflectionDone ?? false
+        ]
+
+        return ([didMeditate] + otherFlags).filter { $0 }.count
+    }
+
+    /// Composite progress (0...1).
+    static func compositeProgress(date: Date, in context: ModelContext) -> Double {
+        Double(compositeDoneCount(date: date, in: context)) / 5.0
+    }
+
     /// Per-day practice "depth" for a given month, used by the calendar
     /// grid: day-of-month → minutes practiced that day.
     static func practiceDepths(year: Int, month: Int, in context: ModelContext) -> [Int: Int] {

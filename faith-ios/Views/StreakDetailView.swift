@@ -47,17 +47,20 @@ struct StreakDetailView: View {
     private var totalDays: Int { completions.filter(\.isComplete).count }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 22) {
-                headerBlock
-                statsRow
-                monthCalendar
-                footerVerse
+        ZStack {
+            NatureSubstrate()
+                .ignoresSafeArea()
+            ScrollView {
+                VStack(spacing: 22) {
+                    headerBlock
+                    statsRow
+                    monthCalendar
+                    footerVerse
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 32)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 32)
         }
-        .background(theme.bg.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -67,10 +70,7 @@ struct StreakDetailView: View {
                 .font(.caption2.weight(.semibold))
                 .tracking(2.4)
                 .foregroundStyle(theme.inkMute)
-            (Text("\(currentStreak.spelled.capitalized) \(currentStreak == 1 ? "day" : "days")\n")
-                + Text("in bloom")
-                .italic()
-                .foregroundColor(theme.secondary))
+            Text("\(Text("\(currentStreak.spelled.capitalized) \(currentStreak == 1 ? "day" : "days")\n").foregroundStyle(theme.ink))\(Text("in bloom").italic().foregroundColor(theme.secondary))")
                 .font(.system(size: 32, weight: .regular, design: .serif))
                 .foregroundStyle(theme.ink)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -93,6 +93,7 @@ struct StreakDetailView: View {
                     Image(systemName: "chevron.left").font(.subheadline.weight(.medium))
                 }
                 .foregroundStyle(theme.inkMute)
+                .accessibilityLabel("Previous month")
                 Spacer()
                 Text(displayedMonth, format: .dateTime.month(.wide).year())
                     .font(.system(size: 15, design: .serif))
@@ -102,6 +103,7 @@ struct StreakDetailView: View {
                     Image(systemName: "chevron.right").font(.subheadline.weight(.medium))
                 }
                 .foregroundStyle(theme.inkMute)
+                .accessibilityLabel("Next month")
                 .disabled(isCurrentOrFutureMonth)
                 .opacity(isCurrentOrFutureMonth ? 0.3 : 1)
             }
@@ -130,21 +132,23 @@ struct StreakDetailView: View {
             }
         }
         .padding(18)
-        .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
-        .overlay(
-            RoundedRectangle(cornerRadius: 18)
-                .stroke(theme.border, lineWidth: 0.5)
-        )
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
 
     private var footerVerse: some View {
-        Text("\u{201C}The mind is everything. What you think, you become.\u{201D}")
-            .font(.system(size: 13, design: .serif))
-            .italic()
-            .foregroundStyle(theme.inkSoft)
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity)
-            .padding(.top, 4)
+        VStack(spacing: 6) {
+            Text("\u{201C}All experience is preceded by mind, led by mind, made by mind.\u{201D}")
+                .font(.system(size: 13, design: .serif))
+                .italic()
+                .foregroundStyle(theme.inkSoft)
+                .multilineTextAlignment(.center)
+            Text("Dhp 1")
+                .font(.system(size: 11, weight: .light))
+                .tracking(0.8)
+                .foregroundStyle(theme.inkMute)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 4)
     }
 
     private var weekdayHeader: [String] {
@@ -202,11 +206,7 @@ private struct StatTile: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 14)
-        .background(theme.card, in: RoundedRectangle(cornerRadius: 14))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14)
-                .stroke(theme.border, lineWidth: 0.5)
-        )
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }
 
@@ -219,6 +219,15 @@ private struct DayCell: View {
 
     private var dayNumber: Int {
         Calendar.current.component(.day, from: date)
+    }
+
+    private var dayCellLabel: String {
+        var parts = ["Day \(dayNumber)"]
+        if isToday { parts.append("today") }
+        if isCompleted { parts.append("practice complete") } else if bloom > 0 {
+            parts.append("\(Int(bloom * 100)) percent")
+        }
+        return parts.joined(separator: ", ")
     }
 
     var body: some View {
@@ -235,6 +244,7 @@ private struct DayCell: View {
                 .foregroundStyle(isToday ? theme.accent : theme.inkMute)
         }
         .frame(height: 44)
+        .accessibilityLabel(dayCellLabel)
     }
 }
 

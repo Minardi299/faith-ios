@@ -3,11 +3,15 @@ import SwiftData
 
 struct TodayView: View {
     @Environment(DailyPassageStore.self) private var dailyPassage
+    @EnvironmentObject private var canon: CanonStore
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
     @Query private var completions: [DayCompletion]
     @Binding var selectedTab: AppTab
     @State private var showingPassage: SuttaPassage?
+    @State private var showingAnniversaries = false
+    @State private var showingJournal = false
+    @State private var showingBlessing = false
 
     private var progress: ProgressStore { ProgressStore(context: context) }
     private var todayKey: String { DayCompletion.key(for: .now) }
@@ -16,23 +20,40 @@ struct TodayView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    headerBlock
-                    weekStripLink
-                    progressSection
-                    sitCard
-                    passageCard
+            ZStack {
+                NatureSubstrate()
+                    .ignoresSafeArea()
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        headerBlock
+                        weekStripLink
+                        progressSection
+                        sitCard
+                        passageCard
+                        personalRow
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 24)
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 24)
             }
-            .background(theme.bg.ignoresSafeArea())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .principal) { EmptyView() } }
             .profileToolbar()
             .sheet(item: $showingPassage) { p in
                 NavigationStack { SuttaDetailSheet(passage: p) }
+                    .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $showingAnniversaries) {
+                NavigationStack { AnniversariesView() }
+                    .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $showingJournal) {
+                NavigationStack { JournalView() }
+                    .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $showingBlessing) {
+                NavigationStack { SendBlessingFlow() }
+                    .presentationDragIndicator(.visible)
             }
             .onAppear { progress.ensureToday() }
             .task(id: today?.doneCount) { progress.pushToWidget() }
@@ -54,10 +75,7 @@ struct TodayView: View {
                 .tracking(2.4)
                 .textCase(.uppercase)
                 .foregroundStyle(theme.inkMute)
-            (Text("May the day\n")
-                + Text("arrive gently.")
-                .italic()
-                .foregroundColor(theme.secondary))
+            Text("\(Text("May the day\n").foregroundStyle(theme.ink))\(Text("arrive gently.").italic().foregroundColor(theme.secondary))")
                 .font(.system(size: 36, weight: .regular, design: .serif))
                 .lineSpacing(-2)
                 .foregroundStyle(theme.ink)
@@ -102,11 +120,7 @@ struct TodayView: View {
                 weekStrip
                     .padding(.vertical, 14)
                     .padding(.horizontal, 6)
-                    .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 18)
-                            .stroke(theme.border, lineWidth: 0.5)
-                    )
+                    .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
             .contentShape(Rectangle())
         }
@@ -122,11 +136,21 @@ struct TodayView: View {
         let symbols = ["M", "T", "W", "T", "F", "S", "S"]
         let calendar = Calendar.current
         let todayStart = calendar.startOfDay(for: .now)
+        // Compute composite progress for today so a real sit counts without
+        // the user also tapping the meditation checkbox.
+        let todayCompositeProgress = PracticeQueries.compositeProgress(date: .now, in: context)
+        let todayCompositeDone = todayCompositeProgress >= 1.0
         return HStack(spacing: 0) {
             ForEach(Array(week.enumerated()), id: \.offset) { index, day in
                 let isToday = calendar.isDate(day.date, inSameDayAs: todayStart)
-                let bloom = day.completion.map { $0.progress } ?? 0
-                let done = day.completion?.isComplete == true
+                // For today: use composite (sits OR checklist flag).
+                // For historical days: read DayCompletion directly (captures intent at the time).
+                let bloom: Double = isToday
+                    ? todayCompositeProgress
+                    : (day.completion.map { $0.progress } ?? 0)
+                let done: Bool = isToday
+                    ? todayCompositeDone
+                    : (day.completion?.isComplete == true)
                 VStack(spacing: 6) {
                     Lotus(
                         size: 26,
@@ -145,8 +169,14 @@ struct TodayView: View {
         }
     }
 
+    // Composite progress uses PracticeRecord sits OR the meditationDone flag,
+    // so a completed sit timer automatically registers without a double-tap.
+    private var todayProgress: Double {
+        PracticeQueries.compositeProgress(date: .now, in: context)
+    }
+
     private var progressSection: some View {
-        let value = today?.progress ?? 0
+        let value = todayProgress
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("Progress today")
@@ -205,7 +235,16 @@ struct TodayView: View {
         .buttonStyle(.plain)
     }
 
+    @ViewBuilder
     private var passageCard: some View {
+        if case .failed = canon.loadStatus {
+            passageFailureCard
+        } else {
+            passageActionCard
+        }
+    }
+
+    private var passageActionCard: some View {
         Button {
             if let p = passage {
                 showingPassage = p
@@ -220,10 +259,7 @@ struct TodayView: View {
                     .foregroundStyle(theme.inkMute)
                 if let passage {
                     let body = passage.lines.first?.text ?? passage.englishTitle
-                    (Text("\u{201C}").foregroundColor(theme.accent).font(.system(size: 26, design: .serif))
-                        + Text(body)
-                        .font(.system(size: 17, weight: .regular, design: .serif))
-                        .foregroundColor(theme.ink))
+                    Text("\(Text("\u{201C}").foregroundColor(theme.accent).font(.system(size: 26, design: .serif)))\(Text(body).font(.system(size: 17, weight: .regular, design: .serif)).foregroundColor(theme.ink))")
                         .lineLimit(6)
                         .multilineTextAlignment(.leading)
                     Divider().background(theme.border)
@@ -243,11 +279,71 @@ struct TodayView: View {
             }
             .padding(20)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(theme.card, in: RoundedRectangle(cornerRadius: 18))
-            .overlay(
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke(theme.border, lineWidth: 0.5)
-            )
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var passageFailureCard: some View {
+        if case .failed(let message) = canon.loadStatus {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("PASSAGE FOR TODAY")
+                    .font(.caption2.weight(.semibold))
+                    .tracking(1.8)
+                    .foregroundStyle(theme.inkMute)
+                Text("The canon failed to load")
+                    .font(BTFont.ui(14))
+                    .foregroundStyle(theme.ink)
+                Text(message)
+                    .font(BTFont.ui(11))
+                    .foregroundStyle(theme.inkMute)
+                    .lineLimit(3)
+                Button("Retry") { canon.load() }
+                    .font(BTFont.ui(13, weight: .medium))
+                    .foregroundStyle(theme.accent)
+                    .padding(.top, 4)
+            }
+            .padding(20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+    }
+
+    private var personalRow: some View {
+        HStack(spacing: 10) {
+            PersonalRowItem(icon: "calendar", label: "Anniversaries") {
+                showingAnniversaries = true
+            }
+            PersonalRowItem(icon: "book.closed", label: "Reflect") {
+                showingJournal = true
+            }
+            PersonalRowItem(icon: "envelope", label: "Bless") {
+                showingBlessing = true
+            }
+        }
+    }
+}
+
+private struct PersonalRowItem: View {
+    let icon: String
+    let label: String
+    let action: () -> Void
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .light))
+                    .foregroundStyle(theme.ink)
+                Text(label)
+                    .font(.system(size: 11, weight: .light))
+                    .foregroundStyle(theme.inkSoft)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
         .buttonStyle(.plain)
     }

@@ -1,5 +1,8 @@
 import Foundation
 import Observation
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "canon")
 
 /// Loads the bundled canon.json (built from SuttaCentral bilara-data + curated
 /// Mahāyāna/Vajrayāna/Zen entries) and provides lookup APIs.
@@ -35,7 +38,7 @@ final class CanonStore: ObservableObject {
             ?? Bundle(for: type(of: self)).url(forResource: "canon", withExtension: "json")
         guard let url else {
             loadStatus = .failed(message: "canon.json missing from app bundle")
-            print("⚠️ canon.json not found in bundle")
+            log.error("canon.json not found in bundle")
             return
         }
         do {
@@ -62,7 +65,7 @@ final class CanonStore: ObservableObject {
             self.loadStatus = .loaded(count: allEntries.count)
         } catch {
             loadStatus = .failed(message: error.localizedDescription)
-            print("⚠️ canon.json decode failed: \(error)")
+            log.error("canon.json decode failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 
@@ -77,7 +80,7 @@ final class CanonStore: ObservableObject {
             let payload = try decoder.decode(Payload.self, from: data)
             return payload.entries
         } catch {
-            print("⚠️ \(name).json decode failed: \(error)")
+            log.warning("\(name, privacy: .public).json decode failed: \(error.localizedDescription, privacy: .private)")
             return []
         }
     }

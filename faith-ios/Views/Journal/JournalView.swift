@@ -5,7 +5,6 @@ struct JournalView: View {
     @Environment(\.theme) private var theme
 
     @Environment(\.modelContext) private var context
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.dismiss) private var dismiss
 
     @Query(sort: [SortDescriptor(\JournalEntry.date, order: .reverse)])
@@ -13,10 +12,11 @@ struct JournalView: View {
 
     @State private var showingComposer: Bool = false
     @State private var editing: JournalEntry?
+    @State private var entryToDelete: JournalEntry?
 
     var body: some View {
         ZStack(alignment: .top) {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.18)
+            NatureSubstrate(dimming: 0.18)
 
             VStack(alignment: .leading, spacing: 14) {
                 header
@@ -33,7 +33,6 @@ struct JournalView: View {
         .sheet(isPresented: $showingComposer) {
             JournalComposer(prefillSuttaID: nil) { text, suttaID in
                 JournalStore.add(text: text,
-                                 tradition: session.user.tradition,
                                  suttaID: suttaID,
                                  in: context)
             }
@@ -42,6 +41,18 @@ struct JournalView: View {
             JournalComposer(existing: entry) { text, _ in
                 entry.text = text
                 try? context.save()
+            }
+        }
+        .alert("Delete this entry?", isPresented: Binding(
+            get: { entryToDelete != nil },
+            set: { if !$0 { entryToDelete = nil } }
+        )) {
+            Button("Cancel", role: .cancel) { entryToDelete = nil }
+            Button("Delete", role: .destructive) {
+                if let e = entryToDelete {
+                    JournalStore.delete(e, in: context)
+                }
+                entryToDelete = nil
             }
         }
     }
@@ -68,10 +79,12 @@ struct JournalView: View {
                 Image(systemName: "xmark")
                     .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(theme.ink)
-                    .frame(width: 40, height: 40)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .glassEffect(.regular, in: Circle())
+            .accessibilityLabel("Close")
         }
         .padding(.horizontal, 22)
     }
@@ -86,7 +99,7 @@ struct JournalView: View {
                     .buttonStyle(.plain)
                     .contextMenu {
                         Button(role: .destructive) {
-                            JournalStore.delete(entry, in: context)
+                            entryToDelete = entry
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
@@ -174,7 +187,6 @@ struct JournalComposer: View {
     let onSave: (String, String?) -> Void
 
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var session: SessionStore
     @State private var text: String = ""
 
     init(prefillSuttaID: String? = nil,
@@ -188,7 +200,7 @@ struct JournalComposer: View {
 
     var body: some View {
         ZStack {
-            NatureSubstrate(tradition: session.user.tradition, dimming: 0.2)
+            NatureSubstrate(dimming: 0.2)
             VStack(alignment: .leading, spacing: 16) {
                 HStack {
                     Text(existing == nil ? "Write" : "Edit").eyebrow()
@@ -197,10 +209,12 @@ struct JournalComposer: View {
                         Image(systemName: "xmark")
                             .font(.system(size: 13, weight: .regular))
                             .foregroundStyle(theme.ink)
-                            .frame(width: 40, height: 40)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .glassEffect(.regular, in: Circle())
+                    .accessibilityLabel("Close")
                 }
 
                 Text("What are you noticing?")
