@@ -82,7 +82,7 @@ final class ListenProgressStore: ObservableObject {
             let data = try JSONEncoder().encode(ref)
             UserDefaults.standard.set(data, forKey: lastListenedKey)
         } catch {
-            log.error("ListenProgressStore lastListened encode failed: \(error.localizedDescription, privacy: .public)")
+            log.error("ListenProgressStore lastListened encode failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 
@@ -124,14 +124,14 @@ final class ListenProgressStore: ObservableObject {
             do {
                 self.byPassageID = try JSONDecoder().decode([String: Progress].self, from: data)
             } catch {
-                log.error("ListenProgressStore decode failed: \(error.localizedDescription, privacy: .public)")
+                log.error("ListenProgressStore decode failed: \(error.localizedDescription, privacy: .private)")
             }
         }
         if let data = UserDefaults.standard.data(forKey: lastListenedKey) {
             do {
                 self.lastListened = try JSONDecoder().decode(RecentListenRef.self, from: data)
             } catch {
-                log.error("ListenProgressStore lastListened decode failed: \(error.localizedDescription, privacy: .public)")
+                log.error("ListenProgressStore lastListened decode failed: \(error.localizedDescription, privacy: .private)")
             }
         }
     }
@@ -152,7 +152,7 @@ final class ListenProgressStore: ObservableObject {
             let data = try JSONEncoder().encode(byPassageID)
             UserDefaults.standard.set(data, forKey: defaultsKey)
         } catch {
-            log.error("ListenProgressStore encode failed: \(error.localizedDescription, privacy: .public)")
+            log.error("ListenProgressStore encode failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 

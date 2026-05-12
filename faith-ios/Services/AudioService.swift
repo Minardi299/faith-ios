@@ -78,7 +78,7 @@ final class LiveAudioService: NSObject, AudioService, ObservableObject {
                 bellPlayer?.play()
                 return
             } catch {
-                log.warning("bell sample failed: \(error.localizedDescription, privacy: .public)")
+                log.warning("bell sample failed: \(error.localizedDescription, privacy: .private)")
             }
         }
         // Fallback: a soft synthetic bell via the speech synthesizer (one note tone).

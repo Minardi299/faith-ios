@@ -31,7 +31,7 @@ final class PathwayStore: ObservableObject {
             let payload = try JSONDecoder().decode(Payload.self, from: data)
             self.pathways = payload.pathways
         } catch {
-            log.error("pathways.json decode failed: \(error.localizedDescription, privacy: .public)")
+            log.error("pathways.json decode failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 

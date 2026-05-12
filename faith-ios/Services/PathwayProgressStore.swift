@@ -94,7 +94,7 @@ final class PathwayProgressStore: ObservableObject {
             let decoded = try JSONDecoder().decode([String: Progress].self, from: data)
             self.byPathway = decoded
         } catch {
-            log.error("PathwayProgressStore decode failed: \(error.localizedDescription, privacy: .public)")
+            log.error("PathwayProgressStore decode failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 
@@ -103,7 +103,7 @@ final class PathwayProgressStore: ObservableObject {
             let data = try JSONEncoder().encode(byPathway)
             UserDefaults.standard.set(data, forKey: defaultsKey)
         } catch {
-            log.error("PathwayProgressStore encode failed: \(error.localizedDescription, privacy: .public)")
+            log.error("PathwayProgressStore encode failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 

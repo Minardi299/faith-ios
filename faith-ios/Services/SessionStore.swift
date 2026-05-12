@@ -3,6 +3,17 @@ import SwiftUI
 import SwiftData
 import Combine
 
+enum AccountDeletionError: LocalizedError {
+    case wipeFailed
+
+    var errorDescription: String? {
+        switch self {
+        case .wipeFailed:
+            return "Some data could not be deleted. Please try again or check Settings."
+        }
+    }
+}
+
 @MainActor
 final class SessionStore: ObservableObject {
     // dependencies
@@ -17,6 +28,7 @@ final class SessionStore: ObservableObject {
     @Published var streakDays: Int = 0
     @Published var todayPracticed: PracticeMark? = nil
     @Published var minutesSatToday: Int = 0
+    @Published var lastDeletionError: Error? = nil
 
     /// Production runtime: real Foundation Models when available, retrieval-
     /// only fallback otherwise (Simulator and pre-iOS-26 devices). Mock stays
@@ -52,19 +64,18 @@ final class SessionStore: ObservableObject {
     }
 
     func deleteAccount() {
+        lastDeletionError = nil
         let savedOK = AccountDeletion.wipe(modelContext: modelContext, users: users)
         auth.signOut()
         if savedOK {
             user = .sample
-            // Reset cached streak/minutes here but not in signOut() — on normal
-            // sign-out the numbers refresh on next view appearance; on deletion
-            // we want immediate zero so the splash → onboarding flow doesn't
-            // momentarily show stale values.
+            // Reset cached streak/minutes immediately so the home view
+            // doesn't momentarily show stale values after sign-out.
             refreshDerivedStats()
+        } else {
+            // SwiftData wipe failed — surface so Profile can alert the user.
+            lastDeletionError = AccountDeletionError.wipeFailed
         }
-        // TODO: if savedOK == false, surface a UI alert so the user knows
-        // deletion was incomplete and can retry. The session remains signed-out
-        // (Apple credential revoked) but the phase is not advanced.
     }
 
     func markPracticed(_ mark: PracticeMark) {

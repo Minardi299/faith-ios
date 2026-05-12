@@ -74,7 +74,7 @@ final class FoundationModelsRuntime: ObservableObject, LLMRuntime {
             let response = try await session.respond(to: prompt, generating: ChatResponse.self)
             return Self.makeSegments(from: response.content, query: prompt)
         } catch {
-            log.warning("FoundationModels error: \(error.localizedDescription, privacy: .public)")
+            log.warning("FoundationModels error: \(error.localizedDescription, privacy: .private)")
             return await fallback.reply(to: prompt, tradition: tradition, history: history)
         }
     }
@@ -142,7 +142,7 @@ final class FoundationModelsRuntime: ObservableObject, LLMRuntime {
                         }
                     }
                 } catch {
-                    log.warning("FoundationModels stream error: \(error.localizedDescription, privacy: .public)")
+                    log.warning("FoundationModels stream error: \(error.localizedDescription, privacy: .private)")
                     let final = await fallback.reply(to: prompt, tradition: tradition, history: history)
                     continuation.yield(final)
                 }

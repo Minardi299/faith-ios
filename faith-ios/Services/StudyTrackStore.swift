@@ -50,7 +50,7 @@ final class StudyTrackStore: ObservableObject {
             loadStatus = .loaded(count: payload.tracks.count)
         } catch {
             loadStatus = .failed(message: error.localizedDescription)
-            log.error("study-tracks.json decode failed: \(error.localizedDescription, privacy: .public)")
+            log.error("study-tracks.json decode failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 

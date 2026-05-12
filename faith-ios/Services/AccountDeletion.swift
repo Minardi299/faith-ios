@@ -29,7 +29,7 @@ enum AccountDeletion {
             try modelContext.save()
             savedOK = true
         } catch {
-            log.error("AccountDeletion: modelContext.save() failed — \(error.localizedDescription, privacy: .public)")
+            log.error("AccountDeletion: modelContext.save() failed — \(error.localizedDescription, privacy: .private)")
             savedOK = false
         }
 
@@ -58,7 +58,7 @@ enum AccountDeletion {
             let items = try ctx.fetch(FetchDescriptor<T>())
             items.forEach { ctx.delete($0) }
         } catch {
-            log.error("AccountDeletion: failed to fetch \(String(describing: T.self), privacy: .public) — \(error.localizedDescription, privacy: .public)")
+            log.error("AccountDeletion: failed to fetch \(String(describing: T.self), privacy: .private) — \(error.localizedDescription, privacy: .private)")
         }
     }
 }

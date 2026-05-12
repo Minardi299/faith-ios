@@ -1,5 +1,8 @@
 import Foundation
 import UserNotifications
+import os
+
+private let log = Logger(subsystem: "com.faith.app", category: "notifications")
 
 @MainActor
 enum Notifications {
@@ -44,7 +47,11 @@ enum Notifications {
             content: content,
             trigger: trigger
         )
-        try? await center.add(request)
+        do {
+            try await center.add(request)
+        } catch {
+            log.error("scheduleDailyReminder failed: \(error.localizedDescription, privacy: .private)")
+        }
     }
 
     static func cancelDailyReminder() {

@@ -227,7 +227,7 @@ final class EmbeddingIndex: ObservableObject {
         do {
             try data.write(to: url, options: .atomic)
         } catch {
-            log.warning("EmbeddingIndex save failed: \(error.localizedDescription, privacy: .public)")
+            log.warning("EmbeddingIndex save failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 

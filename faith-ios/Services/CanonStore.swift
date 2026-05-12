@@ -65,7 +65,7 @@ final class CanonStore: ObservableObject {
             self.loadStatus = .loaded(count: allEntries.count)
         } catch {
             loadStatus = .failed(message: error.localizedDescription)
-            log.error("canon.json decode failed: \(error.localizedDescription, privacy: .public)")
+            log.error("canon.json decode failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 
@@ -80,7 +80,7 @@ final class CanonStore: ObservableObject {
             let payload = try decoder.decode(Payload.self, from: data)
             return payload.entries
         } catch {
-            log.warning("\(name, privacy: .public).json decode failed: \(error.localizedDescription, privacy: .public)")
+            log.warning("\(name, privacy: .public).json decode failed: \(error.localizedDescription, privacy: .private)")
             return []
         }
     }

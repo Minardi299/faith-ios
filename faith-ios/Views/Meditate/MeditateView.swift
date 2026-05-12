@@ -357,7 +357,7 @@ struct MeditateView: View {
             )
             sitActivity = activity
         } catch {
-            log.warning("Sit live activity failed: \(error.localizedDescription, privacy: .public)")
+            log.warning("Sit live activity failed: \(error.localizedDescription, privacy: .private)")
         }
     }
 
