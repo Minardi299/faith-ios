@@ -132,7 +132,7 @@ struct ChatView: View {
         let intercept = messages[interceptIdx]
         messages.remove(at: interceptIdx)
         if let t = thread,
-           let stored = t.messages.first(where: { $0.timestamp == intercept.timestamp }) {
+           let stored = t.messages.first(where: { $0.messageID == intercept.id }) {
             context.delete(stored)
             try? context.save()
         }
@@ -450,7 +450,7 @@ private struct Composer: View {
     @Binding var text: String
     let onSend: () -> Void
     @FocusState private var focused: Bool
-    @StateObject private var asr = SpeechRecognizer.shared
+    @ObservedObject private var asr = SpeechRecognizer.shared
 
     var body: some View {
         HStack(spacing: 10) {

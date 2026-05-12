@@ -16,8 +16,8 @@ struct MeditateView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @Environment(\.modelContext) private var context
-    @StateObject private var chants = ChantPlayer.shared
-    @StateObject private var bg = BackgroundPlayer.shared
+    @ObservedObject private var chants = ChantPlayer.shared
+    @ObservedObject private var bg = BackgroundPlayer.shared
 
     @State private var minutes: Int = 10
     @State private var pickedBackground: MeditationBackground? = nil
@@ -405,7 +405,7 @@ private struct ChantPickerSheet: View {
 
     @Binding var picked: Chant?
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var chants = ChantPlayer.shared
+    @ObservedObject private var chants = ChantPlayer.shared
 
     var body: some View {
         NavigationStack {

@@ -26,8 +26,8 @@ struct SuttaDetailSheet: View {
     @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var scenePhase
 
-    @StateObject private var audio = LiveAudioService.shared
-    @StateObject private var listen = ListenQueueStore.shared
+    @ObservedObject private var audio = LiveAudioService.shared
+    @ObservedObject private var listen = ListenQueueStore.shared
     @State private var glossTerm: GlossTerm? = nil
     @State private var showJournal: Bool = false
     @State private var showShare: Bool = false

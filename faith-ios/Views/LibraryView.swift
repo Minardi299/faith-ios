@@ -12,8 +12,8 @@ struct LibraryView: View {
     @State private var showingQuiz = false
     @State private var showingBlessing = false
     @State private var showingPathwaysAll = false
-    @StateObject private var pathwayStore = PathwayStore.shared
-    @StateObject private var pathwayProgress = PathwayProgressStore.shared
+    @ObservedObject private var pathwayStore = PathwayStore.shared
+    @ObservedObject private var pathwayProgress = PathwayProgressStore.shared
 
     private var pathways: [ReadingPathway] {
         pathwayStore.pathways

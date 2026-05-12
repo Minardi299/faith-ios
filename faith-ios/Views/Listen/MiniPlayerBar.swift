@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MiniPlayerBar: View {
-    @StateObject private var queue = ListenQueueStore.shared
+    @ObservedObject private var queue = ListenQueueStore.shared
     @State private var showQueue = false
     @Environment(\.theme) private var theme
 
