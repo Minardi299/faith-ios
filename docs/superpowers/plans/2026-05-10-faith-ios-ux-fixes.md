@@ -515,13 +515,14 @@ enum AccountDeletion {
             }
         }
 
-        // 3. Keychain
-        Keychain.delete(key: "faith.appleUserID")
-
-        // 4. Apple credential — best-effort revoke.
-        if let appleID = Keychain.read(key: "faith.appleUserID") {
+        // 3. Apple credential — best-effort revoke (read before delete).
+        let appleID = Keychain.read(key: "faith.appleUserID")
+        if let appleID {
             await revokeAppleCredential(userID: appleID)
         }
+
+        // 4. Keychain
+        Keychain.delete(key: "faith.appleUserID")
     }
 
     private static func deleteAll<T: PersistentModel>(of: T.Type, in ctx: ModelContext) throws {

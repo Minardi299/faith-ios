@@ -17,7 +17,7 @@ A multi-tradition Buddhist canon companion. Daily passages from the Pāli, Mahā
 - **Widget** — daily-passage Lock Screen / Home Screen widget (`FaithWidget`), kept in sync with the app via App Group `group.com.faith.app`.
 - **Deep links** — `faith://today`, `faith://practice`, `faith://library`, `faith://chat`, `faith://passage/<id>`.
 - **Voice input** — `SFSpeechRecognizer` is wired up for chat dictation.
-- **Crisis-aware chat** — a small classifier (`GentleReminder`) intercepts crisis language and replaces the AI response with a fixed grounding message.
+- **Crisis-aware chat** — a small pre-LLM classifier (`CrisisClassifier`) intercepts crisis language and swaps in a deflection card with helpline, continue, and end actions.
 
 ## Tech stack
 
@@ -34,7 +34,7 @@ A multi-tradition Buddhist canon companion. Daily passages from the Pāli, Mahā
 
 ## Project layout
 
-```
+```text
 faith-ios/
 ├── FaithApp.swift                # @main, ModelContainer, --seed launch arg, embedding warm-up
 ├── ContentView.swift             # 4-tab Liquid Glass shell + faith:// deep links
@@ -61,8 +61,9 @@ faith-ios/
 │   ├── PathwayStore.swift, PathwayProgressStore.swift, StudyTrackStore.swift
 │   ├── SessionStore.swift, AuthService.swift, UserRepository.swift
 │   ├── PersistenceContainer.swift, SharedProgress.swift, PracticeQueries.swift
-│   ├── GentleReminder.swift      # crisis classifier — not a notification scheduler
+│   ├── CrisisClassifier.swift    # pre-LLM crisis-language classifier; swaps in deflection card
 │   ├── LunarPhase.swift, SpeechRecognizer.swift
+│   ├── Notifications.swift       # local notifications; daily-reminder toggle in Profile
 │   ├── Listen/                   # AudioSource, ListenQueueStore, ListenProgressStore, LegacyMigrator
 │   └── RAG/
 │       ├── EmbeddingIndex.swift          # bundled .bin → Application Support → runtime rebuild
@@ -70,7 +71,6 @@ faith-ios/
 │       ├── RetrievalOnlyRuntime.swift    # Simulator / pre-iOS-26 fallback
 │       ├── CanonQuoteExtractor.swift     # verbatim quotes — never paraphrase
 │       └── CitationParser.swift
-├── ViewModels/ChatViewModel.swift
 ├── Theme/{NatureSubstrate,Typography}.swift
 ├── Views/
 │   ├── TodayView.swift, StreakDetailView.swift
@@ -125,7 +125,8 @@ xcrun simctl launch booted com.faith.app --seed
 
 ## TODO
 
-- Local notifications for the daily reminder. `GentleReminder` despite its name is the crisis classifier — there's no notification scheduler yet.
+- iPad / NavigationSplitView size-class branching for larger screens.
+- Localization (`Localizable.strings`) — all UI strings are currently hard-coded in English.
 
 ## Content
 
