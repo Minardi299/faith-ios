@@ -235,7 +235,16 @@ struct TodayView: View {
         .buttonStyle(.plain)
     }
 
+    @ViewBuilder
     private var passageCard: some View {
+        if case .failed = canon.loadStatus {
+            passageFailureCard
+        } else {
+            passageActionCard
+        }
+    }
+
+    private var passageActionCard: some View {
         Button {
             if let p = passage {
                 showingPassage = p
@@ -265,21 +274,7 @@ struct TodayView: View {
                             .foregroundStyle(theme.inkMute)
                     }
                 } else {
-                    if case .failed(let message) = canon.loadStatus {
-                        VStack(spacing: 8) {
-                            Text("The canon failed to load")
-                                .font(BTFont.ui(14))
-                            Text(message)
-                                .font(BTFont.ui(11))
-                                .foregroundStyle(theme.inkMute)
-                            Button("Retry") { canon.load() }
-                                .font(BTFont.ui(12, weight: .medium))
-                                .foregroundStyle(theme.accent)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    } else {
-                        ContentUnavailableView("No passage yet", systemImage: "book.closed")
-                    }
+                    ContentUnavailableView("No passage yet", systemImage: "book.closed")
                 }
             }
             .padding(20)
@@ -287,6 +282,32 @@ struct TodayView: View {
             .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
         .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var passageFailureCard: some View {
+        if case .failed(let message) = canon.loadStatus {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("PASSAGE FOR TODAY")
+                    .font(.caption2.weight(.semibold))
+                    .tracking(1.8)
+                    .foregroundStyle(theme.inkMute)
+                Text("The canon failed to load")
+                    .font(BTFont.ui(14))
+                    .foregroundStyle(theme.ink)
+                Text(message)
+                    .font(BTFont.ui(11))
+                    .foregroundStyle(theme.inkMute)
+                    .lineLimit(3)
+                Button("Retry") { canon.load() }
+                    .font(BTFont.ui(13, weight: .medium))
+                    .foregroundStyle(theme.accent)
+                    .padding(.top, 4)
+            }
+            .padding(20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
     }
 
     private var personalRow: some View {
