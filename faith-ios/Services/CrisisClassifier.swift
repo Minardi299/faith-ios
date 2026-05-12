@@ -12,13 +12,29 @@ enum CrisisClassifier {
         "give up on life", "no point in living"
     ]
 
+    private static let normalizedTokens: [String] = crisisTokens.map(normalize)
+
     static let interceptMessage = "What you said sounds heavy. Maybe step away from the screen for a bit. The chat will be here when you come back."
 
     /// Global helpline aggregator — appropriate for a multi-language audience.
     static let helplineURL = URL(string: "https://findahelpline.com/")!
 
     static func detects(in input: String) -> Bool {
-        let lower = input.lowercased()
-        return crisisTokens.contains { lower.contains($0) }
+        let normalized = normalize(input)
+        return normalizedTokens.contains { normalized.contains($0) }
+    }
+
+    /// Folds case + diacritics and normalizes smart quotes / Unicode hyphen
+    /// variants so they don't bypass token matching. iOS keyboards default
+    /// to smart-quote substitution, which broke the prior `lowercased()` path.
+    private static func normalize(_ text: String) -> String {
+        text
+            .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
+            .replacingOccurrences(of: "\u{2018}", with: "'")  // left single quote
+            .replacingOccurrences(of: "\u{2019}", with: "'")  // right single quote (smart apostrophe)
+            .replacingOccurrences(of: "\u{2010}", with: "-")  // hyphen
+            .replacingOccurrences(of: "\u{2011}", with: "-")  // non-breaking hyphen
+            .replacingOccurrences(of: "\u{2013}", with: "-")  // en dash
+            .replacingOccurrences(of: "\u{2014}", with: "-")  // em dash
     }
 }
