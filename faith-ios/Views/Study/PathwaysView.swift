@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct PathwaysView: View {
-    @StateObject private var store = PathwayStore.shared
-    @StateObject private var progress = PathwayProgressStore.shared
+    @ObservedObject private var store = PathwayStore.shared
+    @ObservedObject private var progress = PathwayProgressStore.shared
     @EnvironmentObject private var canon: CanonStore
     @Environment(\.dismiss) private var dismiss
     @Environment(\.theme) private var theme

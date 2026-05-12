@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct QueueSheet: View {
-    @StateObject private var store = ListenQueueStore.shared
+    @ObservedObject private var store = ListenQueueStore.shared
     @Environment(\.dismiss) private var dismiss
     @Environment(\.theme) private var theme
 

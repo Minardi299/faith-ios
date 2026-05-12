@@ -4,7 +4,6 @@ import SwiftData
 struct TodayView: View {
     @Environment(DailyPassageStore.self) private var dailyPassage
     @EnvironmentObject private var canon: CanonStore
-    @EnvironmentObject private var session: SessionStore
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
     @Query private var completions: [DayCompletion]

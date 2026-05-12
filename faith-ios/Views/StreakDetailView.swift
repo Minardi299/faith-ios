@@ -4,7 +4,6 @@ import SwiftData
 struct StreakDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.theme) private var theme
-    @EnvironmentObject private var session: SessionStore
     @Query private var completions: [DayCompletion]
     @State private var displayedMonth: Date = Calendar.current.startOfDay(for: .now)
 
